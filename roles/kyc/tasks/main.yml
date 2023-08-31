@@ -1,0 +1,85 @@
+---
+- name: Delete Keycloak Cluster if it exists
+  command: kind delete clusters kyc-iam kind-dev
+  register: delete_output
+  ignore_errors: true
+
+- name: Stop KYC Docker Instance if it exists
+  command: docker stop kyc-dev keycloak-container postgresql
+  register: kyc_docker_stop_output
+  ignore_errors: true
+
+- name: Delete KYC Container if it exists
+  command: docker rm kyc-dev keycloak-container postgresql
+  register: kyc_docker_rm_output
+  ignore_errors: true
+
+- name: Delete PostgreSQL Container if it exists
+  command: docker rm postgresql
+  register: kyc_pgs_rm_output
+  ignore_errors: true
+
+- name: Create a Docker network
+  docker_network:
+    name: kyc_net
+
+- name: Start PostgreSQL Docker Instance
+  docker_container:
+    name: postgresql
+    image: postgres:latest
+    env:
+      POSTGRES_DB: "keycloak"
+      POSTGRES_USER: "bn_keycloak"
+      POSTGRES_PASSWORD: "mysecretpassword"
+    networks:
+      - name: kyc_net
+  register: start_pgs_docker_output
+
+- name: Start Keycloak Docker Instance
+  command: >
+    docker run -d 
+    --name kyc-dev 
+    -e KEYCLOAK_HTTP_PORT=8080 
+    -e KEYCLOAK_CREATE_ADMIN_USER=true 
+    -e KEYCLOAK_ADMIN_USER=admin 
+    -e KEYCLOAK_ADMIN_PASSWORD=adminpw 
+    -e KEYCLOAK_DATABASE_NAME=keycloak 
+    -e KEYCLOAK_DATABASE_PASSWORD=mysecretpassword 
+    -p 8080:8080 
+    --network kyc_net 
+    bitnami/keycloak:latest 
+  register: start_kyc_docker_output
+
+#- name: Wait for container to be running
+#  wait_for:
+#    timeout: 300    # Adjust the timeout as needed
+#    host: localhost
+#    port: 80      # Change to the appropriate port exposed by your container
+#  ignore_errors: true
+#
+#- name: Wait for container to be running
+#  wait_for:
+#    timeout: 300    # Adjust the timeout as needed
+#    host: localhost
+#    port: 8080      # Change to the appropriate port exposed by your container
+#  ignore_errors: true
+#
+#- name: Get IP address of a Docker container
+#  command: docker exec keycloak-dev sh -c "ip addr show eth0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1"
+#  register: docker_info_result
+
+#- set_fact:
+#    kyc_ip: "{{ docker_info_result.stdout }}"
+    
+#- debug:
+#    var: kyc_ip
+
+#- name: Create KIND Cluster for KYC
+#  command: kind create cluster --name kyc-iam --config /home/bzarch/ansible/configs/kyc-iam-config.yaml
+
+#- name: Get IP Address for KYC Cluster
+#  command: kubectl get nodes --context kind-kyc-iam -o=jsonpath='{.items[0].status.addresses[0].address}'
+#  register: kyc_ip
+#
+#- set_fact:
+#    kyc_ip: "{{ kyc_dev_ip.stdout }}"

@@ -1,0 +1,83 @@
+#- name: Setting Kubectl context
+#  command: kubectl config use-context kind-kyc-iam
+
+#- name: Creating KYC namespace
+#  command: kubectl create namespace keycloak
+
+#- name: Install Keycloak using Helm
+#  community.kubernetes.helm:
+#    name: keycloak
+#    release_namespace: keycloak
+#    chart_ref: bitnami/keycloak  # Specify the Helm chart and repository
+#    release_state: present
+#    wait: yes
+#    values:
+#      realm: master
+#      keycloakUsername: admin
+#      keycloakPassword: mysecretpassword
+#      persistence:
+#        deployPostgres: false
+#      deployment:
+#        labels:
+#          app: keycloak  # Add this label
+#      service:
+#        http:
+#          port: 8080
+#  vars:
+#    keycloak_release_name: "keycloak-dev"
+#    keycloak_namespace: "keycloak-dev"
+#    keycloak_chart_version: "15.0.1"  # Update with #
+
+#- name: Deploy KYC NodePort Service
+#  command: kubectl --context kind-kyc-iam apply -f /home/bzarch/ansible/kyc_files/kyc-svc.yml
+
+- name: Create Keycloak Realms
+  uri:
+    url: "http://localhost:8080/auth/admin/realms"
+    method: POST
+    user: admin
+    password: adminpw
+    body_format: json
+    headers:
+      Content-Type: "application/json"
+    body: "{{ lookup('file', item) }}"
+  loop:
+    - ../../json/realms/dev_realm.json
+#    - ../../json/realms/stage_realm.json
+#    - ../../json/realms/prod_realm.json
+  ignore_errors: yes
+
+- name: Create Keycloak Users
+  uri:
+    url: "http://localhost:8080/auth/admin/realms/{{ item.realm }}/users"
+    method: POST
+    user: admin
+    password: adminpw
+    body_format: json
+    headers:
+      Content-Type: "application/json"
+    body: "{{ lookup('file', item.body) }}"
+  loop:
+    - { realm: 'DEV', body: '../../json/users/devuser.json' }
+ #   - { realm: 'STAGE', body: '../../json/users/stageuser.json' }
+ #   - { realm: 'PROD', body: '../../json/users/produser.json' }
+    - { realm: 'DEV', body: '../../json/users/admin.json' }
+  #  - { realm: 'STAGE', body: '../../json/users/admin.json' }
+  #  - { realm: 'PROD', body: '../../json/users/admin.json' }
+  ignore_errors: yes
+
+- name: Create Keycloak Roles
+  uri:
+    url: "http://localhost:8080/auth/admin/realms/{{ item.realm }}/roles"
+    method: POST
+    user: admin
+    password: adminpw
+    body_format: json
+    headers:
+      Content-Type: "application/json"
+    body: "{{ lookup('file', item.body) }}"
+  loop:
+    - { realm: 'DEV', body: '../../json/roles/roles.json' }
+   # - { realm: 'STAGE', body: '../../json/roles/roles.json' }
+   # - { realm: 'PROD', body: '../../json/roles/roles.json' }
+  ignore_errors: yes

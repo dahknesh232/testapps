@@ -1,0 +1,9 @@
+---
+- name: Build, Push, and Deploy Node.js Apps
+  hosts: localhost
+  become: yes
+  roles:
+    - deploy-docker-registry
+    - build-docker-images
+    - push-docker-images
+    - deploy-nodejs-apps

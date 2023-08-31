@@ -1,0 +1,5 @@
+- name: Push Docker Images
+  command: docker push dahknesh232/testapps:{{ item.tag }}
+  with_items:
+    - { tag: "nodejs-app-dev" }
+    - { tag: "nodejs-app-dev-latest"}

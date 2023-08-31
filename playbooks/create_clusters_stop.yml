@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  roles:
+    - stop-docker
+    - deploy-docker-registry
+    - build-docker-images
+    - push-docker-images
+#    - kyc
+#    - keycloak
+    - kind
+#    - nginx
+    - deploy-nodejs-apps

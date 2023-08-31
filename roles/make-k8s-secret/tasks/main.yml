@@ -1,0 +1,9 @@
+---
+- name: Check for kubectl access
+  stat:
+    path: /usr/local/bin/kubectl
+  register: kubectl_output
+
+- name: Apply Secret to Cluster
+  command: kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=dahknesh232 --docker-password=3rb?mBSK~XhQ67J --docker-email=steven.mjr232@gmail.com
+  register: secret_apply_output
