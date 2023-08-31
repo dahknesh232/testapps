@@ -1,0 +1,4 @@
+- Update README.md
+- Added git ignore and full project as it stands
+- Create README.md
+- Initial commit
