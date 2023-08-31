@@ -2,6 +2,13 @@
 
 Welcome to the Ansible Project for Infrastructure Automation. This detailed guide will walk you through the various components of the project, ensuring you understand each file and its functionality.
 
+This project uses custom images based off of bitnami postgresql, mariadb, and keycloak. It also uses KIND.
+
+This README will need to be updated, to reflect the new project.
+
+There will also be a CHANGELOG.md created using git log and markdown.
+
+
 ## Table of Contents
 
 - [Ansible Project: Infrastructure Automation](#ansible-project-infrastructure-automation)
