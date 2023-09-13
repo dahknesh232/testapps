@@ -1,0 +1,5 @@
+---
+- name: Testing Keycloak Cluster Deployment and Master+DEV Realm, Roles, Users, and Access, Setup
+  hosts: localhost
+  roles:
+    - keycloak

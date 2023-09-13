@@ -1,0 +1,11 @@
+{
+  "username": "STGUSER",
+  "enabled": true,
+  "email": "stguser@example.com",
+  "credentials": [
+    {
+      "type": "password",
+      "value": "securePasswordSTG!"
+    }
+  ]
+}

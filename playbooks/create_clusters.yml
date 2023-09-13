@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  gather_facts: true
+  roles:
+    - kind
+    - build-docker-images
+    - push-docker-images
+    - make-k8s-secret
+    - deploy-pgs
+    - deploy-keycloak
+    - deploy-nodejs-apps

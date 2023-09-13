@@ -1,0 +1,6 @@
+---
+- name: Deploy RabbitMQ Container
+  hosts: localhost
+  become: yes
+  roles:
+  - deploy-rabbitmq

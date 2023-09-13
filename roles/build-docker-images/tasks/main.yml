@@ -1,0 +1,9 @@
+- name: Build Docker Images
+  command: docker build -t dahknesh232/testapps:{{ item.tag }} {{ item.context }}
+  with_items:
+    - { tag: "nodejs-app-dev", context: "/home/bzarch/ansible/nodejs_apps/dev-app" }
+    - { tag: "nodejs-app-dev-latest", context: "/home/bzarch/ansible/nodejs_apps/dev-app" }
+    - { tag: "kyc-dev-v1.0.2", context: "/home/bzarch/ansible/kyc_files" }
+    - { tag: "kyc-dev-latest", context: "/home/bzarch/ansible/kyc_files" }
+    - { tag: "pgs-dev-v1.0.2", context: "/home/bzarch/ansible/pgs_files" }
+    - { tag: "pgs-dev-latest", context: "/home/bzarch/ansible/pgs_files" }

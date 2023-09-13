@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-dev-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs-dev-app
+  template:
+    metadata:
+      labels:
+        app: nodejs-dev-app
+    spec:
+      containers:
+        - name: nodejs-dev-app
+          image: docker.io/dahknesh232/testapps:nodejs-app-dev-latest   # Use your tagged image from the local registry
+          ports:
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: regcred
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-dev-app-service
+  namespace: default
+spec:
+  selector:
+    app: nodejs-dev-app
+  ports:
+    - protocol: TCP
+      port: 3000        # The port inside the container
+      targetPort: 3000  # The port to route to inside the container
+      nodePort: 31000   # The port on the nodes
+  type: NodePort

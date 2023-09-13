@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APP 1 - SLE, LLC - Development Environment - APP 1</title>
+</head>
+
+<body>
+    <div id="nav">
+        <nav id="nav">
+            <a href="/#readme">README</a> . <a href="/#message">Message Testing</a> . <a href="/#calendar">Calendar Links</a> . <a href="/#rabbitmq">RabbitMQ</a>
+        </nav>
+    </div>
+    <div id="main">
+        <hr />
+        <br></br>
+        <h1><%= message %></h1>
+        <h3><%= message2 %></h3>
+        <h2><%= message3 %></h2>
+        <ul>
+            <% for (let i = 0; i < techstack.length; i++) { %>
+            <li><%= techstack[i] %></li>
+            <% } %>
+        </ul>
+        <p></p>
+        <a href="#nav">Top</a>
+        <hr />
+        <br></br>
+        
+    </div>
+    <div id="readme">
+        <h2><a href="/readme">README</a></h2>
+        <p>This <strong>README</strong> file is written to define the Ansible Automated tasks, that setup this
+            development
+            environment, to test creating a node.js application, pushing it to a local docker registry, authenticating
+            and
+            setting the registry as the usable registy, creating a docker keycloak setup, and all the necessary tasks
+            involed, as well as creating a full DEV environment, to test access control to the kubernetes cluster and
+            its
+            applications, from keycloak's OIDC/RBAC controls.</p>
+            <h4><%= message4 %></h4>
+            <a href="#nav">Top</a>
+        <hr />
+        <br></br>
+    </div>
+    <div id="message">
+        <h3><a href="/message">Message Testing</a></h3>
+        <p>The message testing platform is a "basic" API of sorts, that posts each message and clear the previous one,
+            when
+            the user hits submit -- this is testing to define variables, and sort them, without the use of a database.
+        </p>
+        <a href="#nav">Top</a>
+        <hr />
+        <br></br>
+        
+    </div>
+    <div id="calendar">
+        <h3>Calendar Links</h3>
+        <ulp>These links break down the calendar application by View</ulp>
+        <ul>
+            <% for (let i = 0; i < calendarlocs.length; i++) { %>
+            <li><a href="<%= calendarlocs[i] %>"><%= calendarnames[i] %></a></li>
+            <% } %>
+        </ul>
+        <a href="#nav">Top</a>
+        
+    </div>
+    <hr />
+    <br></br>
+    <div id="rabbitmq">
+        <h3>RabbitMQ Testing</h3>
+        <ul>
+            <% for (let i = 0; i < rmqlocs.length; i++) { %>
+            <li><a href="<%= rmqlocs[i] %>"><%= rmqnames[i] %></a></li>
+            <% } %>
+        </ul>
+        <a href="#nav">Top</a>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  registry:
+    image: registry:latest
+    container_name: docker_registry
+    ports:
+      - "5000:5000"

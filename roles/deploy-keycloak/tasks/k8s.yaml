@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kyc-dev
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kyc-dev
+  template:
+    metadata:
+      labels:
+        app: kyc-dev
+    spec:
+      containers:
+        - name: kyc-dev
+          image: docker.io/dahknesh232/testapps:kyc-dev-latest   # Use your tagged image from the local registry
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: regcred
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kyc-dev-service
+  namespace: default
+spec:
+  selector:
+    app: kyc-dev
+  ports:
+    - protocol: TCP
+      port: 8080        # The port exposed by the Service
+      targetPort: 8080  # The port to route to inside the Pods
+  type: NodePort

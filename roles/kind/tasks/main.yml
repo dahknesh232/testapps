@@ -1,0 +1,23 @@
+- name: Delete Clusters if they exist
+  command: kind delete clusters kind-dev kind-stg #kind-prod
+  register: kind_delete_output
+
+
+- name: Create KIND Cluster for DEV
+  command: kind create cluster --name kind-dev --config /home/bzarch/ansible/configs/kind-dev-config.yaml
+
+- name: Get IP Address for DEV Cluster
+  command: kubectl get nodes --context kind-kind-dev -o=jsonpath='{.items[0].status.addresses[0].address}'
+  register: dev_ip
+
+#- name: Create KIND Cluster for STG
+#  command: kind create cluster --name kind-stg --config /home/bzarch/ansible/configs/kind-stg-config.yaml
+#  register: kind_stg_output
+#
+#- name: Get IP Address for STG Cluster
+#  command: kubectl get nodes --context kind-kind-stg -o=jsonpath='{.items[0].status.addresses[0].address}'
+#  register: stg_ip
+#
+- set_fact:
+    dev_cluster_ip: "{{ dev_ip.stdout }}"
+#    stg_cluster_ip: "{{ stg_ip.stdout }}"
