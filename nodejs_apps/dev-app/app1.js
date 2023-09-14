@@ -73,9 +73,9 @@ app.get('/', (req, res) => {
         "Consumer"
       ]
       
-    res.render('index', {
-        message: "Welcome to SLE, LLC - Development Environment on Kubernetes!", 
-        message2: "The purpose of this project, is to be a self-contained single development stack.",
+    res.render('index1', {
+        message: "Welcome to SLE, LLC - Development Environment on Kubernetes! v2", 
+        message2: "The purpose of this project, is to be a self-contained single development stack and be the second or 'app1.js' version.",
         message3: "This incorporates using the following technologies as a single stack:",
         techstack: items,
         message4: "The README.md file also incorporates a tutorial, to recreate this entire setup, using a single ansible-playbook command.",
@@ -86,7 +86,7 @@ app.get('/', (req, res) => {
     });
 });
 
-const PORT = 3000;
+const PORT = 3100;
 const ipAddr = '10.0.0.20';
 app.listen(PORT, () => {
     console.log(`Server is running on http://${ipAddr}:${PORT}`);

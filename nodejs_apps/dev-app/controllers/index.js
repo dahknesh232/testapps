@@ -67,26 +67,32 @@ router.get('/time-gen', (req, res) => {
 
 
 router.get('/consumer', (req, res) => {
-    res.render('consumer'); // Render the EJS view
-  });
-  
-  router.get('/consume', async (req, res) => {
-    try {
-      const connection = await amqp.connect('amqp://localhost:5672');
-      const channel = await connection.createChannel();
-      const queue = 'my_queue';
-  
-      await channel.assertQueue(queue);
-      channel.consume(queue, (message) => {
+  res.render('consumer'); // Render the EJS view
+});
+
+router.get('/consume', async (req, res) => {
+  try {
+    const connection = await amqp.connect('amqp://rmq.dev.ans:3a84rg375fgHDHID@localhost:5672');
+    const channel = await connection.createChannel();
+    const queue = 'testing-queue.1';
+
+    await channel.assertQueue(queue);
+    channel.consume(queue, (message) => {
+      if (message !== null) {
         console.log(`Received: ${message.content.toString()}`);
-      });
-  
-      res.redirect('/consumer');
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).send('Error consuming message');
-    }
-  });
+        
+        // Acknowledge the message
+        channel.ack(message);
+      }
+    });
+
+    res.redirect('/consumer');
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error consuming message');
+  }
+});
+
   
 router.get('/message', (req, res) => {
     res.render('message', { messages: messages });
@@ -109,9 +115,9 @@ router.get('/publisher', (req, res) => {
   
   router.post('/publish', async (req, res) => {
     try {
-      const connection = await amqp.connect('amqp://localhost:5672');
+      const connection = await amqp.connect('amqp://rmq.dev.ans:3a84rg375fgHDHID@localhost:5672');
       const channel = await connection.createChannel();
-      const queue = 'my_queue';
+      const queue = 'testing-queue.1';
       const newmessage = 'Hello from Publisher!';
   
       await channel.assertQueue(queue);
