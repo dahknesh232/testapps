@@ -12,19 +12,21 @@ app.set('views', __dirname + '/views');
 app.use('/', routes);
 app.get('/', (req, res) => {
     const items = [
-        "Ansible",
-        "KIND(Kubernetes-IN-Docker)",
-        "KeyCloak IAM",
-        "Node.js + Express",
-        "Python + Flask",
-        "Docker Compose",
-        "RabbitMQ",
-        "EasyAppointments",
-        "Prometheus",
-        "Grafana",
-        "MariaDB",
-        "phpMyAdmin",
-        "BASH (Shell Scripting)"
+      "Ansible(Open Source-ish)",
+      "KIND(Kubernetes-IN-Docker)",
+      "KeyCloak IAM",
+      "Node.js + Express",
+      "Python + Flask",
+      "Ruby On Rails",
+      "Docker Compose",
+      "RabbitMQ",
+      "EasyAppointments",
+      "Prometheus",
+      "Grafana",
+      "MariaDB",
+      "phpMyAdmin",
+      "BASH (Shell Scripting)"
+      
       ];
       
       const callocs = [

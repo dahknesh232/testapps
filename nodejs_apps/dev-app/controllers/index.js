@@ -73,16 +73,16 @@ router.get('/consumer', (req, res) => {
 router.get('/consume', async (req, res) => {
   try {
     const connection = await amqp.connect('amqp://rmq.dev.ans:3a84rg375fgHDHID@localhost:5672');
-    const channel = await connection.createChannel();
+    const nodechan = await connection.createChannel();
     const queue = 'testing-queue.1';
 
-    await channel.assertQueue(queue);
-    channel.consume(queue, (message) => {
+    await nodechan.assertQueue(queue);
+    nodechan.consume(queue, (message) => {
       if (message !== null) {
         console.log(`Received: ${message.content.toString()}`);
         
         // Acknowledge the message
-        channel.ack(message);
+        nodechan.ack(message);
       }
     });
 
@@ -116,12 +116,12 @@ router.get('/publisher', (req, res) => {
   router.post('/publish', async (req, res) => {
     try {
       const connection = await amqp.connect('amqp://rmq.dev.ans:3a84rg375fgHDHID@localhost:5672');
-      const channel = await connection.createChannel();
+      const nodechan = await connection.createChannel();
       const queue = 'testing-queue.1';
-      const newmessage = 'Hello from Publisher!';
+      const newmessage = 'Hello from NodeJS Publisher!';
   
-      await channel.assertQueue(queue);
-      channel.sendToQueue(queue, Buffer.from(newmessage));
+      await nodechan.assertQueue(queue);
+      nodechan.sendToQueue(queue, Buffer.from(newmessage));
   
       console.log(`Sent: ${newmessage}`);
       setTimeout(() => {
