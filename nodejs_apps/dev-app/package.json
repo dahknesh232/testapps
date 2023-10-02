@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@fullcalendar/adaptive": "^6.1.9",
-    "@fullcalendar/bootstrap": "^6.1.8",
+    "@fullcalendar/bootstrap": "^6.1.9",
     "@fullcalendar/core": "^6.1.9",
     "@fullcalendar/daygrid": "^6.1.8",
     "@fullcalendar/google-calendar": "^6.1.9",
