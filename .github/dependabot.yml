@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/nodejs_apps/devapp/" # Location of package manifests
+    directory: "/nodejs_apps/dev-app/" # Location of package manifests
     schedule:
       interval: "daily"
       time: "18:00"
