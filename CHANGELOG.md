@@ -1,5 +1,23 @@
 # CHANGELOG.md
 
+## 2023-10-03T15:28:36-04:00
+
+* made dev1-app + added build and push to workflow (Architect)
+
+- commit d3322bc5df37e34e768bb32db7c8fb16eaeaf48c
+
+## 2023-10-03T15:27:40-04:00
+
+* Update docker-image.yml (dahknesh232)
+
+- commit cf1064a3534efb31e5eecd46b97e0b29ceb47b3c
+
+## 2023-10-03T13:09:56-04:00
+
+* Updated ChangeLOg (Architect)
+
+- commit 85a8c7149f26e913a18e5794e228b5e323932c52
+
 ## 2023-10-03T13:09:17-04:00
 
 * Update README.md (dahknesh232)
