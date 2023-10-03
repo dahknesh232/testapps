@@ -104,6 +104,9 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
 
+      - name: Make Script Exec
+        run: chmod +x .github/scriptz/gitmark
+
       - name: Run changelog script
         run: ./.github/scriptz/gitmark
 
