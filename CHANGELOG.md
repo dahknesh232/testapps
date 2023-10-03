@@ -1,5 +1,23 @@
 # CHANGELOG.md
 
+## 2023-10-03T12:29:31-04:00
+
+* Merge pull request #9 from SLELLC/dahknesh232-docker-image-patch-1 (dahknesh232)
+
+- commit 36bef52ca7d9a96e4778c0f2c43014eca95e23fd
+
+## 2023-10-03T12:29:19-04:00
+
+* Create docker-image.yml (dahknesh232)
+
+- commit 51dea67246172ba5fa7b3dfb0471684ffd6286c1
+
+## 2023-10-03T09:21:39-04:00
+
+* Added new CHANGELOG.md (Architect)
+
+- commit eef939fb243ad0f0e368875257e0bea0fce46cb9
+
 ## 2023-10-02T21:22:58-04:00
 
 * Merge pull request #8 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/luxon2-6.1.9 (dahknesh232)
