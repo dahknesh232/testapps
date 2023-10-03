@@ -114,5 +114,5 @@ jobs:
 
       - name: Commit and Push all Changes
         run: |
-          git add .
+          git add CHANGELOG.md
           git diff --quiet && git diff --staged --quiet || (git commit -m "Bot Updated Changelog.md" && git push)
