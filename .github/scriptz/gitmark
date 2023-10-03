@@ -29,7 +29,6 @@ git-log-to-markdown() {
 
     echo "# CHANGELOG.md"
     echo
-
     git log --since="${SINCE}" --until="${UNTIL}" --pretty=format:"## %cd%n* %s (%an)%n- commit %H" --date=iso-strict | while IFS= read -r LINE; do
         echo -e "${LINE}"
         echo
