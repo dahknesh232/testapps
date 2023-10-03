@@ -99,6 +99,11 @@ jobs:
       - name: Checkout the Repo
         uses: actions/checkout@v4
 
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
       - name: Run changelog script
         run: ./.github/scriptz/gitmark
 
