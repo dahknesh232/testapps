@@ -53,8 +53,8 @@ jobs:
           context: .
           file: nodejs_apps/dev-app/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}-dev-1.0.1000
-          labels: ${{ steps.meta.outputs.labels }}-dev-1.0.1000
+          tags: ${{ steps.meta.outputs.tags }}-dev-1.0.1001
+          labels: ${{ steps.meta.outputs.labels }}-dev-1.0.1001
 
   build_dev1_app:
 
@@ -90,29 +90,5 @@ jobs:
           context: .
           file: nodejs_apps/dev1-app/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}-dev1-1.0.1000
-          labels: ${{ steps.meta.outputs.labels }}-dev1-1.0.1000
-
-  update_changelog:
-
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout the Repo
-        uses: actions/checkout@v4
-
-      - name: Set up Git
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "actions@github.com"
-
-      - name: Make Script Exec
-        run: chmod +x .github/scriptz/gitmark
-
-      - name: Run changelog script
-        run: ./.github/scriptz/gitmark --since="1969-01-01"
-
-      - name: Commit and Push all Changes
-        run: |
-          git add CHANGELOG.md
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Bot Updated Changelog.md" && git push)
+          tags: ${{ steps.meta.outputs.tags }}-dev1-1.0.1001
+          labels: ${{ steps.meta.outputs.labels }}-dev1-1.0.1001
