@@ -1,0 +1,45 @@
+{
+  "name": "dev1-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "SLE, LLC",
+  "license": "ISC",
+  "dependencies": {
+    "@fullcalendar/adaptive": "^6.1.9",
+    "@fullcalendar/bootstrap": "^6.1.9",
+    "@fullcalendar/core": "^6.1.9",
+    "@fullcalendar/daygrid": "^6.1.8",
+    "@fullcalendar/google-calendar": "^6.1.9",
+    "@fullcalendar/interaction": "^6.1.9",
+    "@fullcalendar/list": "^6.1.9",
+    "@fullcalendar/luxon2": "^6.1.9",
+    "@fullcalendar/moment": "^6.1.9",
+    "@fullcalendar/moment-timezone": "^6.1.9",
+    "@fullcalendar/multimonth": "^6.1.9",
+    "@fullcalendar/resource": "^6.1.9",
+    "@fullcalendar/resource-daygrid": "^6.1.9",
+    "@fullcalendar/resource-timegrid": "^6.1.9",
+    "@fullcalendar/resource-timeline": "^6.1.9",
+    "@fullcalendar/rrule": "^6.1.9",
+    "@fullcalendar/scrollgrid": "^6.1.8",
+    "@fullcalendar/timegrid": "^6.1.8",
+    "@fullcalendar/timeline": "^6.1.9",
+    "amqplib": "^0.10.3",
+    "body-parser": "^1.20.2",
+    "cheerio": "^1.0.0-rc.12",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "forever": "^4.0.3",
+    "markdown-it": "^13.0.2",
+    "marked": "^9.0.3",
+    "minimist": "^1.2.8"
+  },
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
