@@ -1,192 +1,174 @@
-commit 77412dff2c0b6f8c6998db5e0da7c163925b2788
-Merge: 9ef9d40 f7c981c
-Author: dahknesh232 <60906689+dahknesh232@users.noreply.github.com>
-Date:   Wed Sep 13 20:47:11 2023 -0400
+# CHANGELOG.md
 
-    Merge pull request #1 from SLELLC/merged-dev
-    
-    Merged dev
+## 2023-10-02T21:22:58-04:00
 
-commit f7c981caf22b6403c83bbf66a5d2b6619d0b3393
-Merge: 9ef9d40 a516697
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Thu Sep 14 00:45:20 2023 +0000
+* Merge pull request #8 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/luxon2-6.1.9 (dahknesh232)
 
-    Merge remote-tracking branch 'rep2/development' into merged-dev
+- commit a017c5efcdd35c80c4e378f1f7699eaa029bbb23
 
-commit a516697959aa589d33f92881c2b9898d2d571a87
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Wed Sep 13 23:00:26 2023 +0000
+## 2023-10-02T21:22:41-04:00
 
-    updates from new changes
+* Merge pull request #7 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/multimonth-6.1.9 (dahknesh232)
 
-commit 9ef9d4044ad22a19eae4597a49a714b889e9e3d9
-Author: Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Wed Aug 30 22:34:51 2023 -0400
+- commit 0fbc53e5e0041c402d08191736d9cd9e6964b6a2
 
-    copied new Readme to Readme location for project population
+## 2023-10-02T22:27:57+00:00
 
-commit b7d34eceb7b10ac881df8e3b5c4ee666f2928cbe
-Author: Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Wed Aug 30 22:33:11 2023 -0400
+* Bump @fullcalendar/luxon2 from 6.1.8 to 6.1.9 in /nodejs_apps/dev-app (dependabot[bot])
 
-    Added Changelog
+- commit 11d9a4617efa68f5de68fe0858e370953ce33661
 
-commit a4a9f02b435c10c85e63770a4280a4e1ed891f31
-Author: dahknesh232 <60906689+dahknesh232@users.noreply.github.com>
-Date:   Wed Aug 30 22:28:37 2023 -0400
+## 2023-10-02T22:27:38+00:00
 
-    Update README.md
+* Bump @fullcalendar/multimonth in /nodejs_apps/dev-app (dependabot[bot])
 
-commit c41ddbc0a854d368e25499b6566e4a261041143a
-Author: Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Wed Aug 30 22:21:04 2023 -0400
+- commit 81bf1806bdb000d94c4f1288818fe890faaae14a
 
-    Added git ignore and full project as it stands
+## 2023-10-02T18:05:51-04:00
 
-commit 9fc27ed0f3ec245dac999d35fbaa0321be7697fe
-Author: dahknesh232 <60906689+dahknesh232@users.noreply.github.com>
-Date:   Wed Aug 30 21:55:57 2023 -0400
+* Merge pull request #2 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/bootstrap-6.1.9 (dahknesh232)
 
-    Create README.md
+- commit 3a712220ee97abf290e7a98600e04762538d0867
 
-commit 24cd0f73c0637c34586c5b6245a1e64b2ed81100
-Author: dahknesh232 <60906689+dahknesh232@users.noreply.github.com>
-Date:   Wed Aug 30 21:54:37 2023 -0400
+## 2023-10-02T22:05:25+00:00
 
-    Initial commit
-commit bfd5631749c937e7cf286a084f0124882522b010
-Merge: 78b1fa1 f75f623
-Author: dahknesh232 <60906689+dahknesh232@users.noreply.github.com>
-Date:   Fri Sep 15 22:15:08 2023 -0400
+* Bump @fullcalendar/bootstrap from 6.1.8 to 6.1.9 in /nodejs_apps/dev-app (dependabot[bot])
 
-    Merge pull request #2 from dahknesh232:dahknesh232/issue1
-    
-    addition  to 'items' + changes to variables
-    merged successfully
+- commit cdee1e35a84c1560de94315a23daf977be9416f5
 
-commit f75f6235d87fd895a720736121664cf34bf76ced
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sat Sep 16 02:13:10 2023 +0000
+## 2023-10-02T18:05:16-04:00
 
-    commit message for your changes
+* Merge pull request #3 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/markdown-it-13.0.2 (dahknesh232)
 
-commit f5786f5fc11f990e8e9706a77da494a7b68af990
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sat Sep 16 01:42:22 2023 +0000
+- commit ddb72bbb5070a363634c5cd8f84b022851e9abb4
 
-    Testing Invalid Issue Creation from VS Code
-    Fixes #1 gitignore
+## 2023-10-02T22:04:58+00:00
 
-commit 547f4345b1901b8965cf5de29eeeb69a78396577
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sat Sep 16 01:40:59 2023 +0000
+* Bump markdown-it from 13.0.1 to 13.0.2 in /nodejs_apps/dev-app (dependabot[bot])
 
-    Testing Invalid Issue Creation from VS Code
-    Fixes #1
+- commit 85b3a5211df168dd64e16a473124c319de9ef93a
 
-commit 78b1fa1e654b471402d906ff62c5acbe23990cfa
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sat Sep 16 01:40:35 2023 +0000
+## 2023-10-02T18:04:37-04:00
 
-    additions to ignore
+* Merge pull request #4 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/google-calendar-6.1.9 (dahknesh232)
 
-commit 3ac3c5bfc9b89c327a5bfee31ffa6b4d76f97eec
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sat Sep 16 01:22:06 2023 +0000
+- commit 9829741cc5e4eaff57365fd728d32bbca47e91eb
 
-    addition  to 'items' + changes to variables
+## 2023-10-02T18:04:27-04:00
 
-commit a516697959aa589d33f92881c2b9898d2d571a87
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Wed Sep 13 23:00:26 2023 +0000
+* Merge pull request #5 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/adaptive-6.1.9 (dahknesh232)
 
-    updates from new changes
-commit c28b071dbf7e10d6ab7f721a220a30e331a648be
-Merge: 63647d5 9cf3a26
-Author: dahknesh232 <60906689+dahknesh232@users.noreply.github.com>
-Date:   Tue Sep 19 19:21:19 2023 -0400
+- commit 0e40a364031b3f0216b6cc21a543ed3e7aa8ffd7
 
-    Merge pull request #3 from dahknesh232/dependabot/npm_and_yarn/nodejs_apps/dev-app/marked-9.0.3
-    
-    Bump marked from 7.0.4 to 9.0.3 in /nodejs_apps/dev-app
+## 2023-10-02T18:04:16-04:00
 
-commit 9cf3a26060d29274f65ddd48cbf36477345b1222
-Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
-Date:   Tue Sep 19 22:58:27 2023 +0000
+* Merge pull request #6 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/rrule-6.1.9 (dahknesh232)
 
-    Bump marked from 7.0.4 to 9.0.3 in /nodejs_apps/dev-app
-    
-    Bumps [marked](https://github.com/markedjs/marked) from 7.0.4 to 9.0.3.
-    - [Release notes](https://github.com/markedjs/marked/releases)
-    - [Changelog](https://github.com/markedjs/marked/blob/master/.releaserc.json)
-    - [Commits](https://github.com/markedjs/marked/compare/v7.0.4...v9.0.3)
-    
-    ---
-    updated-dependencies:
-    - dependency-name: marked
-      dependency-type: direct:production
-      update-type: version-update:semver-major
-    ...
-    
-    Signed-off-by: dependabot[bot] <support@github.com>
+- commit 0cbcf23ed1f0753f809f40276ed19d809defc92a
 
-commit 63647d5db93dac00f34c8b3f15ac50d0724411cb
-Author: dahknesh232 <60906689+dahknesh232@users.noreply.github.com>
-Date:   Tue Sep 19 18:57:16 2023 -0400
+## 2023-10-02T22:00:25+00:00
 
-    Create dependabot.yml
+* Bump @fullcalendar/rrule from 6.1.8 to 6.1.9 in /nodejs_apps/dev-app (dependabot[bot])
 
-commit dc23461a538dae79e43e8b8204fcf1e1a5163df6
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sun Sep 17 06:56:48 2023 +0000
+- commit e8dc21e1af81f69f03bf4488da3a303eb7882851
 
-    Last changes before migration
+## 2023-10-02T22:00:10+00:00
 
-commit bfd5631749c937e7cf286a084f0124882522b010
-Merge: 78b1fa1 f75f623
-Author: dahknesh232 <60906689+dahknesh232@users.noreply.github.com>
-Date:   Fri Sep 15 22:15:08 2023 -0400
+* Bump @fullcalendar/adaptive from 6.1.8 to 6.1.9 in /nodejs_apps/dev-app (dependabot[bot])
 
-    Merge pull request #2 from dahknesh232:dahknesh232/issue1
-    
-    addition  to 'items' + changes to variables
-    merged successfully
+- commit a5f65dc1d85137a993d063a2e6e92f99d1468e8c
 
-commit f75f6235d87fd895a720736121664cf34bf76ced
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sat Sep 16 02:13:10 2023 +0000
+## 2023-10-02T21:59:51+00:00
 
-    commit message for your changes
+* Bump @fullcalendar/google-calendar in /nodejs_apps/dev-app (dependabot[bot])
 
-commit f5786f5fc11f990e8e9706a77da494a7b68af990
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sat Sep 16 01:42:22 2023 +0000
+- commit d30ad4c24af89aa7a25af73ea82569f07eb1e217
 
-    Testing Invalid Issue Creation from VS Code
-    Fixes #1 gitignore
+## 2023-10-02T17:58:39-04:00
 
-commit 547f4345b1901b8965cf5de29eeeb69a78396577
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sat Sep 16 01:40:59 2023 +0000
+* Update dependabot.yml (dahknesh232)
 
-    Testing Invalid Issue Creation from VS Code
-    Fixes #1
+- commit 6edfd12bb327a55e5925830c108ac1db09bc4af6
 
-commit 78b1fa1e654b471402d906ff62c5acbe23990cfa
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sat Sep 16 01:40:35 2023 +0000
+## 2023-10-02T17:57:53-04:00
 
-    additions to ignore
+* Create dependabot.yml (dahknesh232)
 
-commit 3ac3c5bfc9b89c327a5bfee31ffa6b4d76f97eec
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Sat Sep 16 01:22:06 2023 +0000
+- commit 72f2e06943af18a9a04326c4e688da7feb27e092
 
-    addition  to 'items' + changes to variables
+## 2023-10-02T17:54:55-04:00
 
-commit a516697959aa589d33f92881c2b9898d2d571a87
-Author: Lab Architect <soundlifeenterprisesllc@gmail.com>
-Date:   Wed Sep 13 23:00:26 2023 +0000
+* additions and changes to merge from ansible to testapps and remove ansible repository (Architect)
 
-    updates from new changes
+- commit 47c51db7164dfc55bb48b23bf9d080ac4ed1f4ba
+
+## 2023-10-02T09:37:34-04:00
+
+* Updated READEME License Link -- fixed License formatting (Architect)
+
+- commit 05c3732b85903016468a16dbfe99516a516c74e4
+
+## 2023-10-02T09:35:11-04:00
+
+* Fixed README (Architect)
+
+- commit ac994c43b4711bc8b2e3fa49a201e79374e4fd28
+
+## 2023-09-22T13:39:37-04:00
+
+* added CHANGELOG.md (Architect)
+
+- commit 789a619d079aba4a33aebd549fdfba100e3b99b0
+
+## 2023-09-13T20:47:11-04:00
+
+* Merge pull request #1 from SLELLC/merged-dev (dahknesh232)
+
+- commit 77412dff2c0b6f8c6998db5e0da7c163925b2788
+
+## 2023-09-14T00:45:20+00:00
+
+* Merge remote-tracking branch 'rep2/development' into merged-dev (Lab Architect)
+
+- commit f7c981caf22b6403c83bbf66a5d2b6619d0b3393
+
+## 2023-09-13T23:00:26+00:00
+
+* updates from new changes (Lab Architect)
+
+- commit a516697959aa589d33f92881c2b9898d2d571a87
+
+## 2023-08-30T22:34:51-04:00
+
+* copied new Readme to Readme location for project population (Architect)
+
+- commit 9ef9d4044ad22a19eae4597a49a714b889e9e3d9
+
+## 2023-08-30T22:33:11-04:00
+
+* Added Changelog (Architect)
+
+- commit b7d34eceb7b10ac881df8e3b5c4ee666f2928cbe
+
+## 2023-08-30T22:28:37-04:00
+
+* Update README.md (dahknesh232)
+
+- commit a4a9f02b435c10c85e63770a4280a4e1ed891f31
+
+## 2023-08-30T22:21:04-04:00
+
+* Added git ignore and full project as it stands (Architect)
+
+- commit c41ddbc0a854d368e25499b6566e4a261041143a
+
+## 2023-08-30T21:55:57-04:00
+
+* Create README.md (dahknesh232)
+
+- commit 9fc27ed0f3ec245dac999d35fbaa0321be7697fe
+
+## 2023-08-30T21:54:37-04:00
+
+* Initial commit (dahknesh232)
+
