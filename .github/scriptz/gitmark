@@ -6,7 +6,7 @@
 # -s, --since        to select start date
 # -u, --until        to select end date
 
-git-log-to-markdown() {
+gitmark() {
     local NEXT=$(date +%F)
     local SINCE="1969-01-01"
     local UNTIL=$NEXT
@@ -35,4 +35,4 @@ git-log-to-markdown() {
     done
 }
 
-git-log-to-markdown "$@" > ../../CHANGELOG.md
+gitmark "$@" > ../../CHANGELOG.md
