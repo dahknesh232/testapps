@@ -110,7 +110,7 @@ jobs:
         run: chmod +x .github/scriptz/gitmark
 
       - name: Run changelog script
-        run: ./.github/scriptz/gitmark
+        run: ./.github/scriptz/gitmark --since="1969-01-01"
 
       - name: Commit and Push all Changes
         run: |
