@@ -35,4 +35,4 @@ gitmark() {
     done
 }
 
-gitmark "$@" > ../CHANGELOG.md
+gitmark "$@" > ./CHANGELOG.md
