@@ -1,5 +1,23 @@
 # CHANGELOG.md
 
+## 2023-10-03T15:45:28-04:00
+
+* removed extra build push workflow (Architect)
+
+- commit 85a2912bbacb45a07289a4953f5a73c39894d00b
+
+## 2023-10-03T15:43:52-04:00
+
+* Fixed build push (Architect)
+
+- commit 1d33db5ade67db93a88d4017d81409a0a14506bc
+
+## 2023-10-03T15:36:57-04:00
+
+* updated changelog (Architect)
+
+- commit 5588afb9a262cbdeb40dde7123f5d41d6e499a51
+
 ## 2023-10-03T15:36:43-04:00
 
 * upgraded workflow (Architect)
