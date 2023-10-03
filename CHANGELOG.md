@@ -1,5 +1,23 @@
 # CHANGELOG.md
 
+## 2023-10-03T18:41:45-04:00
+
+* changed naming conventions (Architect)
+
+- commit a6c2f2080c170205788d62fb1221c89b2a32c015
+
+## 2023-10-03T18:04:39-04:00
+
+* changing format of Changelog (Architect)
+
+- commit 05db03cc05c9b514cd6f9d6ee5df872fad6065ed
+
+## 2023-10-03T18:01:02-04:00
+
+* manual CHANGELOG updates (Architect)
+
+- commit 0c57fec99c315f050a49dede9fd8f03ecb1e8bbe
+
 ## 2023-10-03T21:59:10+00:00
 
 * Bot Updated Changelog.md (GitHub Actions Bot)
