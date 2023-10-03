@@ -91,4 +91,18 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}-dev1-1.0.1000
           labels: ${{ steps.meta.outputs.labels }}-dev1-1.0.1000
 
+  update_changelog:
 
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout the Repo
+        uses: actions/checkout@v4
+
+      - name: Run changelog script
+        run: ./.github/scriptz/gitmark
+
+      - name: Commit and Push all Changes
+        run: |
+          git add .
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Bot Updated Changelog.md" && git push)
