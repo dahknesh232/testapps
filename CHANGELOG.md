@@ -1,5 +1,47 @@
 # CHANGELOG.md
 
+## 2023-10-03T13:06:19-04:00
+
+* Merge pull request #12 from SLELLC/dahknesh232-dockerhub-patch-3 (dahknesh232)
+
+- commit f454bdf4a6304b34ed3f096cbe7a28737b06493b
+
+## 2023-10-03T13:06:00-04:00
+
+* Update docker-hub.yml (dahknesh232)
+
+- commit 2478070b0fdff7dc642ee22ba12d609a3b1e713e
+
+## 2023-10-03T13:03:33-04:00
+
+* Merge pull request #11 from SLELLC/dahknesh232-dockerhub-patch-2 (dahknesh232)
+
+- commit 553073fe457bce0c32a72d1b2bcdd90dc895d7bc
+
+## 2023-10-03T13:03:11-04:00
+
+* Rename Docker-hub to docker-hub.yml (dahknesh232)
+
+- commit 5e188e980b3bf87d7192f852a161431c61ec79ed
+
+## 2023-10-03T13:01:45-04:00
+
+* Merge pull request #10 from SLELLC/dahknesh232-dockerhub-patch-1 (dahknesh232)
+
+- commit 0b9f35f236513d3faacedc7c9ca18a343e8b9853
+
+## 2023-10-03T13:01:01-04:00
+
+* Create Build and Push (dahknesh232)
+
+- commit e9f2782d624edf53723e0b566a3a4515886b0a52
+
+## 2023-10-03T12:33:50-04:00
+
+* Changelog Updates (Architect)
+
+- commit 32c41954abf5a006b107cb0cbe6ff7041492e228
+
 ## 2023-10-03T12:29:31-04:00
 
 * Merge pull request #9 from SLELLC/dahknesh232-docker-image-patch-1 (dahknesh232)
