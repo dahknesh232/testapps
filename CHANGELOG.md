@@ -1,5 +1,17 @@
 # CHANGELOG.md
 
+## 2023-10-03T13:09:17-04:00
+
+* Update README.md (dahknesh232)
+
+- commit dace6c626de0c1c076d9d98b9dc5b93a8f41d0e2
+
+## 2023-10-03T13:07:55-04:00
+
+* updatd changelog (Architect)
+
+- commit 1598c9218a1bf921d597672c99cb2fe845a2347c
+
 ## 2023-10-03T13:06:19-04:00
 
 * Merge pull request #12 from SLELLC/dahknesh232-dockerhub-patch-3 (dahknesh232)
