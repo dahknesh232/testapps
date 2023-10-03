@@ -34,6 +34,7 @@ There will also be a CHANGELOG.md created using git log and markdown.
       - [9. Concluding Notes](#9-concluding-notes)
     - [Feedback and Contributions](#feedback-and-contributions)
     - [License](#license)
+    - [CHANGELOG](CHANGELOG.md)
 
 
 ## Directory Structure
