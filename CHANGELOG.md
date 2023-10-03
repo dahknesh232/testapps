@@ -1,5 +1,65 @@
 # CHANGELOG.md
 
+## 2023-10-03T21:59:10+00:00
+
+* Bot Updated Changelog.md (GitHub Actions Bot)
+
+- commit f54d7fc70eb17ec98915f15da326f428099675e3
+
+## 2023-10-03T17:58:56-04:00
+
+* Update docker-hub.yml (dahknesh232)
+
+- commit 8974f0f4accf74003996b7816f431a393474c096
+
+## 2023-10-03T17:56:39-04:00
+
+* added +w (Architect)
+
+- commit b6349f6f8802e4d08334087726d6a129610493a6
+
+## 2023-10-03T17:43:50-04:00
+
+* made exec in workflow? (Architect)
+
+- commit 31dfb776fd45ef446189d98d056eeb67f5840a5f
+
+## 2023-10-03T17:41:49-04:00
+
+* fixing it again? (Architect)
+
+- commit 9159352eb05c8a2992ba602cdd4542c6b0b717d6
+
+## 2023-10-03T17:39:51-04:00
+
+* fixing workflow (Architect)
+
+- commit e9ecac587276981ce55e816b856ab5c8b3fc49f8
+
+## 2023-10-03T17:29:20-04:00
+
+* testing Changelog additon to workflow (Architect)
+
+- commit 5ff4c482d7c40563801e29206c4a30fa30c5c9d4
+
+## 2023-10-03T17:19:29-04:00
+
+* removed testing script - as didn't work (Architect)
+
+- commit 39e552b994b3b65bee60c2b7853a0595c2509fe0
+
+## 2023-10-03T16:21:48-04:00
+
+* testing some new actions development (Architect)
+
+- commit 09b58996b3993d44650292f5ec48dd4af95947e4
+
+## 2023-10-03T15:45:45-04:00
+
+* updated changelog (Architect)
+
+- commit 19eba57ff6107ae279041823205eb417b9bde58d
+
 ## 2023-10-03T15:45:28-04:00
 
 * removed extra build push workflow (Architect)
