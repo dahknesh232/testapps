@@ -1,5 +1,17 @@
 # CHANGELOG.md
 
+## 2023-10-03T15:36:43-04:00
+
+* upgraded workflow (Architect)
+
+- commit 6f07d3aea883d593ae7e63558408b6a8761fbf52
+
+## 2023-10-03T15:28:53-04:00
+
+* updated Changelog (Architect)
+
+- commit 942f42f65a15b9a47fd86f5e3437f46940f626c6
+
 ## 2023-10-03T15:28:36-04:00
 
 * made dev1-app + added build and push to workflow (Architect)
