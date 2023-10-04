@@ -1,5 +1,17 @@
 # CHANGELOG.md
 
+## 2023-10-03T22:35:23-04:00
+
+* updating version control (Architect)
+
+- commit 037ea2de5f755f09df7f9c1a19cf0929243081de
+
+## 2023-10-03T18:54:33-04:00
+
+* taking out auto ChangeLog as it removes (Architect)
+
+- commit c2eec5f1b55c24ad8cf66aa2327cd6ca743fc508
+
 ## 2023-10-03T22:53:33+00:00
 
 * Bot Updated Changelog.md (GitHub Actions Bot)
