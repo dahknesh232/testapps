@@ -53,8 +53,8 @@ jobs:
           context: .
           file: nodejs_apps/dev-app/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}-dev-1.0.1004
-          labels: ${{ steps.meta.outputs.labels }}-dev-1.0.1004
+          tags: ${{ steps.meta.outputs.tags }}-dev-1.0.1005
+          labels: ${{ steps.meta.outputs.labels }}-dev-1.0.1005
 
   build_dev1_app:
 
@@ -90,5 +90,5 @@ jobs:
           context: .
           file: nodejs_apps/dev1-app/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}-dev1-1.0.1004
-          labels: ${{ steps.meta.outputs.labels }}-dev1-1.0.1004
+          tags: ${{ steps.meta.outputs.tags }}-dev1-1.0.1005
+          labels: ${{ steps.meta.outputs.labels }}-dev1-1.0.1005

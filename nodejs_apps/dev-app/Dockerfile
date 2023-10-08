@@ -1,8 +1,6 @@
 # Use an official Node.js image as the base image
 FROM node:14
 
-RUN mkdir -p /app
-
 # Set the working directory inside the container
 WORKDIR /app
 
@@ -18,4 +16,4 @@ COPY * ./
 EXPOSE 3000
 
 # Define the command to run your application
-CMD ["node", "app.js"]
+RUN npm start
