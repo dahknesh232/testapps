@@ -12,7 +12,7 @@ RUN npm install
 
 # Copy the rest of the application code to the working directory
 COPY . .
-
+COPY app1.js app1.js
 # Expose the port your application will listen on
 EXPOSE 3000
 
