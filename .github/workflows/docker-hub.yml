@@ -53,5 +53,5 @@ jobs:
           context: .
           file: nodejs_apps/dev-app/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}-dev-1.0.1008
-          labels: ${{ steps.meta.outputs.labels }}-dev-1.0.1008
+          tags: ${{ steps.meta.outputs.tags }}-dev-1.0.1009
+          labels: ${{ steps.meta.outputs.labels }}-dev-1.0.1009
