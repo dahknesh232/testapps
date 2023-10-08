@@ -1,4 +1,5 @@
 vault/
 nodejs_apps/dev-app/node_modules/
+nodejs_apps/dev1-app/node_modules/
 configs/
 prompts

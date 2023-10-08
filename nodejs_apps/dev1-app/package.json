@@ -1,9 +1,9 @@
 {
   "name": "dev1-app",
-  "version": "1.0.0",
+  "version": "1.0.1004",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app1.js"
   },
   "keywords": [],
   "author": "SLE, LLC",
@@ -12,7 +12,7 @@
     "@fullcalendar/adaptive": "^6.1.9",
     "@fullcalendar/bootstrap": "^6.1.9",
     "@fullcalendar/core": "^6.1.9",
-    "@fullcalendar/daygrid": "^6.1.8",
+    "@fullcalendar/daygrid": "^6.1.9",
     "@fullcalendar/google-calendar": "^6.1.9",
     "@fullcalendar/interaction": "^6.1.9",
     "@fullcalendar/list": "^6.1.9",
@@ -26,7 +26,7 @@
     "@fullcalendar/resource-timeline": "^6.1.9",
     "@fullcalendar/rrule": "^6.1.9",
     "@fullcalendar/scrollgrid": "^6.1.8",
-    "@fullcalendar/timegrid": "^6.1.8",
+    "@fullcalendar/timegrid": "^6.1.9",
     "@fullcalendar/timeline": "^6.1.9",
     "amqplib": "^0.10.3",
     "body-parser": "^1.20.2",

@@ -89,7 +89,7 @@ app.get('/', (req, res) => {
 });
 
 const PORT = 3100;
-const ipAddr = '10.0.0.20';
+const ipAddr = '127.0.0.1;
 app.listen(PORT, () => {
     console.log(`Server is running on http://${ipAddr}:${PORT}`);
 });
