@@ -14,7 +14,7 @@
     "@fullcalendar/core": "^6.1.9",
     "@fullcalendar/daygrid": "^6.1.9",
     "@fullcalendar/google-calendar": "^6.1.9",
-    "@fullcalendar/interaction": "^6.1.9",
+    "@fullcalendar/interaction": "^6.1.10",
     "@fullcalendar/list": "^6.1.9",
     "@fullcalendar/luxon2": "^6.1.9",
     "@fullcalendar/moment": "^6.1.9",
