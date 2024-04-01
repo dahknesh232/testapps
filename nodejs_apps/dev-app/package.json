@@ -27,7 +27,7 @@
     "@fullcalendar/rrule": "^6.1.9",
     "@fullcalendar/scrollgrid": "^6.1.9",
     "@fullcalendar/timegrid": "^6.1.9",
-    "@fullcalendar/timeline": "^6.1.9",
+    "@fullcalendar/timeline": "^6.1.11",
     "amqplib": "^0.10.3",
     "body-parser": "^1.20.2",
     "cheerio": "^1.0.0-rc.12",
