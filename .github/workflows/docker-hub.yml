@@ -26,7 +26,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: sudo docker build . --file nodejs_apps/dev-app/Dockerfile --tag devnodeapp:$(date +%s)
+      run: docker build . --file nodejs_apps/dev-app/Dockerfile --tag devnodeapp:$(date +%s)
 
   push_dev_app:
     name: Push Docker image to Docker Hub
