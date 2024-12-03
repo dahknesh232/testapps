@@ -32,7 +32,7 @@
     "body-parser": "^1.20.2",
     "cheerio": "^1.0.0-rc.12",
     "ejs": "^3.1.9",
-    "express": "^4.18.2",
+    "express": "^4.21.1",
     "forever": "^4.0.3",
     "markdown-it": "^13.0.2",
     "marked": "^11.1.1",
