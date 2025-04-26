@@ -9,7 +9,7 @@
   "author": "SLE, LLC",
   "license": "ISC",
   "dependencies": {
-    "@fullcalendar/adaptive": "^6.1.9",
+    "@fullcalendar/adaptive": "^6.1.15",
     "@fullcalendar/bootstrap": "^6.1.9",
     "@fullcalendar/core": "^6.1.9",
     "@fullcalendar/daygrid": "^6.1.9",
