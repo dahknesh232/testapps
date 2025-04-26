@@ -19,7 +19,7 @@
     "@fullcalendar/luxon2": "^6.1.9",
     "@fullcalendar/moment": "^6.1.9",
     "@fullcalendar/moment-timezone": "^6.1.9",
-    "@fullcalendar/multimonth": "^6.1.9",
+    "@fullcalendar/multimonth": "^6.1.15",
     "@fullcalendar/resource": "^6.1.9",
     "@fullcalendar/resource-daygrid": "^6.1.9",
     "@fullcalendar/resource-timegrid": "^6.1.9",
