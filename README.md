@@ -34,7 +34,6 @@ There will also be a CHANGELOG.md created using git log and markdown.
       - [9. Concluding Notes](#9-concluding-notes)
     - [Feedback and Contributions](#feedback-and-contributions)
     - [License](#license)
-    - [CHANGELOG](CHANGELOG.md)
 
 
 ## Directory Structure
@@ -176,7 +175,7 @@ The 'views/' directory contains EJS templates that define various views for the 
 
 - **time-gen.ejs**: Renders a generic time-based view using FullCalendar. It displays time-specific events or appointments for various time periods.
 
-- **files/README.md**: This README file, which is then rendered in 'readme.ejs', using 'readmeContent' we created in 'contollers/index.js:132'(this may change and may not be updated, but the route for'/readme' will provide the 'readmeContent' creation). This directory ('files/') is also a misc placeholder for any files not specifically defined anywhere else[meaning I just haven't gotten around to redistributing them correctly yet]
+- **files/README.md**: This README file, which is then rendered in 'readme.ejs', using 'readmeContent' we created in 'controllers/index.js:132'(this may change and may not be updated, but the route for'/readme' will provide the 'readmeContent' creation). This directory ('files/') is also a misc placeholder for any files not specifically defined anywhere else[meaning I just haven't gotten around to redistributing them correctly yet]
 ---
 Feel free to explore these files to understand how the Node.js application interacts with the rest of the infrastructure and how it handles different functionalities.
 
@@ -204,7 +203,7 @@ All our encrypted data, like passwords or API keys, is stored in the 'vault/' di
 To use this Ansible setup:
 
 1. Ensure you have Ansible installed.
-2. Navigate to the root directory: 'cd /home/bzarch/ansible'.
+2. Navigate to the root directory: 'cd $PROJ_DIR'.
 3. Run the desired playbook: 'ansible-playbook playbooks/<YOUR_PLAYBOOK>.yml'.
 
 ### Comprehensive Step-by-Step Tutorial
@@ -222,8 +221,8 @@ Welcome to the comprehensive guide to get you started with our Ansible project. 
 
 To get started, you'll first need a local copy of the repository.
 
-'git clone [repository-url] /home/bzarch/ansible'
-Navigate to the root directory: 'cd /home/bzarch/ansible'.
+'git clone [repository-url] $PROJ_DIR'
+Navigate to the root directory: 'cd $PROJ_DIR'.
 
 #### 2. Understanding Directory Structure
 

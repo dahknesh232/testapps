@@ -4,14 +4,14 @@
 
 
 - name: Create KIND Cluster for DEV
-  command: kind create cluster --name kind-dev --config /home/bzarch/ansible/configs/kind-dev-config.yaml
+  command: kind create cluster --name kind-dev --config $PROJ_DIR/configs/kind-dev-config.yaml
 
 - name: Get IP Address for DEV Cluster
   command: kubectl get nodes --context kind-kind-dev -o=jsonpath='{.items[0].status.addresses[0].address}'
   register: dev_ip
 
 #- name: Create KIND Cluster for STG
-#  command: kind create cluster --name kind-stg --config /home/bzarch/ansible/configs/kind-stg-config.yaml
+#  command: kind create cluster --name kind-stg --config $PROJ_DIR/configs/kind-stg-config.yaml
 #  register: kind_stg_output
 #
 #- name: Get IP Address for STG Cluster

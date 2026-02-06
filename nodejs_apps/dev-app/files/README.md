@@ -196,7 +196,7 @@ All our encrypted data, like passwords or API keys, is stored in the 'vault/' di
 To use this Ansible setup:
 
 1. Ensure you have Ansible installed.
-2. Navigate to the root directory: 'cd /home/bzarch/ansible'.
+2. Navigate to the root directory: 'cd $PROJ_DIR'.
 3. Run the desired playbook: 'ansible-playbook playbooks/<YOUR_PLAYBOOK>.yml'.
 
 ### Comprehensive Step-by-Step Tutorial
@@ -214,8 +214,8 @@ Welcome to the comprehensive guide to get you started with our Ansible project. 
 
 To get started, you'll first need a local copy of the repository.
 
-'git clone [repository-url] /home/bzarch/ansible'
-Navigate to the root directory: 'cd /home/bzarch/ansible'.
+'git clone [repository-url] $PROJ_DIR'
+Navigate to the root directory: 'cd $PROJ_DIR'.
 
 #### 2. Understanding Directory Structure
 

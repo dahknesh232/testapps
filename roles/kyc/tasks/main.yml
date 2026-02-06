@@ -75,7 +75,7 @@
 #    var: kyc_ip
 
 #- name: Create KIND Cluster for KYC
-#  command: kind create cluster --name kyc-iam --config /home/bzarch/ansible/configs/kyc-iam-config.yaml
+#  command: kind create cluster --name kyc-iam --config $PROJ_DIR/configs/kyc-iam-config.yaml
 
 #- name: Get IP Address for KYC Cluster
 #  command: kubectl get nodes --context kind-kyc-iam -o=jsonpath='{.items[0].status.addresses[0].address}'

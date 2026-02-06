@@ -29,7 +29,7 @@
 #    keycloak_chart_version: "15.0.1"  # Update with #
 
 #- name: Deploy KYC NodePort Service
-#  command: kubectl --context kind-kyc-iam apply -f /home/bzarch/ansible/kyc_files/kyc-svc.yml
+#  command: kubectl --context kind-kyc-iam apply -f $PROJ_DIR/kyc_files/kyc-svc.yml
 
 - name: Create Keycloak Realms
   uri:
