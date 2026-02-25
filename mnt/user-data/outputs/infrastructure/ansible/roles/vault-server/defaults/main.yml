@@ -1,0 +1,13 @@
+---
+# =============================================================================
+# roles/vault-server/defaults/main.yml
+# =============================================================================
+
+vault_port:          8200
+vault_cluster_port:  8201
+vault_data_dir:      /opt/vault/data
+vault_tls_disable:   true       # Set false when TLS certs are available
+vault_tls_cert:      ""
+vault_tls_key:       ""
+vault_key_shares:    5          # Total unseal key shares generated
+vault_key_threshold: 3          # Minimum keys required to unseal

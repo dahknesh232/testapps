@@ -1,0 +1,18 @@
+---
+# =============================================================================
+# site.yml
+# Master playbook. Runs all provisioning in dependency order.
+# Run from runner-01: ansible-playbook playbooks/site.yml
+# =============================================================================
+
+- name: Apply common hardening to all infrastructure nodes
+  import_playbook: provision-common.yml
+
+- name: Provision HashiCorp Vault
+  import_playbook: provision-vault.yml
+
+- name: Provision Ansible Controller
+  import_playbook: provision-controller.yml
+
+- name: Provision Ansible Workers
+  import_playbook: provision-workers.yml

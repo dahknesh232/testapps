@@ -1,0 +1,56 @@
+---
+# =============================================================================
+# roles/ansible-controller/tasks/main.yml
+# Installs Ansible + dependencies on the controller LXC.
+# The controller delegates plays to workers via SSH.
+# =============================================================================
+
+- name: Install Python3 and pip
+  ansible.builtin.apt:
+    name:
+      - python3
+      - python3-pip
+      - python3-venv
+      - git
+      - sshpass
+    state: present
+
+- name: Install Ansible and supporting Python packages
+  ansible.builtin.pip:
+    name:
+      - ansible
+      - ansible-lint
+      - hvac               # HashiCorp Vault client
+      - jmespath           # Required for json_query filter
+      - netaddr            # Required for network filters
+      - proxmoxer          # Proxmox API client
+      - requests
+    state: present
+    extra_args: "--break-system-packages"
+
+- name: Install Ansible Galaxy collections
+  community.general.ansible_galaxy_install:
+    type: collection
+    name: "{{ item }}"
+  loop:
+    - community.general
+    - community.docker
+    - community.crypto
+    - ansible.posix
+    - kubernetes.core
+
+- name: Create ansible user project directory
+  ansible.builtin.file:
+    path: /home/ansible/infrastructure
+    state: directory
+    owner: ansible
+    group: ansible
+    mode: "0750"
+
+- name: Open required controller ports in UFW
+  community.general.ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - "22"

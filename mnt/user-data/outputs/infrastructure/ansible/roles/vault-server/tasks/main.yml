@@ -1,0 +1,222 @@
+---
+# =============================================================================
+# roles/vault-server/tasks/main.yml
+# Installs, configures, and initializes HashiCorp Vault.
+# After this role runs, Vault is started but SEALED.
+# The init output (root token + unseal keys) is saved locally on runner-01.
+# =============================================================================
+
+- name: Install Vault dependencies
+  ansible.builtin.apt:
+    name:
+      - gpg
+      - curl
+    state: present
+    update_cache: true
+
+- name: Add HashiCorp GPG key
+  ansible.builtin.get_url:
+    url: https://apt.releases.hashicorp.com/gpg
+    dest: /tmp/hashicorp.gpg
+    mode: "0644"
+
+- name: Dearmor HashiCorp GPG key
+  ansible.builtin.command:
+    cmd: gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg /tmp/hashicorp.gpg
+    creates: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+- name: Add HashiCorp apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+    state: present
+    filename: hashicorp
+
+- name: Install Vault
+  ansible.builtin.apt:
+    name: vault
+    state: present
+    update_cache: true
+
+- name: Create Vault data directory
+  ansible.builtin.file:
+    path: "{{ vault_data_dir }}"
+    state: directory
+    owner: vault
+    group: vault
+    mode: "0750"
+
+- name: Create Vault config directory
+  ansible.builtin.file:
+    path: /etc/vault.d
+    state: directory
+    owner: vault
+    group: vault
+    mode: "0750"
+
+- name: Deploy Vault configuration
+  ansible.builtin.template:
+    src: vault.hcl.j2
+    dest: /etc/vault.d/vault.hcl
+    owner: vault
+    group: vault
+    mode: "0640"
+  notify: restart vault
+
+- name: Open Vault API port in UFW
+  community.general.ufw:
+    rule: allow
+    port: "{{ vault_port }}"
+    proto: tcp
+
+- name: Enable and start Vault service
+  ansible.builtin.systemd:
+    name: vault
+    state: started
+    enabled: true
+    daemon_reload: true
+
+- name: Wait for Vault to be reachable
+  ansible.builtin.wait_for:
+    host: "{{ ansible_host }}"
+    port: "{{ vault_port }}"
+    timeout: 30
+
+- name: Check Vault initialization status
+  ansible.builtin.command:
+    cmd: vault status -format=json
+  environment:
+    VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+  register: vault_status_raw
+  failed_when: vault_status_raw.rc not in [0, 1, 2]
+  changed_when: false
+
+- name: Parse Vault status
+  ansible.builtin.set_fact:
+    vault_status: "{{ vault_status_raw.stdout | from_json }}"
+
+- name: Initialize Vault (first time only)
+  ansible.builtin.command:
+    cmd: >
+      vault operator init
+      -key-shares={{ vault_key_shares }}
+      -key-threshold={{ vault_key_threshold }}
+      -format=json
+  environment:
+    VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+  register: vault_init_raw
+  when: not vault_status.initialized
+
+- name: Save Vault init output to runner-01 (local)
+  ansible.builtin.copy:
+    content: "{{ vault_init_raw.stdout }}"
+    dest: "~/.vault/init-output.json"
+    mode: "0600"
+  delegate_to: localhost
+  when: not vault_status.initialized
+
+- name: Parse init output for unseal keys and root token
+  ansible.builtin.set_fact:
+    vault_init: "{{ vault_init_raw.stdout | from_json }}"
+  when: not vault_status.initialized
+
+- name: Unseal Vault with first {{ vault_key_threshold }} keys
+  ansible.builtin.command:
+    cmd: vault operator unseal {{ item }}
+  environment:
+    VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+  loop: "{{ vault_init.unseal_keys_b64[:vault_key_threshold] }}"
+  when: not vault_status.initialized
+  no_log: true
+
+- name: Enable AppRole auth method
+  ansible.builtin.command:
+    cmd: vault auth enable approle
+  environment:
+    VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+    VAULT_TOKEN: "{{ vault_init.root_token }}"
+  when: not vault_status.initialized
+  failed_when: false
+
+- name: Enable KV secrets engine v2
+  ansible.builtin.command:
+    cmd: vault secrets enable -path=secret kv-v2
+  environment:
+    VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+    VAULT_TOKEN: "{{ vault_init.root_token }}"
+  when: not vault_status.initialized
+  failed_when: false
+
+- name: Write Ansible worker AppRole policy
+  ansible.builtin.command:
+    cmd: vault policy write ansible-worker -
+  args:
+    stdin: |
+      path "secret/data/*" {
+        capabilities = ["read", "list"]
+      }
+      path "secret/metadata/*" {
+        capabilities = ["read", "list"]
+      }
+  environment:
+    VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+    VAULT_TOKEN: "{{ vault_init.root_token }}"
+  when: not vault_status.initialized
+
+- name: Create Ansible worker AppRole
+  ansible.builtin.command:
+    cmd: >
+      vault write auth/approle/role/ansible-worker
+      token_policies="ansible-worker"
+      token_ttl=1h
+      token_max_ttl=4h
+  environment:
+    VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+    VAULT_TOKEN: "{{ vault_init.root_token }}"
+  when: not vault_status.initialized
+
+- name: Retrieve AppRole role-id
+  ansible.builtin.command:
+    cmd: vault read -format=json auth/approle/role/ansible-worker/role-id
+  environment:
+    VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+    VAULT_TOKEN: "{{ vault_init.root_token }}"
+  register: approle_role_id_raw
+  when: not vault_status.initialized
+
+- name: Generate AppRole secret-id
+  ansible.builtin.command:
+    cmd: vault write -format=json -f auth/approle/role/ansible-worker/secret-id
+  environment:
+    VAULT_ADDR: "http://127.0.0.1:{{ vault_port }}"
+    VAULT_TOKEN: "{{ vault_init.root_token }}"
+  register: approle_secret_id_raw
+  when: not vault_status.initialized
+
+- name: Save AppRole credentials to runner-01 (local)
+  ansible.builtin.copy:
+    content: |
+      # AppRole credentials for Ansible workers
+      # Encrypt this file with: ansible-vault encrypt ~/.vault/approle-creds.yml
+      vault_approle_role_id: "{{ (approle_role_id_raw.stdout | from_json).data.role_id }}"
+      vault_approle_secret_id: "{{ (approle_secret_id_raw.stdout | from_json).data.secret_id }}"
+      vault_addr: "http://{{ ansible_host }}:{{ vault_port }}"
+    dest: "~/.vault/approle-creds.yml"
+    mode: "0600"
+  delegate_to: localhost
+  when: not vault_status.initialized
+
+- name: Display post-init instructions
+  ansible.builtin.debug:
+    msg:
+      - "════════════════════════════════════════════════════════"
+      - "Vault initialized and unsealed successfully."
+      - "Init output saved to: ~/.vault/init-output.json"
+      - "AppRole creds saved to: ~/.vault/approle-creds.yml"
+      - ""
+      - "IMPORTANT — Next steps:"
+      - "1. ansible-vault encrypt ~/.vault/init-output.json"
+      - "2. ansible-vault encrypt ~/.vault/approle-creds.yml"
+      - "3. Store unseal keys and root token in a secure offline location"
+      - "4. Delete ~/.vault/init-output.json after storing keys safely"
+      - "════════════════════════════════════════════════════════"
+  when: not vault_status.initialized

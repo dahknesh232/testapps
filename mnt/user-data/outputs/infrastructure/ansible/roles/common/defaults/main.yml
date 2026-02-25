@@ -1,0 +1,8 @@
+---
+# =============================================================================
+# roles/common/defaults/main.yml
+# Default values — override in group_vars or host_vars as needed.
+# =============================================================================
+
+# Injected from group_vars/all/vars.yml or vault.yml
+ansible_runner_public_key: ""   # Required — must be set in group_vars

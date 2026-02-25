@@ -1,0 +1,11 @@
+---
+# =============================================================================
+# roles/ansible-worker/defaults/main.yml
+# =============================================================================
+
+worker_role: "infra"    # Override per host in inventory: "infra" or "app"
+
+# Injected from vault.yml (ansible-vault encrypted)
+vault_addr:               ""
+vault_approle_role_id:    ""
+vault_approle_secret_id:  ""
