@@ -97,17 +97,19 @@ variable "network_bridge" {
 variable "network_gateway" {
   description = "Default gateway for all LXCs."
   type        = string
+  default     = "192.168.0.1"
 }
 
 variable "network_dns" {
   description = "DNS server IP for all LXCs. Update to TechnitiumDNS IP once deployed."
   type        = string
+  default     = "192.168.0.1"
 }
 
 variable "network_domain" {
   description = "Search domain for all LXCs."
   type        = string
-  default     = "local"
+  default     = "home.arpa"
 }
 
 # ── IP Assignments ────────────────────────────────────────────────────────────
@@ -116,21 +118,25 @@ variable "network_domain" {
 variable "ip_vault" {
   description = "Static IP with CIDR for vault-01. Example: 192.168.1.201/24"
   type        = string
+  default     = "192.168.0.171/24"
 }
 
 variable "ip_controller" {
   description = "Static IP with CIDR for controller-01. Example: 192.168.1.202/24"
   type        = string
+  default     = "192.168.0.172/24"
 }
 
 variable "ip_worker_infra" {
   description = "Static IP with CIDR for worker-01. Example: 192.168.1.203/24"
   type        = string
+  default     = "192.168.0.173/24"
 }
 
 variable "ip_worker_app" {
   description = "Static IP with CIDR for worker-02. Example: 192.168.1.204/24"
   type        = string
+  default     = "192.168.0.174/24"
 }
 
 # ── VMID Assignments ──────────────────────────────────────────────────────────
@@ -172,5 +178,5 @@ variable "ansible_public_key" {
 variable "debian_template" {
   description = "Debian 12 CT template filename in Proxmox template storage."
   type        = string
-  default     = "debian-12-standard_12.7-1_amd64.tar.zst"
+  default     = "debian-12-standard_12.12-1_amd64.tar.zst"
 }
