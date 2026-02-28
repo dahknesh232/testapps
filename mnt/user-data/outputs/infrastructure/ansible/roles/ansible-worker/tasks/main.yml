@@ -15,6 +15,7 @@
       - curl
       - wget
       - unzip
+      - ufw
     state: present
 
 - name: Install Docker (required on both workers)
