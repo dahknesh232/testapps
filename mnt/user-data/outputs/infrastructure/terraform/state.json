@@ -1,0 +1,727 @@
+{
+  "version": 4,
+  "terraform_version": "1.14.6",
+  "serial": 112,
+  "lineage": "442f2c6a-c061-34fc-5ab9-8ea6efbcced9",
+  "outputs": {
+    "ansible_inventory_path": {
+      "value": "./../ansible/inventory/hosts.yml",
+      "type": "string"
+    },
+    "controller_ip": {
+      "value": "192.168.0.172",
+      "type": "string"
+    },
+    "next_steps": {
+      "value": "\n════════════════════════════════════════════════════════\nTerraform apply complete. Next steps:\n════════════════════════════════════════════════════════\n\n1. Verify all LXCs are reachable:\n   ansible all -i ../ansible/inventory/hosts.yml -m ping\n\n2. Run the Ansible site playbook to configure all nodes:\n   cd ../ansible\n   ansible-playbook playbooks/site.yml\n\n3. After Vault is initialized, retrieve the root token and\n   unseal keys from:\n   /home/ansible/.vault/init-output.json\n   (on runner-01 — store these somewhere safe and delete the file)\n\n════════════════════════════════════════════════════════\n",
+      "type": "string"
+    },
+    "vault_ip": {
+      "value": "192.168.0.171",
+      "type": "string"
+    },
+    "worker_app_ip": {
+      "value": "192.168.0.174",
+      "type": "string"
+    },
+    "worker_infra_ip": {
+      "value": "192.168.0.173",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "local_file",
+      "name": "ansible_inventory",
+      "provider": "provider[\"registry.terraform.io/hashicorp/local\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "content": "\"all\":\n  \"children\":\n    \"controllers\":\n      \"hosts\":\n        \"controller-01\":\n          \"ansible_host\": \"192.168.0.172\"\n          \"ansible_ssh_private_key_file\": \"~/.ssh/id_ed25519\"\n          \"ansible_user\": \"ansible\"\n    \"vault_servers\":\n      \"hosts\":\n        \"vault-01\":\n          \"ansible_host\": \"192.168.0.171\"\n          \"ansible_ssh_private_key_file\": \"~/.ssh/id_ed25519\"\n          \"ansible_user\": \"ansible\"\n    \"workers\":\n      \"hosts\":\n        \"worker-01\":\n          \"ansible_host\": \"192.168.0.173\"\n          \"ansible_ssh_private_key_file\": \"~/.ssh/id_ed25519\"\n          \"ansible_user\": \"ansible\"\n          \"worker_role\": \"infra\"\n        \"worker-02\":\n          \"ansible_host\": \"192.168.0.174\"\n          \"ansible_ssh_private_key_file\": \"~/.ssh/id_ed25519\"\n          \"ansible_user\": \"ansible\"\n          \"worker_role\": \"app\"\n",
+            "content_base64": null,
+            "content_base64sha256": "txq1NMnGHfSv8DZMCgVsgHMSQYCiOjZxz6tmopcOPJQ=",
+            "content_base64sha512": "Ydf5njLjyxMZilBVMDoxJWjGlFfFRadw/3za3eM0iSmzY1KsnXuLXq90wJXH7tuLa5v3aHbBH950vZajI7ACFA==",
+            "content_md5": "24bb7a6d604e8d01f15fb3954b14a025",
+            "content_sha1": "2996aa5a2281c0c6440b309a7bd4d108a339a303",
+            "content_sha256": "b71ab534c9c61df4aff0364c0a056c8073124180a23a3671cfab66a2970e3c94",
+            "content_sha512": "61d7f99e32e3cb13198a5055303a312568c69457c545a770ff7cdadde3348929b36352ac9d7b8b5eaf74c095c7eedb8b6b9bf76876c11fde74bd96a323b00214",
+            "directory_permission": "0777",
+            "file_permission": "0640",
+            "filename": "./../ansible/inventory/hosts.yml",
+            "id": "2996aa5a2281c0c6440b309a7bd4d108a339a303",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "sensitive_content"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.controller.proxmox_virtual_environment_container.lxc",
+            "module.vault.proxmox_virtual_environment_container.lxc",
+            "module.worker_app.proxmox_virtual_environment_container.lxc",
+            "module.worker_infra.proxmox_virtual_environment_container.lxc"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.controller",
+      "mode": "managed",
+      "type": "proxmox_virtual_environment_container",
+      "name": "lxc",
+      "provider": "provider[\"registry.terraform.io/bpg/proxmox\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "clone": [],
+            "console": [],
+            "cpu": [
+              {
+                "architecture": "amd64",
+                "cores": 4,
+                "units": 1024
+              }
+            ],
+            "description": "Ansible Controller (AWX-style). Manages playbook execution and inventory.\n",
+            "device_passthrough": [],
+            "disk": [
+              {
+                "acl": false,
+                "datastore_id": "local-lvm",
+                "mount_options": null,
+                "path_in_datastore": "local-lvm:vm-202-disk-0",
+                "quota": false,
+                "replicate": false,
+                "size": 32
+              }
+            ],
+            "environment_variables": null,
+            "features": [
+              {
+                "fuse": false,
+                "keyctl": false,
+                "mount": null,
+                "nesting": true
+              }
+            ],
+            "hook_script_file_id": null,
+            "id": "202",
+            "idmap": [],
+            "initialization": [
+              {
+                "dns": [
+                  {
+                    "domain": "home.arpa",
+                    "server": "192.168.0.1",
+                    "servers": null
+                  }
+                ],
+                "hostname": "controller-01",
+                "ip_config": [
+                  {
+                    "ipv4": [
+                      {
+                        "address": "192.168.0.172/24",
+                        "gateway": "192.168.0.1"
+                      }
+                    ],
+                    "ipv6": []
+                  }
+                ],
+                "user_account": [
+                  {
+                    "keys": [
+                      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILyGsyUNYTX6f/Dm7d0/ssmSflPJQgms/i+M0hzoYa3w ansible-runner-01"
+                    ],
+                    "password": ""
+                  }
+                ]
+              }
+            ],
+            "ipv4": {
+              "eth0": "192.168.0.172"
+            },
+            "ipv6": {
+              "eth0": "fe80::be24:11ff:feb4:201"
+            },
+            "memory": [
+              {
+                "dedicated": 4096,
+                "swap": 1024
+              }
+            ],
+            "mount_point": [],
+            "network_interface": [
+              {
+                "bridge": "vmbr0",
+                "enabled": true,
+                "firewall": false,
+                "mac_address": "BC:24:11:B4:02:01",
+                "mtu": 0,
+                "name": "eth0",
+                "rate_limit": 0,
+                "vlan_id": 0
+              }
+            ],
+            "node_name": "house-aboo1",
+            "operating_system": [
+              {
+                "template_file_id": "local:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst",
+                "type": "debian"
+              }
+            ],
+            "pool_id": null,
+            "protection": false,
+            "start_on_boot": true,
+            "started": true,
+            "startup": [],
+            "tags": [
+              "always-on",
+              "ansible",
+              "controller",
+              "infrastructure"
+            ],
+            "template": false,
+            "timeout_clone": 1800,
+            "timeout_create": 1800,
+            "timeout_delete": 60,
+            "timeout_start": 300,
+            "timeout_update": 1800,
+            "unprivileged": true,
+            "vm_id": 202,
+            "wait_for_ip": []
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "initialization"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "user_account"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.vault",
+      "mode": "managed",
+      "type": "proxmox_virtual_environment_container",
+      "name": "lxc",
+      "provider": "provider[\"registry.terraform.io/bpg/proxmox\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "clone": [],
+            "console": [],
+            "cpu": [
+              {
+                "architecture": "amd64",
+                "cores": 2,
+                "units": 1024
+              }
+            ],
+            "description": "HashiCorp Vault secret store. Managed by Terraform + Ansible.\n",
+            "device_passthrough": [],
+            "disk": [
+              {
+                "acl": false,
+                "datastore_id": "local-lvm",
+                "mount_options": null,
+                "path_in_datastore": "local-lvm:vm-201-disk-0",
+                "quota": false,
+                "replicate": false,
+                "size": 16
+              }
+            ],
+            "environment_variables": null,
+            "features": [
+              {
+                "fuse": false,
+                "keyctl": false,
+                "mount": null,
+                "nesting": true
+              }
+            ],
+            "hook_script_file_id": null,
+            "id": "201",
+            "idmap": [],
+            "initialization": [
+              {
+                "dns": [
+                  {
+                    "domain": "home.arpa",
+                    "server": "192.168.0.1",
+                    "servers": null
+                  }
+                ],
+                "hostname": "vault-01",
+                "ip_config": [
+                  {
+                    "ipv4": [
+                      {
+                        "address": "192.168.0.171/24",
+                        "gateway": "192.168.0.1"
+                      }
+                    ],
+                    "ipv6": []
+                  }
+                ],
+                "user_account": [
+                  {
+                    "keys": [
+                      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILyGsyUNYTX6f/Dm7d0/ssmSflPJQgms/i+M0hzoYa3w ansible-runner-01"
+                    ],
+                    "password": ""
+                  }
+                ]
+              }
+            ],
+            "ipv4": {
+              "eth0": "192.168.0.171"
+            },
+            "ipv6": {
+              "eth0": "fe80::be24:11ff:fe3b:7b8a"
+            },
+            "memory": [
+              {
+                "dedicated": 2048,
+                "swap": 512
+              }
+            ],
+            "mount_point": [],
+            "network_interface": [
+              {
+                "bridge": "vmbr0",
+                "enabled": true,
+                "firewall": false,
+                "mac_address": "BC:24:11:3B:7B:8A",
+                "mtu": 0,
+                "name": "eth0",
+                "rate_limit": 0,
+                "vlan_id": 0
+              }
+            ],
+            "node_name": "house-aboo0",
+            "operating_system": [
+              {
+                "template_file_id": "local:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst",
+                "type": "debian"
+              }
+            ],
+            "pool_id": null,
+            "protection": false,
+            "start_on_boot": true,
+            "started": true,
+            "startup": [],
+            "tags": [
+              "always-on",
+              "infrastructure",
+              "vault"
+            ],
+            "template": false,
+            "timeout_clone": 1800,
+            "timeout_create": 1800,
+            "timeout_delete": 60,
+            "timeout_start": 300,
+            "timeout_update": 1800,
+            "unprivileged": true,
+            "vm_id": 201,
+            "wait_for_ip": []
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "initialization"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "user_account"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.worker_app",
+      "mode": "managed",
+      "type": "proxmox_virtual_environment_container",
+      "name": "lxc",
+      "provider": "provider[\"registry.terraform.io/bpg/proxmox\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "clone": [],
+            "console": [],
+            "cpu": [
+              {
+                "architecture": "amd64",
+                "cores": 4,
+                "units": 1024
+              }
+            ],
+            "description": "Ansible Worker 2 — App. Handles K8s manifests, Docker, Keycloak, Node.js deployment.\n",
+            "device_passthrough": [],
+            "disk": [
+              {
+                "acl": false,
+                "datastore_id": "local-lvm",
+                "mount_options": null,
+                "path_in_datastore": "local-lvm:vm-204-disk-0",
+                "quota": false,
+                "replicate": false,
+                "size": 48
+              }
+            ],
+            "environment_variables": null,
+            "features": [
+              {
+                "fuse": false,
+                "keyctl": false,
+                "mount": null,
+                "nesting": true
+              }
+            ],
+            "hook_script_file_id": null,
+            "id": "204",
+            "idmap": [],
+            "initialization": [
+              {
+                "dns": [
+                  {
+                    "domain": "home.arpa",
+                    "server": "192.168.0.1",
+                    "servers": null
+                  }
+                ],
+                "hostname": "worker-02",
+                "ip_config": [
+                  {
+                    "ipv4": [
+                      {
+                        "address": "192.168.0.174/24",
+                        "gateway": "192.168.0.1"
+                      }
+                    ],
+                    "ipv6": []
+                  }
+                ],
+                "user_account": [
+                  {
+                    "keys": [
+                      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILyGsyUNYTX6f/Dm7d0/ssmSflPJQgms/i+M0hzoYa3w ansible-runner-01"
+                    ],
+                    "password": ""
+                  }
+                ]
+              }
+            ],
+            "ipv4": {
+              "eth0": "192.168.0.174"
+            },
+            "ipv6": {
+              "eth0": "fe80::be24:11ff:fe61:361b"
+            },
+            "memory": [
+              {
+                "dedicated": 6144,
+                "swap": 1024
+              }
+            ],
+            "mount_point": [],
+            "network_interface": [
+              {
+                "bridge": "vmbr0",
+                "enabled": true,
+                "firewall": false,
+                "mac_address": "BC:24:11:61:36:1B",
+                "mtu": 0,
+                "name": "eth0",
+                "rate_limit": 0,
+                "vlan_id": 0
+              }
+            ],
+            "node_name": "house-aboo3",
+            "operating_system": [
+              {
+                "template_file_id": "local:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst",
+                "type": "debian"
+              }
+            ],
+            "pool_id": null,
+            "protection": false,
+            "start_on_boot": true,
+            "started": true,
+            "startup": [],
+            "tags": [
+              "ansible",
+              "app",
+              "worker"
+            ],
+            "template": false,
+            "timeout_clone": 1800,
+            "timeout_create": 1800,
+            "timeout_delete": 60,
+            "timeout_start": 300,
+            "timeout_update": 1800,
+            "unprivileged": true,
+            "vm_id": 204,
+            "wait_for_ip": []
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "initialization"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "user_account"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.worker_infra",
+      "mode": "managed",
+      "type": "proxmox_virtual_environment_container",
+      "name": "lxc",
+      "provider": "provider[\"registry.terraform.io/bpg/proxmox\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "clone": [],
+            "console": [],
+            "cpu": [
+              {
+                "architecture": "amd64",
+                "cores": 4,
+                "units": 1024
+              }
+            ],
+            "description": "Ansible Worker 1 — Infra. Handles Proxmox API, LXC lifecycle, KIND provisioning.\n",
+            "device_passthrough": [],
+            "disk": [
+              {
+                "acl": false,
+                "datastore_id": "local-lvm",
+                "mount_options": null,
+                "path_in_datastore": "local-lvm:vm-203-disk-0",
+                "quota": false,
+                "replicate": false,
+                "size": 32
+              }
+            ],
+            "environment_variables": null,
+            "features": [
+              {
+                "fuse": false,
+                "keyctl": false,
+                "mount": null,
+                "nesting": true
+              }
+            ],
+            "hook_script_file_id": null,
+            "id": "203",
+            "idmap": [],
+            "initialization": [
+              {
+                "dns": [
+                  {
+                    "domain": "home.arpa",
+                    "server": "192.168.0.1",
+                    "servers": null
+                  }
+                ],
+                "hostname": "worker-01",
+                "ip_config": [
+                  {
+                    "ipv4": [
+                      {
+                        "address": "192.168.0.173/24",
+                        "gateway": "192.168.0.1"
+                      }
+                    ],
+                    "ipv6": []
+                  }
+                ],
+                "user_account": [
+                  {
+                    "keys": [
+                      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILyGsyUNYTX6f/Dm7d0/ssmSflPJQgms/i+M0hzoYa3w ansible-runner-01"
+                    ],
+                    "password": ""
+                  }
+                ]
+              }
+            ],
+            "ipv4": {
+              "eth0": "192.168.0.173"
+            },
+            "ipv6": {
+              "eth0": "fe80::be24:11ff:fed5:bd86"
+            },
+            "memory": [
+              {
+                "dedicated": 4096,
+                "swap": 1024
+              }
+            ],
+            "mount_point": [],
+            "network_interface": [
+              {
+                "bridge": "vmbr0",
+                "enabled": true,
+                "firewall": false,
+                "mac_address": "BC:24:11:D5:BD:86",
+                "mtu": 0,
+                "name": "eth0",
+                "rate_limit": 0,
+                "vlan_id": 0
+              }
+            ],
+            "node_name": "house-aboo2",
+            "operating_system": [
+              {
+                "template_file_id": "local:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst",
+                "type": "debian"
+              }
+            ],
+            "pool_id": null,
+            "protection": false,
+            "start_on_boot": true,
+            "started": true,
+            "startup": [],
+            "tags": [
+              "ansible",
+              "infra",
+              "worker"
+            ],
+            "template": false,
+            "timeout_clone": 1800,
+            "timeout_create": 1800,
+            "timeout_delete": 60,
+            "timeout_start": 300,
+            "timeout_update": 1800,
+            "unprivileged": true,
+            "vm_id": 203,
+            "wait_for_ip": []
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "initialization"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "user_account"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
+
