@@ -13,8 +13,7 @@ terraform {
   }
 }
 
-resource "proxmox_virtual_environment_container" "lxc" 
-{
+resource "proxmox_virtual_environment_container" "lxc" {
   vm_id       = var.vmid
   node_name   = var.node
   description = var.description
@@ -77,5 +76,7 @@ resource "proxmox_virtual_environment_container" "lxc"
       # Ignore changes to started state — Ansible manages service lifecycle
       started,
     ]
+
   }
 }
+

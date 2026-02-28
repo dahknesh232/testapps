@@ -37,14 +37,23 @@ output "next_steps" {
     Terraform apply complete. Next steps:
     ════════════════════════════════════════════════════════
 
-    1. Verify all LXCs are reachable:
+    1. Run 'necessary.sh' on all 4 pve nodes
+
+    2. Run:
+       `for IP in 192.168.0.171 192.168.0.172 192.168.0.173 192.168.0.174; do 
+          ssh-keygen -f "/home/ansible/.ssh/known_hosts" -R "${IP}"; 
+        done`
+    
+    3. ssh from runner-01 into all nodes to accept new fingerprint
+    
+    4. Verify all LXCs are reachable:
        ansible all -i ../ansible/inventory/hosts.yml -m ping
 
-    2. Run the Ansible site playbook to configure all nodes:
+    5. Run the Ansible site playbook to configure all nodes:
        cd ../ansible
        ansible-playbook playbooks/site.yml
 
-    3. After Vault is initialized, retrieve the root token and
+    6. After Vault is initialized, retrieve the root token and
        unseal keys from:
        /home/ansible/.vault/init-output.json
        (on runner-01 — store these somewhere safe and delete the file)
