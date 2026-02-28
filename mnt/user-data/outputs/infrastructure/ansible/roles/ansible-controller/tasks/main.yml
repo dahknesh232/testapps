@@ -13,6 +13,7 @@
       - python3-venv
       - git
       - sshpass
+      - ufw
     state: present
 
 - name: Install Ansible and supporting Python packages
