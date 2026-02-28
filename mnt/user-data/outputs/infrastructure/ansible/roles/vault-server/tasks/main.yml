@@ -11,6 +11,8 @@
     name:
       - gpg
       - curl
+      - ufw
+      - mlock
     state: present
     update_cache: true
 
@@ -74,7 +76,7 @@
     state: started
     enabled: true
     daemon_reload: true
-
+    
 - name: Wait for Vault to be reachable
   ansible.builtin.wait_for:
     host: "{{ ansible_host }}"

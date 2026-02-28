@@ -37,12 +37,9 @@ output "next_steps" {
     Terraform apply complete. Next steps:
     ════════════════════════════════════════════════════════
 
-    1. Run 'necessary.sh' on all 4 pve nodes
+    1. Run '.necessary' on all 4 pve nodes
 
-    2. Run:
-       `for IP in 192.168.0.171 192.168.0.172 192.168.0.173 192.168.0.174; do 
-          ssh-keygen -f "/home/ansible/.ssh/known_hosts" -R "${IP}"; 
-        done`
+    2. Run .nec2 on runner-01
     
     3. ssh from runner-01 into all nodes to accept new fingerprint
     
