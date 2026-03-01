@@ -1,0 +1,21 @@
+---
+# =============================================================================
+# inventory/group_vars/all/vars.yml
+# Non-sensitive variables shared across ALL hosts.
+# Secrets belong in vault.yml (ansible-vault encrypted), never here.
+# =============================================================================
+
+# ── Ansible runner SSH public key ─────────────────────────────────────────────
+# Paste the contents of /home/ansible/.ssh/id_ed25519.pub from runner-01.
+# This is a PUBLIC key — it is safe to store here unencrypted.
+ansible_runner_public_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMDbE4l5ydQ7J4nE1/1Z0M/1C0rMlu1iXVFAT0cHI6qc ansible-runner-01"
+
+# ── Vault connection (non-secret) ─────────────────────────────────────────────
+# The actual AppRole credentials live in vault.yml (encrypted).
+vault_addr: "http://vault-01:8200"
+
+# ── Common package versions ───────────────────────────────────────────────────
+terraform_version: "1.9.0"
+ansible_version_required: "2.16.0"
+
+PROJ_DIR: /home/ansible/infrastructure/ansible
