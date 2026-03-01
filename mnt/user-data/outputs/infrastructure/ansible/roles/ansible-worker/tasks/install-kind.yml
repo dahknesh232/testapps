@@ -19,8 +19,8 @@
     url: "https://kind.sigs.k8s.io/dl/{{ kind_version }}/kind-linux-amd64"
     dest: /usr/local/bin/kind
     mode: "0755"
-    owner: root
-    group: root
+    owner: ansible
+    group: ansible
 
 - name: Verify KIND installation
   ansible.builtin.command:
