@@ -41,3 +41,5 @@ id_ed25519
 *.swo
 .vscode/
 .idea/
+
+mnt/user-data/outputs/infrastructure/ansible/vault.yml
