@@ -29,3 +29,7 @@
 - name: Allow from CIDR 43
   ansible.builtin.command:
     cmd: ufw allow from 10.43.0.0/16 to any
+
+- name: Reload UFW to affect
+  ansible.builtin.command:
+    cmd: ufw reload
