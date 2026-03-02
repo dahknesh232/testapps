@@ -9,11 +9,19 @@
   ansible.builtin.set_fact:
     k3s_control_ip: >-
       {{ hostvars[groups['k8s_nodes'] |
+         select('defined') |
+         map('extract', hostvars) |
+         selectattr('k8s_role', 'defined') |
          selectattr('k8s_role', 'equalto', 'control') |
+         map(attribute='inventory_hostname') |
          first]['ansible_host'] }}
     k3s_node_token: >-
       {{ hostvars[groups['k8s_nodes'] |
+         select('defined') |
+         map('extract', hostvars) |
+         selectattr('k8s_role', 'defined') |
          selectattr('k8s_role', 'equalto', 'control') |
+         map(attribute='inventory_hostname') |
          first]['k3s_node_token'] }}
 
 - name: Install k3s agent
