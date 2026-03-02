@@ -32,10 +32,10 @@ variable "proxmox_tls_insecure" {
 # Map logical roles to physical Proxmox node names.
 # Run 'pvesh get /nodes' to list your node names.
 
-variable "node_vault" {
-  description = "Proxmox node name to host the Vault LXC."
-  type        = string
-}
+#variable "node_vault" {
+#  description = "Proxmox node name to host the Vault LXC."
+#  type        = string
+#}
 
 variable "node_controller" {
   description = "Proxmox node name to host the Ansible Controller LXC."
@@ -56,11 +56,11 @@ variable "node_worker_app" {
 # Each node has local storage. Specify the pool name per node.
 # Common values: local-lvm, local-zfs, local
 
-variable "storage_vault" {
-  description = "Storage pool name on the Vault node."
-  type        = string
-  default     = "local-lvm"
-}
+#variable "storage_vault" {
+#  description = "Storage pool name on the Vault node."
+#  type        = string
+#  default     = "local-lvm"
+#}
 
 variable "storage_controller" {
   description = "Storage pool name on the Controller node."
@@ -115,11 +115,11 @@ variable "network_domain" {
 # ── IP Assignments ────────────────────────────────────────────────────────────
 # Static IPs for each infrastructure LXC.
 
-variable "ip_vault" {
-  description = "Static IP with CIDR for vault-01. Example: 192.168.1.201/24"
-  type        = string
-  default     = "192.168.0.171/24"
-}
+#variable "ip_vault" {
+#  description = "Static IP with CIDR for vault-01. Example: 192.168.1.201/24"
+#  type        = string
+#  default     = "192.168.0.171/24"
+#}
 
 variable "ip_controller" {
   description = "Static IP with CIDR for controller-01. Example: 192.168.1.202/24"
@@ -142,11 +142,11 @@ variable "ip_worker_app" {
 # ── VMID Assignments ──────────────────────────────────────────────────────────
 # Choose VMIDs that don't conflict with existing containers/VMs.
 
-variable "vmid_vault" {
-  description = "VMID for vault-01 LXC."
-  type        = number
-  default     = 201
-}
+#variable "vmid_vault" {
+#  description = "VMID for vault-01 LXC."
+#  type        = number
+#  default     = 201
+#}
 
 variable "vmid_controller" {
   description = "VMID for controller-01 LXC."

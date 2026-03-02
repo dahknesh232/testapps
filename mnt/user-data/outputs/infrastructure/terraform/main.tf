@@ -119,7 +119,7 @@ module "worker_infra" {
   search_domain = var.network_domain
   bridge        = var.network_bridge
   ssh_public_key = var.ansible_public_key
-  unprivileged  = false
+  unprivileged  = true
   nesting       = true
 
   tags = ["ansible", "worker", "infra"]
@@ -164,15 +164,15 @@ resource "local_file" "ansible_inventory" {
   content = yamlencode({
     all = {
       children = {
-        vault_servers = {
-          hosts = {
-            "vault-01" = {
-              ansible_host = split("/", var.ip_vault)[0]
-              ansible_user = "ansible"
-              ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
-            }
-          }
-        }
+#        vault_servers = {
+#          hosts = {
+#            "vault-01" = {
+#              ansible_host = split("/", var.ip_vault)[0]
+#              ansible_user = "ansible"
+#              ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
+#            }
+#          }
+#        }
         controllers = {
           hosts = {
             "controller-01" = {
@@ -203,7 +203,7 @@ resource "local_file" "ansible_inventory" {
   })
 
   depends_on = [
-    module.vault,
+#    module.vault,
     module.controller,
     module.worker_infra,
     module.worker_app
