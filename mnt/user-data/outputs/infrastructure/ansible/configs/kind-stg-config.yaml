@@ -6,7 +6,4 @@ networking:
 nodes:
 - role: control-plane
   image: kindest/node:v1.34.0
-  # port forward 80 on the host to 80 on this node
-  extraPortMappings:
-  - containerPort: 80
-    hostPort: 80
+

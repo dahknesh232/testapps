@@ -40,6 +40,14 @@
     state: present
     extra_args: "--break-system-packages"
 
+- name: Setting up Unprivileged Ports
+  ansible.builtin.command:
+    cmd: "echo net.ipv4.ip_unprivileged_port_start=0 >> /etc/sysctl.conf"
+
+- name: Running sysctl -p ...
+  ansible.builtin.command:
+    cmd: sysctl -p
+
 #- name: Create vault agent config directory
 #  ansible.builtin.file:
 #    path: /etc/vault-agent
