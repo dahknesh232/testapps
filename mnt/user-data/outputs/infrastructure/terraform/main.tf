@@ -43,33 +43,33 @@ locals {
   }
 }
 
-# ── Vault LXC ─────────────────────────────────────────────────────────────────
-
-module "vault" {
-  source = "./modules/lxc"
-
-  vmid          = var.vmid_vault
-  hostname      = "vault-01"
-  node          = var.node_vault
-  template      = local.debian_template_ref
-  storage       = var.storage_vault
-  disk_size     = 16
-  cores         = 2
-  memory        = 2048
-  swap          = 512
-  ip_address    = var.ip_vault
-  gateway       = var.network_gateway
-  dns_server    = var.network_dns
-  search_domain = var.network_domain
-  bridge        = var.network_bridge
-  ssh_public_key = var.ansible_public_key
-  unprivileged  = true
-  nesting       = true
-
-  tags = ["vault", "infrastructure", "always-on"]
-
-  description = "HashiCorp Vault secret store. Managed by Terraform + Ansible."
-}
+## ── Vault LXC ─────────────────────────────────────────────────────────────────
+#
+#module "vault" {
+#  source = "./modules/lxc"
+#
+#  vmid          = var.vmid_vault
+#  hostname      = "vault-01"
+#  node          = var.node_vault
+#  template      = local.debian_template_ref
+#  storage       = var.storage_vault
+#  disk_size     = 16
+#  cores         = 2
+#  memory        = 2048
+#  swap          = 512
+#  ip_address    = var.ip_vault
+#  gateway       = var.network_gateway
+#  dns_server    = var.network_dns
+#  search_domain = var.network_domain
+#  bridge        = var.network_bridge
+#  ssh_public_key = var.ansible_public_key
+#  unprivileged  = true
+#  nesting       = true
+#
+#  tags = ["vault", "infrastructure", "always-on"]
+#
+#  description = "HashiCorp Vault secret store. Managed by Terraform + Ansible."
+#}
 
 # ── Controller LXC ────────────────────────────────────────────────────────────
 
@@ -119,7 +119,7 @@ module "worker_infra" {
   search_domain = var.network_domain
   bridge        = var.network_bridge
   ssh_public_key = var.ansible_public_key
-  unprivileged  = true
+  unprivileged  = false
   nesting       = true
 
   tags = ["ansible", "worker", "infra"]
