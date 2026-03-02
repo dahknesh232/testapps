@@ -10,8 +10,22 @@
       - python3-pip
       - python3-venv
       - git
+      - containerd
       - curl
+      - iptables
       - wget
       - unzip
       - ufw
     state: present
+
+- name: Allow 6443
+  ansible.builtin.command:
+    cmd: ufw allow 6443/tcp
+
+- name: Allow from CIDR 42
+  ansible.builtin.command:
+    cmd: ufw allow from 10.42.0.0/16 to any
+
+- name: Allow from CIDR 43
+  ansible.builtin.command:
+    cmd: ufw allow from 10.43.0.0/16 to any
