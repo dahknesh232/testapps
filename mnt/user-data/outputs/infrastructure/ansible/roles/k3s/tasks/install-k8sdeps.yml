@@ -1,0 +1,17 @@
+---
+# =============================================================================
+# roles/k3s/tasks/install-k8sdeps.yml
+# Installs dependencies on k8s control plane LXC.
+# =============================================================================
+- name: Install Python3 and pip
+  ansible.builtin.apt:
+    name:
+      - python3
+      - python3-pip
+      - python3-venv
+      - git
+      - curl
+      - wget
+      - unzip
+      - ufw
+    state: present

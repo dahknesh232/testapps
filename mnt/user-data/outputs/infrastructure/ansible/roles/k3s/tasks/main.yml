@@ -4,6 +4,9 @@
 # Installs k3s server on control plane, k3s agent on workers.
 # Driven by host var: k8s_role = "control" | "worker"
 # =============================================================================
+- name: Install deps on control plane
+  ansible.builtin.include_tasks: install-k8sdeps.yml
+  when: k8s_role == "control"
 
 - name: Install k3s on control plane
   ansible.builtin.include_tasks: install-control.yml
