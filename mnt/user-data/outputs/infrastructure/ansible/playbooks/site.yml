@@ -8,8 +8,8 @@
 - name: Apply common hardening to all infrastructure nodes
   import_playbook: provision-common.yml
 
-- name: Provision HashiCorp Vault
-  import_playbook: provision-vault.yml
+#- name: Provision HashiCorp Vault
+#  import_playbook: provision-vault.yml
 
 - name: Provision Ansible Controller
   import_playbook: provision-controller.yml

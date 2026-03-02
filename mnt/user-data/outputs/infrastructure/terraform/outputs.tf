@@ -4,10 +4,10 @@
 # feed into Ansible inventory generation.
 # =============================================================================
 
-output "vault_ip" {
-  description = "IP address of vault-01"
-  value       = split("/", module.vault.ip_address)[0]
-}
+#output "vault_ip" {
+#  description = "IP address of vault-01"
+#  value       = split("/", module.vault.ip_address)[0]
+#}
 
 output "controller_ip" {
   description = "IP address of controller-01"
@@ -49,12 +49,6 @@ output "next_steps" {
     5. Run the Ansible site playbook to configure all nodes:
        cd ../ansible
        ansible-playbook playbooks/site.yml
-
-    6. After Vault is initialized, retrieve the root token and
-       unseal keys from:
-       /home/ansible/.vault/init-output.json
-       (on runner-01 — store these somewhere safe and delete the file)
-
     ════════════════════════════════════════════════════════
   EOT
 }

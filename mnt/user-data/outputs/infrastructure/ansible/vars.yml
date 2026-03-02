@@ -12,7 +12,7 @@ ansible_runner_public_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMDbE4l5ydQ7J4nE
 
 # ── Vault connection (non-secret) ─────────────────────────────────────────────
 # The actual AppRole credentials live in vault.yml (encrypted).
-vault_addr: "http://vault-01:8200"
+#vault_addr: "http://vault-01:8200"
 
 # ── Common package versions ───────────────────────────────────────────────────
 terraform_version: "1.9.0"
