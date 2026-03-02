@@ -18,4 +18,4 @@ vault_addr: "http://vault-01:8200"
 terraform_version: "1.9.0"
 ansible_version_required: "2.16.0"
 
-PROJ_DIR: /home/ansible/infrastructure/ansible
+W1_PROJ_DIR: /home/ansible
