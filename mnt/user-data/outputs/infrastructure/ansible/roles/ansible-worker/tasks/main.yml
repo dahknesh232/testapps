@@ -40,22 +40,22 @@
     state: present
     extra_args: "--break-system-packages"
 
-- name: Create vault agent config directory
-  ansible.builtin.file:
-    path: /etc/vault-agent
-    state: directory
-    owner: ansible
-    group: ansible
-    mode: "0750"
-
-- name: Write Vault AppRole credentials for this worker
-  ansible.builtin.copy:
-    dest: /etc/vault-agent/approle.env
-    content: |
-      VAULT_ADDR={{ vault_addr }}
-      VAULT_ROLE_ID={{ vault_approle_role_id }}
-      VAULT_SECRET_ID={{ vault_approle_secret_id }}
-    owner: ansible
-    group: ansible
-    mode: "0600"
-  no_log: true
+#- name: Create vault agent config directory
+#  ansible.builtin.file:
+#    path: /etc/vault-agent
+#    state: directory
+#    owner: ansible
+#    group: ansible
+#    mode: "0750"
+#
+#- name: Write Vault AppRole credentials for this worker
+#  ansible.builtin.copy:
+#    dest: /etc/vault-agent/approle.env
+#    content: |
+#      VAULT_ADDR={{ vault_addr }}
+#      VAULT_ROLE_ID={{ vault_approle_role_id }}
+#      VAULT_SECRET_ID={{ vault_approle_secret_id }}
+#    owner: ansible
+#    group: ansible
+#    mode: "0600"
+#  no_log: true

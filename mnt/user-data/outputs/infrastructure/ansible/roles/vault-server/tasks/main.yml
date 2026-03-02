@@ -111,7 +111,7 @@
 - name: Save Vault init output to runner-01 (local)
   ansible.builtin.copy:
     content: "{{ vault_init_raw.stdout }}"
-    dest: "~/.vault/init-output.json"
+    dest: "/home/ansible/.vault/init-output.json"
     mode: "0600"
   delegate_to: localhost
   when: not vault_status.initialized
@@ -198,11 +198,11 @@
   ansible.builtin.copy:
     content: |
       # AppRole credentials for Ansible workers
-      # Encrypt this file with: ansible-vault encrypt ~/.vault/approle-creds.yml
+      # Encrypt this file with: ansible-vault encrypt /home/ansible/.vault/approle-creds.yml
       vault_approle_role_id: "{{ (approle_role_id_raw.stdout | from_json).data.role_id }}"
       vault_approle_secret_id: "{{ (approle_secret_id_raw.stdout | from_json).data.secret_id }}"
       vault_addr: "http://{{ ansible_host }}:{{ vault_port }}"
-    dest: "~/.vault/approle-creds.yml"
+    dest: "/home/ansible/.vault/approle-creds.yml"
     mode: "0600"
   delegate_to: localhost
   when: not vault_status.initialized
@@ -212,13 +212,13 @@
     msg:
       - "════════════════════════════════════════════════════════"
       - "Vault initialized and unsealed successfully."
-      - "Init output saved to: ~/.vault/init-output.json"
-      - "AppRole creds saved to: ~/.vault/approle-creds.yml"
+      - "Init output saved to: /home/ansible/.vault/init-output.json"
+      - "AppRole creds saved to: /home/ansible/.vault/approle-creds.yml"
       - ""
       - "IMPORTANT — Next steps:"
-      - "1. ansible-vault encrypt ~/.vault/init-output.json"
-      - "2. ansible-vault encrypt ~/.vault/approle-creds.yml"
+      - "1. ansible-vault encrypt /home/ansible/.vault/init-output.json"
+      - "2. ansible-vault encrypt /home/ansible/.vault/approle-creds.yml"
       - "3. Store unseal keys and root token in a secure offline location"
-      - "4. Delete ~/.vault/init-output.json after storing keys safely"
+      - "4. Delete /home/ansible/.vault/init-output.json after storing keys safely"
       - "════════════════════════════════════════════════════════"
   when: not vault_status.initialized
