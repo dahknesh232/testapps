@@ -24,7 +24,7 @@
          map(attribute='inventory_hostname') |
          first]['k3s_node_token'] }}
 
-- name: Install k3s agent
+- name: Install k3s agent on worker
   ansible.builtin.shell:
     cmd: >
       curl -sfL https://get.k3s.io | sh -s - agent
@@ -35,7 +35,7 @@
   environment:
     INSTALL_K3S_CHANNEL: stable
 
-- name: Ensure k3s-agent service is enabled
+- name: Ensure k3s-agent service is enabled on worker
   ansible.builtin.systemd:
     name: k3s-agent
     state: started

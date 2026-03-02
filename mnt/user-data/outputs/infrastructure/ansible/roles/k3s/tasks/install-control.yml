@@ -4,7 +4,7 @@
 # Installs k3s server (control plane).
 # =============================================================================
 
-- name: Install k3s server
+- name: Install k3s server on control-plane
   ansible.builtin.shell:
     cmd: >
       curl -sfL https://get.k3s.io | sh -s - server
@@ -16,12 +16,12 @@
   environment:
     INSTALL_K3S_CHANNEL: stable
 
-- name: Wait for k3s to be ready
+- name: Wait for k3s to be ready on control-plane
   ansible.builtin.wait_for:
     path: /var/lib/rancher/k3s/server/node-token
     timeout: 60
 
-- name: Read k3s node token
+- name: Read k3s node token on control-plane
   ansible.builtin.slurp:
     src: /var/lib/rancher/k3s/server/node-token
   register: k3s_token_raw
@@ -44,7 +44,7 @@
   delegate_to: localhost
   become: false
 
-- name: Ensure k3s service is enabled
+- name: Ensure k3s service is enabled on control-plane
   ansible.builtin.systemd:
     name: k3s
     state: started
