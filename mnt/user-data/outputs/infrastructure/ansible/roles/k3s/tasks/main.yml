@@ -12,6 +12,10 @@
   ansible.builtin.include_tasks: install-control.yml
   when: k8s_role == "control"
 
+- name: Install deps on worker(s)
+  ansible.builtin.include_tasks: install-k8sdeps.yml
+  when: k8s_role == "worker"
+
 - name: Install k3s agent on worker nodes
   ansible.builtin.include_tasks: install-worker.yml
   when: k8s_role == "worker"
