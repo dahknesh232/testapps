@@ -1,0 +1,14 @@
+---
+# =============================================================================
+# roles/k3s/tasks/main.yml
+# Installs k3s server on control plane, k3s agent on workers.
+# Driven by host var: k8s_role = "control" | "worker"
+# =============================================================================
+
+- name: Install k3s on control plane
+  ansible.builtin.include_tasks: install-control.yml
+  when: k8s_role == "control"
+
+- name: Install k3s agent on worker nodes
+  ansible.builtin.include_tasks: install-worker.yml
+  when: k8s_role == "worker"
