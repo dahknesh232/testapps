@@ -1,3 +1,0 @@
-- name: Apply Kubernetes deployment and service
-  command: kubectl apply -f ~/ansible/roles/deploy-keycloak/tasks/k8s.yaml
-  register: kubectl_apply_kyc_output

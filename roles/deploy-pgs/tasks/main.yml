@@ -1,3 +1,0 @@
-- name: Apply Kubernetes deployment and service
-  command: kubectl apply -f ~/ansible/roles/deploy-pgs/tasks/k8s.yaml
-  register: kubectl_apply_pgs_output

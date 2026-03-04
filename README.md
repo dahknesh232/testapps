@@ -1,290 +1,421 @@
-# Ansible Project: Infrastructure Automation
+# Infrastructure Automation: Proxmox + Terraform + Ansible + K3s
 
-Welcome to the Ansible Project for Infrastructure Automation. This detailed guide will walk you through the various components of the project, ensuring you understand each file and its functionality.
+This project automates the full provisioning lifecycle of a homelab infrastructure running on Proxmox VE. Terraform provisions LXC containers via the `bpg/proxmox` provider, generates an Ansible inventory, and Ansible configures all nodes — applying baseline hardening, setting up an Ansible controller and workers, and deploying a K3s cluster.
 
-This project uses custom images based off of bitnami postgresql, mariadb, and keycloak. It also uses KIND.
-
-This README will need to be updated, to reflect the new project.
-
-There will also be a CHANGELOG.md created using git log and markdown.
-
+---
 
 ## Table of Contents
 
-- [Ansible Project: Infrastructure Automation](#ansible-project-infrastructure-automation)
+- [Infrastructure Automation: Proxmox + Terraform + Ansible + K3s](#infrastructure-automation-proxmox--terraform--ansible--k3s)
   - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Architecture](#architecture)
   - [Directory Structure](#directory-structure)
-    - [Configurations](#configurations)
+  - [Prerequisites](#prerequisites)
+  - [Quick Start](#quick-start)
+    - [1. Bootstrap runner-01](#1-bootstrap-runner-01)
+    - [2. Configure Terraform](#2-configure-terraform)
+    - [3. Apply Terraform](#3-apply-terraform)
+    - [4. Prepare Proxmox Host for K3s](#4-prepare-proxmox-host-for-k3s)
+    - [5. Run Ansible](#5-run-ansible)
+  - [Terraform](#terraform)
+    - [Provider](#provider)
+    - [LXC Module](#lxc-module)
+    - [Nodes Provisioned](#nodes-provisioned)
+    - [Outputs](#outputs)
+    - [Variables](#variables)
+  - [Ansible](#ansible)
+    - [ansible.cfg](#ansiblecfg)
+    - [Inventory](#inventory)
     - [Playbooks](#playbooks)
-    - [Roles Overview](#roles-overview)
-  - [Node.js Application Overview](#nodejs-application-overview)
-    - [Nginx Configuration Overview](#nginx-configuration-overview)
+    - [Roles](#roles)
+      - [`common`](#common)
+      - [`ansible-controller`](#ansible-controller)
+      - [`ansible-worker`](#ansible-worker)
+      - [`k3s`](#k3s)
+    - [Galaxy Collections](#galaxy-collections)
     - [Vault and Secrets](#vault-and-secrets)
-    - [Usage](#usage)
-    - [Comprehensive Step-by-Step Tutorial](#comprehensive-step-by-step-tutorial)
-      - [Prerequisites](#prerequisites)
-      - [1. Cloning the Repository](#1-cloning-the-repository)
-      - [2. Understanding Directory Structure](#2-understanding-directory-structure)
-      - [3. Setting Up the Environment](#3-setting-up-the-environment)
-      - [4. Running Playbooks](#4-running-playbooks)
-      - [5. Working with Roles](#5-working-with-roles)
-      - [6. Modifying Configurations](#6-modifying-configurations)
-      - [7. Deploying Node.js Application](#7-deploying-nodejs-application)
-      - [8. Handling Secrets with Vault](#8-handling-secrets-with-vault)
-      - [9. Concluding Notes](#9-concluding-notes)
-    - [Feedback and Contributions](#feedback-and-contributions)
-    - [License](#license)
+  - [K3s Cluster](#k3s-cluster)
+  - [Changelog](#changelog)
+  - [License](#license)
+    - [v1.3.1](#v131)
 
+---
+
+## Overview
+
+The workflow is fully idempotent end-to-end:
+
+```text
+Proxmox Host
+  └── bootstrap-runner.sh   → Creates runner-01 LXC (VMID 200)
+                                 Installs: Terraform, Ansible, Python deps, Galaxy collections
+
+runner-01
+  └── terraform apply        → Provisions all infrastructure LXCs on the Proxmox cluster
+                                 Generates: ansible/inventory/hosts.yml
+  └── ansible-playbook       → Configures all nodes in dependency order
+        provision-common     → CIS L1 hardening on every LXC
+        provision-controller → Ansible + pip deps on controller-01
+        provision-workers    → Docker + kubectl on worker-01 and worker-02
+        provision-k8s        → K3s control plane + workers, distributes kubeconfig
+```
+
+---
+
+## Architecture
+
+| Host | VMID | IP | Role |
+| --- | --- | --- | --- |
+| `runner-01` | 200 | 192.168.0.160 | Bootstrap node — runs Terraform and Ansible |
+| `controller-01` | 202 | 192.168.0.172 | Ansible Controller — manages playbook execution |
+| `worker-01` | 203 | 192.168.0.173 | Ansible Worker (infra) — Proxmox API, LXC lifecycle |
+| `worker-02` | 204 | 192.168.0.174 | Ansible Worker (app) — K8s manifests, Docker, deployments |
+| `k8s-control` | 210 | 192.168.0.180 | K3s control plane |
+| `k8s-worker-01` | 211 | 192.168.0.181 | K3s worker node 01 |
+| `k8s-worker-02` | 212 | 192.168.0.182 | K3s worker node 02 |
+
+> `vault-01` (VMID 201, 192.168.0.171) is defined but currently commented out — infrastructure is in place to enable it when needed.
+
+All LXCs use Debian 12, are unprivileged with nesting enabled, and communicate via SSH key auth on `vmbr0`.
+
+---
 
 ## Directory Structure
 
-The Ansible project directory is meticulously organized, housing a variety of configurations, playbooks, roles, application files, and more. Let's delve into each of these components:
+```text
+.
+├── bootstrap-runner.sh                  # Run on Proxmox host as root to create runner-01
+├── PROXMOX-K3S-PREP.md                  # Manual Proxmox host steps required before k3s provisioning
+├── CHANGELOG.md
+└── mnt/user-data/outputs/infrastructure/
+    ├── terraform/
+    │   ├── main.tf                      # LXC module calls + inventory generation
+    │   ├── variables.tf                 # All input variable definitions
+    │   ├── outputs.tf                   # Post-apply outputs and next-steps guidance
+    │   ├── terraform.tfvars             # (gitignored) Your actual values
+    │   ├── .terraform.lock.hcl
+    │   └── modules/
+    │       └── lxc/                     # Reusable LXC provisioning module
+    │           ├── main.tf
+    │           ├── variables.tf
+    │           └── outputs.tf
+    └── ansible/
+        ├── ansible.cfg                  # Project-level Ansible config
+        ├── requirements.yml             # Galaxy collections
+        ├── vars.yml                     # Non-sensitive shared variables
+        ├── vault.yml                    # ansible-vault encrypted secrets
+        ├── main.yml                     # (reference) common role tasks
+        ├── inventory/
+        │   └── hosts.yml                # Auto-generated by Terraform apply
+        ├── group_vars/
+        │   └── all.yaml
+        ├── playbooks/
+        │   ├── site.yml                 # Master playbook — runs all in order
+        │   ├── provision-common.yml     # CIS L1 hardening for all nodes
+        │   ├── provision-controller.yml # Ansible controller setup
+        │   ├── provision-workers.yml    # Ansible worker setup
+        │   ├── provision-k8s.yml        # K3s cluster provisioning
+        │   └── provision-vault.yml      # (commented out) HashiCorp Vault setup
+        └── roles/
+            ├── common/                  # Baseline hardening applied to all LXCs
+            ├── ansible-controller/      # Ansible + pip + Galaxy on controller-01
+            ├── ansible-worker/          # Docker + kubectl on worker nodes
+            └── k3s/                     # K3s install: control plane, workers, kubeconfig
+```
 
-- 'ansible/':
-  - 'configs/': Configuration files that determine how parts of the infrastructure are set up.
-  - 'dev-app/': Home to our Node.js application, containing source files, controllers, models, and views.
-  - 'group_vars/': Used to define variables that are applicable to the entire group.
-  - 'html/': HTML configurations tailored for our Nginx setups.
-  - 'inventories/': Organizes and segregates our infrastructure into development, production, and staging.
-  - 'json/': Holds JSON files detailing realms, roles, and users.
-  - 'kyc_files/': Contains the KYC service configuration.
-  - 'nginx_files/': Configuration and deployment specifics for Nginx.
-  - 'playbooks/': A collection of our playbooks, which are sequences of tasks to be executed.
-  - 'roles/': Task bundles segmented by their roles in our infrastructure.
-  - 'vault/': Encrypted files live here, ensuring the confidentiality of our secrets.
+---
 
-### Configurations
+## Prerequisites
 
-The 'configs/' directory is a crucial part of our setup. It contains YAML files that dictate how different parts of the infrastructure behave and interact. Let's look at some of these configurations:
+- A running **Proxmox VE** cluster with at least one node accessible as root
+- A **Debian 12 CT template** available in Proxmox template storage (script will download if missing)
+- SSH access to the Proxmox node(s)
+- A **Proxmox API token** with sufficient permissions (Datacenter > Permissions > API Tokens)
 
-- 'kind-dev-config.yaml': Configures the development environment specifics when working with KIND. Here's a brief snippet:
-  'apiVersion: kind.x-k8s.io/v1alpha4'
-  'kind: Cluster'
-  'nodes:'
-  '  - role: control-plane'
-  '  - role: worker'
+---
 
-  In this file, we define a KIND cluster with one control plane node and one worker node.
+## Quick Start
 
-- 'kyc-cluster-config.yaml': A file that contains the necessary configurations to set up the KYC cluster. 
-  'apiVersion: v1'
-  'kind: Config'
-  'clusters:'
-  '  - cluster:'
-  '      server: http://kyc-cluster.local:8080'
-  '    name: kyc-cluster'
+### 1. Bootstrap runner-01
 
-  This snippet showcases the endpoint where our KYC cluster service can be reached.
+Run on any Proxmox node as root. Edit the configuration block at the top of the script to match your environment before running.
 
-... and many more configurations that we will delve into in subsequent sections.
+```bash
+chmod +x bootstrap-runner.sh
+./bootstrap-runner.sh
+```
+
+This creates `runner-01` (VMID 200, Debian 12 LXC) and installs:
+- Terraform (via HashiCorp apt repo)
+- Ansible (via apt) + `ansible-lint`, `jmespath`, `netaddr`, `hvac`, `proxmoxer`, `requests` (via pip)
+- Ansible Galaxy collections: `community.general`, `community.docker`, `community.crypto`, `ansible.posix`, `kubernetes.core`
+- An `ansible` user with a generated `ed25519` SSH keypair
+
+At the end of the script, the **public key** for the `ansible` user is printed. Copy it — you will need it for `terraform.tfvars`.
+
+SSH into runner-01 when complete:
+```bash
+ssh ansible@192.168.0.160
+```
+
+### 2. Configure Terraform
+
+Create `terraform.tfvars` inside runner-01 at `/home/ansible/infrastructure/terraform/terraform.tfvars`. All sensitive values stay here and are never committed.
+
+```hcl
+proxmox_api_url          = "https://192.168.0.10:8006/api2/json"
+proxmox_api_token_id     = "ansible@pam!terraform"
+proxmox_api_token_secret = "your-token-secret-here"
+proxmox_tls_insecure     = true
+
+node_controller   = "your-proxmox-node"
+node_worker_infra = "your-proxmox-node"
+node_worker_app   = "your-proxmox-node"
+node_k8s          = "your-proxmox-node"
+
+ansible_public_key = "ssh-ed25519 AAAA... ansible-runner-01"
+```
+
+Adjust IP addresses, storage pool names, and VMIDs in `variables.tf` or override them in `tfvars` as needed.
+
+### 3. Apply Terraform
+
+```bash
+cd /home/ansible/infrastructure/terraform
+terraform init
+terraform plan -out infra.plan
+terraform apply infra.plan
+```
+
+After `apply`, Terraform:
+- Provisions all LXC containers across the Proxmox cluster
+- Writes `ansible/inventory/hosts.yml` automatically
+
+The `next_steps` output will display post-apply instructions.
+
+### 4. Prepare Proxmox Host for K3s
+
+K3s requires manual host-level preparation before Ansible can provision the cluster. See [PROXMOX-K3S-PREP.md](PROXMOX-K3S-PREP.md) for the full runbook.
+
+In summary (run on the Proxmox host as root):
+
+```bash
+# Load kernel modules
+modprobe br_netfilter && modprobe overlay
+echo "br_netfilter" >> /etc/modules
+echo "overlay" >> /etc/modules
+
+# Update LXC configs for k3s nodes (210, 211, 212)
+for vmid in 210 211 212; do
+  pct stop ${vmid}
+  echo "lxc.apparmor.profile: unconfined"                          >> /etc/pve/lxc/${vmid}.conf
+  echo "lxc.cgroup2.devices.allow: a"                              >> /etc/pve/lxc/${vmid}.conf
+  echo "lxc.cgroup2.devices.allow: c 1:11 rwm"                    >> /etc/pve/lxc/${vmid}.conf
+  echo "lxc.mount.entry: /dev/kmsg dev/kmsg none bind,create=file" >> /etc/pve/lxc/${vmid}.conf
+  echo "lxc.mount.auto: proc:rw sys:rw cgroup:rw"                  >> /etc/pve/lxc/${vmid}.conf
+  pct start ${vmid}
+done
+```
+
+### 5. Run Ansible
+
+From `runner-01`, run the full site playbook:
+
+```bash
+cd /home/ansible/infrastructure/ansible
+
+# Install Galaxy collections first (one time)
+ansible-galaxy install -r requirements.yml
+
+# Verify all hosts are reachable
+ansible all -m ping
+
+# Provision everything
+ansible-playbook playbooks/site.yml
+```
+
+Or run individual playbooks:
+
+```bash
+ansible-playbook playbooks/provision-common.yml     # Harden all nodes
+ansible-playbook playbooks/provision-controller.yml # Configure controller-01
+ansible-playbook playbooks/provision-workers.yml    # Configure worker-01 and worker-02
+ansible-playbook playbooks/provision-k8s.yml        # Deploy K3s cluster
+```
+
+---
+
+## Terraform
+
+### Provider
+
+Uses the [`bpg/proxmox`](https://registry.terraform.io/providers/bpg/proxmox/latest) provider (`~> 0.66`) with API token authentication. Requires Terraform `>= 1.6.0`.
+
+### LXC Module
+
+All LXCs are provisioned through the reusable `modules/lxc` module. It accepts a consistent set of inputs: VMID, hostname, Proxmox node, storage pool, disk size, CPU, memory, swap, network config, SSH key, and tags.
+
+### Nodes Provisioned
+
+| Module | Hostname | Cores | Memory | Disk |
+| --- | --- | --- | --- | --- |
+| `module.controller` | `controller-01` | 4 | 4 GB | 32 GB |
+| `module.worker_infra` | `worker-01` | 4 | 4 GB | 32 GB |
+| `module.worker_app` | `worker-02` | 4 | 6 GB | 48 GB |
+| `module.k8s_control` | `k8s-control` | 2 | 4 GB | 16 GB |
+| `module.k8s_worker_01` | `k8s-worker-01` | 2 | 4 GB | 16 GB |
+| `module.k8s_worker_02` | `k8s-worker-02` | 2 | 4 GB | 16 GB |
+
+### Outputs
+
+After `terraform apply`:
+
+| Output | Description |
+|---|---|
+| `controller_ip` | IP of `controller-01` |
+| `worker_infra_ip` | IP of `worker-01` |
+| `worker_app_ip` | IP of `worker-02` |
+| `ansible_inventory_path` | Path to the generated `hosts.yml` |
+| `next_steps` | Post-apply instructions |
+
+### Variables
+
+All variables are defined in `variables.tf`. Values are supplied via `terraform.tfvars` (gitignored). Key variables:
+
+| Variable | Description |
+|---|---|
+| `proxmox_api_url` | Proxmox API endpoint URL |
+| `proxmox_api_token_id` | Token ID (`USER@REALM!TOKENNAME`) |
+| `proxmox_api_token_secret` | Token secret (sensitive) |
+| `proxmox_tls_insecure` | Skip TLS verification (dev only) |
+| `node_*` | Proxmox node name per LXC |
+| `storage_*` | Storage pool per LXC (default: `local-lvm`) |
+| `ip_*` | Static IP with CIDR per LXC |
+| `vmid_*` | VMID per LXC |
+| `ansible_public_key` | SSH public key from `runner-01`'s ansible user |
+| `debian_template` | Debian 12 CT template filename |
+
+---
+
+## Ansible
+
+### ansible.cfg
+
+Located at `ansible/ansible.cfg`. Key settings:
+
+- **Inventory**: `inventory/hosts.yml` (auto-generated by Terraform)
+- **Remote user**: `ansible`
+- **Private key**: `~/.ssh/id_ed25519`
+- **Vault password file**: `/home/ansible/.vault/.vault-password`
+- **Forks**: 10 (parallel execution)
+- **SSH pipelining**: enabled
+- **Privilege escalation**: sudo, passwordless
+
+### Inventory
+
+`ansible/inventory/hosts.yml` is generated automatically by `terraform apply` using a `local_file` resource. It contains four groups:
+
+| Group | Hosts |
+|---|---|
+| `controllers` | `controller-01` |
+| `workers` | `worker-01` (role: infra), `worker-02` (role: app) |
+| `k8s_nodes` | `k8s-control` (role: control), `k8s-worker-01`, `k8s-worker-02` (role: worker) |
+| `vault_servers` | `vault-01` (currently inactive) |
 
 ### Playbooks
 
-'playbooks/' is a directory that contains ordered lists of tasks to execute. These tasks help in automating the process of configuring and managing our infrastructure. Some essential playbooks include:
+| Playbook | Hosts | Description |
+|---|---|---|
+| `site.yml` | — | Master playbook, imports all others in order |
+| `provision-common.yml` | `all` | CIS Benchmark Level 1 hardening |
+| `provision-controller.yml` | `controllers` | Ansible controller setup |
+| `provision-workers.yml` | `workers` | Worker node setup |
+| `provision-k8s.yml` | `k8s_nodes` | K3s cluster provisioning (serial: 1) |
 
-- 'create_clusters.yml': As the name suggests, this playbook is instrumental in setting up various clusters in our infrastructure. 
-  '---'
-  '- hosts: localhost'
-  '  tasks:'
-  '    - name: Set up KYC cluster'
-  '      command: kubectl apply -f configs/kyc-cluster-config.yaml'
+### Roles
 
-  This playbook uses the 'kubectl apply' command to apply configurations and set up the KYC cluster using the provided YAML configuration.
+#### `common`
+Applied to all hosts via `provision-common.yml`. Implements CIS Benchmark Level 1 controls:
+- `apt` update, safe upgrade, and security packages (`ufw`, `fail2ban`, `auditd`, `unattended-upgrades`, `libpam-pwquality`)
+- `ansible` user with passwordless sudo and SSH key auth
+- SSH hardening (`PermitRootLogin no`, `PasswordAuthentication no`, `MaxAuthTries 3`)
+- UFW: deny inbound, allow outbound, allow SSH
+- fail2ban for SSH (`maxretry: 5`, `bantime: 3600`)
+- auditd rules for identity, sudoers, SSH, and cron
+- Disabled unused filesystems (cramfs, jffs2, hfs, squashfs, udf)
+- Kernel hardening via sysctl (ASLR, syncookies, redirect/martian suppression)
+- Timezone set to UTC
 
-... We will delve deeper into other playbooks and their significance in the subsequent sections.
-### Roles Overview
+#### `ansible-controller`
+Applied to `controller-01`:
+- Installs Python 3, pip, venv, git, sshpass
+- Installs Ansible and pip packages: `ansible-lint`, `hvac`, `jmespath`, `netaddr`, `proxmoxer`, `requests`
+- Installs Galaxy collections: `community.general`, `community.docker`, `community.crypto`, `ansible.posix`, `kubernetes.core`
+- Creates `/home/ansible/infrastructure/` project directory
+- Opens port 22 in UFW
 
-The 'roles/' directory is segmented by the functionality each role provides in our infrastructure. Each role houses its tasks, typically found within a 'tasks/' sub-directory.
+#### `ansible-worker`
+Applied to `worker-01` and `worker-02`:
+- Installs Docker (via `install-docker.yml`)
+- Installs kubectl (via `install-kubectl.yml`)
 
-- 'keycloak/':
-  The role responsible for setting up and configuring Keycloak.
-  - 'tasks/main.yml':
-    '---'
-    '- name: Setup Keycloak service'
-    '  command: ./keycloak-setup.sh'
+#### `k3s`
+Applied to `k8s_nodes` (serial: 1, inventory order):
+- `install-k8sdeps.yml` — runs on all k8s nodes
+- `install-control.yml` — installs k3s server on `k8s-control` (when `k8s_role == "control"`)
+- `install-worker.yml` — joins cluster using agent token read from control plane hostvars (when `k8s_role == "worker"`)
+- `distribute-kubeconfig.yml` — distributes kubeconfig as the `devel` context to runner-01, controller-01, worker-01, and worker-02 (runs on control plane only)
 
-    This task automates the Keycloak service setup using the provided shell script.
+### Galaxy Collections
 
-- 'kind/':
-  Handling the setup and configuration for KIND.
-  - 'tasks/main.yml':
-    '---'
-    '- name: Deploy KIND cluster'
-    '  command: kind create cluster --config configs/kind-dev-config.yaml'
+Defined in `ansible/requirements.yml`. Install with:
 
-    This snippet demonstrates the deployment of a KIND cluster using our development configuration.
+```bash
+ansible-galaxy install -r requirements.yml
+```
 
-- 'kyc/':
-  Task definitions for setting up the KYC service.
-  - 'tasks/main.yml':
-    '---'
-    '- name: Setup KYC service'
-    '  command: kubectl apply -f kyc_files/kyc-svc.yml'
-
-    The KYC service setup task deploys the service using 'kubectl' with the provided configuration.
-
-... similar structures for Nginx and Node.js roles, each with their respective tasks.
-
-## Node.js Application Overview
-
-Located in the 'dev-app/' directory, our Node.js application is structured with:
-
-- **app.js**: The main entry point of our Node.js application. It initializes the Express.js server, sets up middleware, and defines routes to handle HTTP requests. This file also listens on a specified port for incoming requests.
-
-- **controllers/**: This directory contains route handling logic for different URL paths and associated actions. The `index.js` file within this directory defines routes for various calendar and RabbitMQ functionalities. It handles message consumption and publication using RabbitMQ.
-- 
-The 'views/' directory contains EJS templates that define various views for the Node.js application. These templates are used to render dynamic content on the client side. Below are the descriptions and usages of the available EJS files:
-
-- **views/**: This directory contains EJS templates for rendering different views in the application. Notable views include:
-
-- **calendar-day.ejs**: Renders a daily calendar view using the FullCalendar library. It displays events and appointments for a single day.
-
-- **calendar-month.ejs**: Displays a monthly calendar view using FullCalendar. It shows events and schedules for an entire month.
-
-- **calendar-year.ejs**: Provides an annual calendar view using FullCalendar. It presents events and schedules for a full year.
-
-- **index.ejs**: The main template that serves as the homepage of the application. It provides an overview of the application's purpose, technologies used, and links to different sections.
-
-- **list-gen.ejs**: Renders a generic list view using FullCalendar. It displays a list of items, events, or tasks.
-
-- **list-week.ejs**: Presents a weekly list view using FullCalendar. It shows a list of items, events, or tasks for a week.
-
-- **multi-month.ejs**: Displays a multi-month calendar view using FullCalendar. It presents events and schedules for multiple months.
-
-- **publisher.ejs**: Provides a view for message publishing. Users can trigger the publishing of a message through RabbitMQ using a button.
-
-- **time-day.ejs**: Renders a daily time-based view using FullCalendar. It displays time-specific events or appointments for a single day.
-
-- **time-week.ejs**: Shows a weekly time-based view using FullCalendar. It presents time-specific events or appointments for a week.
-
-- **calendar-gen.ejs**: Renders a generic calendar view using FullCalendar. It displays events and schedules for various time periods.
-
-- **calendar-week.ejs**: Provides a weekly calendar view using FullCalendar. It shows events and schedules for a week.
-
-- **consumer.ejs**: Renders a view for message consumption. Users can initiate the consumption of messages from RabbitMQ using a link.
-
-- **list-day.ejs**: Presents a daily list view using FullCalendar. It displays a list of items, events, or tasks for a single day.
-
-- **list-month.ejs**: Displays a monthly list view using FullCalendar. It shows a list of items, events, or tasks for an entire month.
-
-- **message.ejs**: Provides a form for submitting messages. Users can input messages and submit them using the form. It also displays the most recent messages.
-
-- **multi-month-year.ejs**: Offers a multi-month calendar view spanning a year. It presents events and schedules for multiple months within a year.
-
-- **readme.ejs**: Dynamically renders the content of the README.md file in a user-friendly format. It uses Markdown rendering to present the contents of the README in an organized manner.
-
-- **time-gen.ejs**: Renders a generic time-based view using FullCalendar. It displays time-specific events or appointments for various time periods.
-
-- **files/README.md**: This README file, which is then rendered in 'readme.ejs', using 'readmeContent' we created in 'controllers/index.js:132'(this may change and may not be updated, but the route for'/readme' will provide the 'readmeContent' creation). This directory ('files/') is also a misc placeholder for any files not specifically defined anywhere else[meaning I just haven't gotten around to redistributing them correctly yet]
----
-Feel free to explore these files to understand how the Node.js application interacts with the rest of the infrastructure and how it handles different functionalities.
-
-### Nginx Configuration Overview
-
-The 'html/' and 'nginx_files/' directories hold configurations related to our Nginx setup:
-
-- 'html/':
-  - 'nginx-dev.html': HTML content for our development Nginx server.
-  - 'nginx-stg.html': Tailored for our staging setup.
-  
-- 'nginx_files/':
-  - 'deploy.yaml': Automates the deployment of Nginx.
-  - 'nginx-dev-svc.yml': Service definition for our development Nginx setup.
-  - 'nginx-stg-svc.yml': Staging setup specifics for Nginx.
+| Collection | Min Version |
+|---|---|
+| `community.general` | 9.0.0 |
+| `community.docker` | 3.0.0 |
+| `community.crypto` | 2.0.0 |
+| `ansible.posix` | 1.5.0 |
+| `kubernetes.core` | 3.0.0 |
 
 ### Vault and Secrets
 
-All our encrypted data, like passwords or API keys, is stored in the 'vault/' directory:
+Secrets are stored in `ansible/vault.yml`, encrypted with `ansible-vault`. The vault password file path is `/home/ansible/.vault/.vault-password`.
 
-- 'secrets.yml': Encrypted secrets that can only be decrypted with the appropriate vault password.
+Non-sensitive shared variables (e.g. `ansible_runner_public_key`, `terraform_version`) live in `vars.yml` unencrypted.
 
-### Usage
+To edit secrets:
+```bash
+ansible-vault edit vault.yml
+```
 
-To use this Ansible setup:
+---
 
-1. Ensure you have Ansible installed.
-2. Navigate to the root directory: 'cd $PROJ_DIR'.
-3. Run the desired playbook: 'ansible-playbook playbooks/<YOUR_PLAYBOOK>.yml'.
+## K3s Cluster
 
-### Comprehensive Step-by-Step Tutorial
+The K3s cluster runs across three LXC containers on Proxmox. Because these are unprivileged LXCs, the Proxmox host requires manual preparation before Ansible can provision K3s. See [PROXMOX-K3S-PREP.md](PROXMOX-K3S-PREP.md) for the full runbook including required kernel modules, LXC config patches, and troubleshooting.
 
-Welcome to the comprehensive guide to get you started with our Ansible project. By the end of this tutorial, you'll have an in-depth understanding of the project's structure, components, and usage.
+Cluster topology:
+- **1 control plane** (`k8s-control`, 192.168.0.180)
+- **2 workers** (`k8s-worker-01`, `k8s-worker-02`, 192.168.0.181–182)
 
-#### Prerequisites
+After provisioning, the kubeconfig is distributed as the `devel` context to all management nodes.
 
-1. Ensure you have Ansible installed. If not, install it using:
-    'sudo apt update && sudo apt install ansible'
+---
 
-2. Familiarity with basic terminal commands and Ansible concepts.
+## Changelog
 
-#### 1. Cloning the Repository
+See [CHANGELOG.md](CHANGELOG.md).
 
-To get started, you'll first need a local copy of the repository.
+---
 
-'git clone [repository-url] $PROJ_DIR'
-Navigate to the root directory: 'cd $PROJ_DIR'.
+## License
 
-#### 2. Understanding Directory Structure
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-Before diving into tasks and playbooks, understand the directory layout:
-- 'configs/': Houses configurations for different environments and services.
-- 'roles/': Segregated by functionality. Each role contains tasks specific to its purpose.
-- 'playbooks/': Contains playbooks that combine different roles and tasks to automate larger processes.
-
-#### 3. Setting Up the Environment
-
-Based on the environment you wish to set up (development, staging, or production), navigate to the respective inventory directory under 'inventories/'.
-
-For instance, for development:
-'cd inventories/development'
-
-#### 4. Running Playbooks
-
-To deploy a specific service or application, run its respective playbook. For example, to set up Keycloak:
-
-'ansible-playbook playbooks/setup_keycloak.yml'
-
-Always ensure you're in the root directory when running playbooks.
-
-#### 5. Working with Roles
-
-Roles are modular components in Ansible. To modify a role or its tasks:
-- Navigate to the desired role under 'roles/'.
-- Edit the 'tasks/main.yml' file as per your requirements.
-
-For instance, to adjust the KYC role, you'd edit:
-'roles/kyc/tasks/main.yml'
-
-#### 6. Modifying Configurations
-
-To change the configuration of a specific service or environment, adjust the respective YAML file in the 'configs/' directory.
-
-#### 7. Deploying Node.js Application
-
-Navigate to the 'dev-app/' directory:
-'cd dev-app'
-
-Run the Node.js application:
-'node app.js'
-
-Your app will be accessible on the specified port.
-
-#### 8. Handling Secrets with Vault
-
-When working with encrypted secrets in 'vault/secrets.yml':
-- To edit or view secrets, use:
-  'ansible-vault edit vault/secrets.yml'
-- You'll be prompted for the vault password. Once provided, you can modify or view the secrets.
-
-#### 9. Concluding Notes
-
-This Ansible project is modular and scalable. You can add more roles, configurations, and playbooks as per your requirements. Ensure to test in a development or staging environment before making changes to production.
-
-### Feedback and Contributions
-
-If you have suggestions, feedback, or would like to contribute to the project, please create an issue or pull request on the GitHub repository. Your insights and contributions are valuable to us!
-
-
-### License
-
-This project is licensed under the MIT License. For more details, refer to the [LICENSE](LICENSE) file in the root directory.
+### v1.3.1

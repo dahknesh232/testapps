@@ -1,0 +1,7 @@
+---
+# =============================================================================
+# roles/k3s/defaults/main.yml
+# =============================================================================
+
+k8s_role: "worker"   # Override per host in inventory: "control" or "worker"
+k3s_node_token: ""   # Populated at runtime from control plane

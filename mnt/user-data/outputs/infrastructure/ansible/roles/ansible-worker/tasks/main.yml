@@ -15,6 +15,7 @@
       - curl
       - wget
       - unzip
+      - ufw
     state: present
 
 - name: Install Docker (required on both workers)
@@ -23,10 +24,6 @@
 - name: Install kubectl (required on app worker)
   ansible.builtin.include_tasks: install-kubectl.yml
   when: worker_role == "app"
-
-- name: Install KIND (required on infra worker)
-  ansible.builtin.include_tasks: install-kind.yml
-  when: worker_role == "infra"
 
 - name: Install Python packages for worker operations
   ansible.builtin.pip:
@@ -39,22 +36,30 @@
     state: present
     extra_args: "--break-system-packages"
 
-- name: Create vault agent config directory
-  ansible.builtin.file:
-    path: /etc/vault-agent
-    state: directory
-    owner: ansible
-    group: ansible
-    mode: "0750"
+- name: Setting up Unprivileged Ports
+  ansible.builtin.command:
+    cmd: "echo net.ipv4.ip_unprivileged_port_start=0 >> /etc/sysctl.conf"
 
-- name: Write Vault AppRole credentials for this worker
-  ansible.builtin.copy:
-    dest: /etc/vault-agent/approle.env
-    content: |
-      VAULT_ADDR={{ vault_addr }}
-      VAULT_ROLE_ID={{ vault_approle_role_id }}
-      VAULT_SECRET_ID={{ vault_approle_secret_id }}
-    owner: ansible
-    group: ansible
-    mode: "0600"
-  no_log: true
+- name: Running sysctl -p ...
+  ansible.builtin.command:
+    cmd: sysctl -p
+
+#- name: Create vault agent config directory
+#  ansible.builtin.file:
+#    path: /etc/vault-agent
+#    state: directory
+#    owner: ansible
+#    group: ansible
+#    mode: "0750"
+#
+#- name: Write Vault AppRole credentials for this worker
+#  ansible.builtin.copy:
+#    dest: /etc/vault-agent/approle.env
+#    content: |
+#      VAULT_ADDR={{ vault_addr }}
+#      VAULT_ROLE_ID={{ vault_approle_role_id }}
+#      VAULT_SECRET_ID={{ vault_approle_secret_id }}
+#    owner: ansible
+#    group: ansible
+#    mode: "0600"
+#  no_log: true

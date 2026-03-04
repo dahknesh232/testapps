@@ -1,0 +1,32 @@
+---
+# =============================================================================
+# site.yml
+# Master playbook. Runs all provisioning in dependency order.
+#
+# Full flow (from runner-01):
+#   cd infrastructure/terraform
+#   terraform init
+#   terraform plan -out infra.plan
+#   terraform show -json infra.plan > infra.plan.json
+#   terraform apply infra.plan
+#
+#   cd ../ansible
+#   ansible-playbook playbooks/site.yml
+#
+# This playbook is fully idempotent — safe to re-run after any failure.
+# =============================================================================
+
+- name: Apply common hardening to all infrastructure nodes
+  import_playbook: provision-common.yml
+
+#- name: Provision HashiCorp Vault
+#  import_playbook: provision-vault.yml
+
+- name: Provision Ansible Controller
+  import_playbook: provision-controller.yml
+
+- name: Provision Ansible Workers
+  import_playbook: provision-workers.yml
+
+- name: Provision K3s Cluster (devel)
+  import_playbook: provision-k8s.yml
