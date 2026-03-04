@@ -38,6 +38,7 @@ This project automates the full provisioning lifecycle of a homelab infrastructu
   - [K3s Cluster](#k3s-cluster)
   - [Changelog](#changelog)
   - [License](#license)
+    - [v1.3.1](#v131)
 
 ---
 
@@ -416,3 +417,5 @@ See [CHANGELOG.md](CHANGELOG.md).
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+### v1.3.1
