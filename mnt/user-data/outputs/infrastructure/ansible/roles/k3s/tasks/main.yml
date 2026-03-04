@@ -19,4 +19,4 @@
 
 - name: Distribute kubeconfig as devel context
   ansible.builtin.include_tasks: distribute-kubeconfig.yml
-  when: k8s_role == "control"
+  when: k8s_role == "worker"
