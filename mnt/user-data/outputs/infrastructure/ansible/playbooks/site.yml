@@ -30,3 +30,6 @@
 
 - name: Provision K3s Cluster (devel)
   import_playbook: provision-k8s.yml
+
+- name: Deploy Docker Registry to devel cluster
+  import_playbook: provision-registry.yml

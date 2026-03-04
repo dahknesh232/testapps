@@ -1,0 +1,90 @@
+---
+# =============================================================================
+# provision-registry.yml
+# Deploys Docker Registry v2 into the registry namespace on the devel cluster.
+#
+# Prerequisites:
+#   - k3s cluster must be running (provision-k8s.yml completed)
+#   - kubeconfig distributed with devel context (distribute-kubeconfig.yml completed)
+#
+# Run standalone:
+#   ansible-playbook playbooks/provision-registry.yml
+# =============================================================================
+
+- name: Deploy Docker Registry v2 to devel cluster
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  environment:
+    KUBECONFIG: /home/ansible/.kube/config
+
+  tasks:
+
+    - name: Verify devel cluster is reachable
+      ansible.builtin.command:
+        cmd: kubectl get nodes --context=devel
+      register: cluster_check
+      changed_when: false
+      failed_when: cluster_check.rc != 0
+
+    - name: Show cluster nodes
+      ansible.builtin.debug:
+        msg: "{{ cluster_check.stdout_lines }}"
+
+    - name: Copy registry manifest to runner
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/../manifests/registry/registry.yml"
+        dest: /tmp/registry.yml
+        mode: "0644"
+
+    - name: Apply registry manifest
+      ansible.builtin.command:
+        cmd: kubectl apply -f /tmp/registry.yml --context=devel
+      register: registry_apply
+      changed_when: "'created' in registry_apply.stdout or 'configured' in registry_apply.stdout"
+
+    - name: Show apply output
+      ansible.builtin.debug:
+        msg: "{{ registry_apply.stdout_lines }}"
+
+    - name: Wait for registry deployment to be available
+      ansible.builtin.command:
+        cmd: >
+          kubectl rollout status deployment/registry
+          --namespace=registry
+          --context=devel
+          --timeout=120s
+      register: rollout_status
+      changed_when: false
+
+    - name: Confirm registry service endpoint
+      ansible.builtin.command:
+        cmd: >
+          kubectl get svc registry
+          --namespace=registry
+          --context=devel
+          -o wide
+      register: registry_svc
+      changed_when: false
+
+    - name: Show registry service
+      ansible.builtin.debug:
+        msg: "{{ registry_svc.stdout_lines }}"
+
+    - name: Show registry access info
+      ansible.builtin.debug:
+        msg:
+          - "════════════════════════════════════════════════════"
+          - "Registry deployed successfully."
+          - ""
+          - "Internal cluster endpoint:"
+          - "  registry.registry.svc.cluster.local:5000"
+          - ""
+          - "To push an image from a cluster node:"
+          - "  docker tag <image> registry.registry.svc.cluster.local:5000/<image>"
+          - "  docker push registry.registry.svc.cluster.local:5000/<image>"
+          - ""
+          - "To list repositories:"
+          - "  curl http://registry.registry.svc.cluster.local:5000/v2/_catalog"
+          - "════════════════════════════════════════════════════"
