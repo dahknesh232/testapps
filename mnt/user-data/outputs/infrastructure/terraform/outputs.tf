@@ -37,16 +37,14 @@ output "next_steps" {
     Terraform apply complete. Next steps:
     ════════════════════════════════════════════════════════
 
-    1. Run '.necessary' on all 4 pve nodes
-
-    2. Run .nec2 on runner-01
+    1. Run '.necessary' on all new LXCs
     
-    3. ssh from runner-01 into all nodes to accept new fingerprint
+    2. run clearssh on runner-01
     
-    4. Verify all LXCs are reachable:
+    3. Verify all LXCs are reachable:
        ansible all -i ../ansible/inventory/hosts.yml -m ping
 
-    5. Run the Ansible site playbook to configure all nodes:
+    4. Run the Ansible site playbook to configure all nodes:
        cd ../ansible
        ansible-playbook playbooks/site.yml
     ════════════════════════════════════════════════════════
