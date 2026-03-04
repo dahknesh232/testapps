@@ -1,0 +1,15 @@
+---
+# =============================================================================
+# roles/k3s/tasks/install-k8sdeps.yml
+# Installs dependencies on k8s  LXC(s).
+# =============================================================================
+- name: Install Git Containerd Curl IpTables Wget Unzip
+  ansible.builtin.apt:
+    name:
+      - git
+      - containerd
+      - curl
+      - iptables
+      - wget
+      - unzip
+    state: present

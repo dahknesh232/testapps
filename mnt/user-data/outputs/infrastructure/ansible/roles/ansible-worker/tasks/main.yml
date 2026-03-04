@@ -25,10 +25,6 @@
   ansible.builtin.include_tasks: install-kubectl.yml
   when: worker_role == "app"
 
-- name: Install KIND (required on infra worker)
-  ansible.builtin.include_tasks: install-kind.yml
-  when: worker_role == "infra"
-
 - name: Install Python packages for worker operations
   ansible.builtin.pip:
     name:

@@ -1,0 +1,42 @@
+---
+# =============================================================================
+# roles/k3s/tasks/install-worker.yml
+# Joins worker nodes to the k3s cluster.
+# Requires: k3s_node_token and k3s_control_ip set via hostvars.
+# =============================================================================
+
+- name: Set control plane facts from hostvars
+  ansible.builtin.set_fact:
+    k3s_control_ip: >-
+      {{ hostvars[groups['k8s_nodes'] |
+         select('defined') |
+         map('extract', hostvars) |
+         selectattr('k8s_role', 'defined') |
+         selectattr('k8s_role', 'equalto', 'control') |
+         map(attribute='inventory_hostname') |
+         first]['ansible_host'] }}
+    k3s_node_token: >-
+      {{ hostvars[groups['k8s_nodes'] |
+         select('defined') |
+         map('extract', hostvars) |
+         selectattr('k8s_role', 'defined') |
+         selectattr('k8s_role', 'equalto', 'control') |
+         map(attribute='inventory_hostname') |
+         first]['k3s_node_token'] }}
+
+- name: Install k3s agent on worker
+  ansible.builtin.shell:
+    cmd: >
+      curl -sfL https://get.k3s.io | sh -s - agent
+      --server https://{{ k3s_control_ip }}:6443
+      --token {{ k3s_node_token }}
+      --node-ip {{ ansible_host }}
+    creates: /usr/local/bin/k3s
+  environment:
+    INSTALL_K3S_CHANNEL: stable
+
+- name: Ensure k3s-agent service is enabled on worker
+  ansible.builtin.systemd:
+    name: k3s-agent
+    state: started
+    enabled: true

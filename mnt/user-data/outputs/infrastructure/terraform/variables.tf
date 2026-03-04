@@ -29,8 +29,6 @@ variable "proxmox_tls_insecure" {
 }
 
 # ── Cluster Node Names ────────────────────────────────────────────────────────
-# Map logical roles to physical Proxmox node names.
-# Run 'pvesh get /nodes' to list your node names.
 
 #variable "node_vault" {
 #  description = "Proxmox node name to host the Vault LXC."
@@ -52,9 +50,12 @@ variable "node_worker_app" {
   type        = string
 }
 
+variable "node_k8s" {
+  description = "Proxmox node name to host the K3s cluster LXCs."
+  type        = string
+}
+
 # ── Storage ───────────────────────────────────────────────────────────────────
-# Each node has local storage. Specify the pool name per node.
-# Common values: local-lvm, local-zfs, local
 
 #variable "storage_vault" {
 #  description = "Storage pool name on the Vault node."
@@ -80,6 +81,12 @@ variable "storage_worker_app" {
   default     = "local-lvm"
 }
 
+variable "storage_k8s" {
+  description = "Storage pool name on the K8s node (house-aboo)."
+  type        = string
+  default     = "local-lvm"
+}
+
 variable "template_storage" {
   description = "Storage pool where CT templates are stored (usually 'local')."
   type        = string
@@ -101,7 +108,7 @@ variable "network_gateway" {
 }
 
 variable "network_dns" {
-  description = "DNS server IP for all LXCs. Update to TechnitiumDNS IP once deployed."
+  description = "DNS server IP for all LXCs."
   type        = string
   default     = "192.168.0.1"
 }
@@ -113,34 +120,50 @@ variable "network_domain" {
 }
 
 # ── IP Assignments ────────────────────────────────────────────────────────────
-# Static IPs for each infrastructure LXC.
 
-#variable "ip_vault" {
-#  description = "Static IP with CIDR for vault-01. Example: 192.168.1.201/24"
-#  type        = string
-#  default     = "192.168.0.171/24"
-#}
+variable "ip_vault" {
+  description = "Static IP with CIDR for vault-01."
+  type        = string
+  default     = "192.168.0.171/24"
+}
 
 variable "ip_controller" {
-  description = "Static IP with CIDR for controller-01. Example: 192.168.1.202/24"
+  description = "Static IP with CIDR for controller-01."
   type        = string
   default     = "192.168.0.172/24"
 }
 
 variable "ip_worker_infra" {
-  description = "Static IP with CIDR for worker-01. Example: 192.168.1.203/24"
+  description = "Static IP with CIDR for worker-01."
   type        = string
   default     = "192.168.0.173/24"
 }
 
 variable "ip_worker_app" {
-  description = "Static IP with CIDR for worker-02. Example: 192.168.1.204/24"
+  description = "Static IP with CIDR for worker-02."
   type        = string
   default     = "192.168.0.174/24"
 }
 
+variable "ip_k8s_control" {
+  description = "Static IP with CIDR for k8s-control."
+  type        = string
+  default     = "192.168.0.180/24"
+}
+
+variable "ip_k8s_worker_01" {
+  description = "Static IP with CIDR for k8s-worker-01."
+  type        = string
+  default     = "192.168.0.181/24"
+}
+
+variable "ip_k8s_worker_02" {
+  description = "Static IP with CIDR for k8s-worker-02."
+  type        = string
+  default     = "192.168.0.182/24"
+}
+
 # ── VMID Assignments ──────────────────────────────────────────────────────────
-# Choose VMIDs that don't conflict with existing containers/VMs.
 
 #variable "vmid_vault" {
 #  description = "VMID for vault-01 LXC."
@@ -166,10 +189,28 @@ variable "vmid_worker_app" {
   default     = 204
 }
 
+variable "vmid_k8s_control" {
+  description = "VMID for k8s-control LXC."
+  type        = number
+  default     = 210
+}
+
+variable "vmid_k8s_worker_01" {
+  description = "VMID for k8s-worker-01 LXC."
+  type        = number
+  default     = 211
+}
+
+variable "vmid_k8s_worker_02" {
+  description = "VMID for k8s-worker-02 LXC."
+  type        = number
+  default     = 212
+}
+
 # ── SSH ───────────────────────────────────────────────────────────────────────
 
 variable "ansible_public_key" {
-  description = "SSH public key from runner-01's ansible user (/home/ansible/.ssh/id_ed25519.pub). Injected into all provisioned LXCs."
+  description = "SSH public key from runner-01's ansible user. Injected into all provisioned LXCs."
   type        = string
 }
 

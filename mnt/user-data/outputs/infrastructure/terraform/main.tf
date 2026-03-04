@@ -1,6 +1,6 @@
 # =============================================================================
 # main.tf
-# Provisions Vault, Controller, and Worker LXCs across the Proxmox cluster.
+# Provisions Controller, Worker, and K8s cluster LXCs across the Proxmox cluster.
 # Each LXC is targeted to a specific node to respect local storage layout.
 # =============================================================================
 
@@ -31,16 +31,6 @@ provider "proxmox" {
 
 locals {
   debian_template_ref = "${var.template_storage}:vztmpl/${var.debian_template}"
-
-  # Shared LXC defaults applied to all nodes
-  lxc_defaults = {
-    unprivileged = true
-    start        = true
-    os_type      = "debian"
-    features = {
-      nesting = true
-    }
-  }
 }
 
 ## ── Vault LXC ─────────────────────────────────────────────────────────────────
@@ -155,6 +145,90 @@ module "worker_app" {
   description = "Ansible Worker 2 — App. Handles K8s manifests, Docker, Keycloak, Node.js deployment."
 }
 
+# ── K8s Control Plane ─────────────────────────────────────────────────────────
+
+module "k8s_control" {
+  source = "./modules/lxc"
+
+  vmid          = var.vmid_k8s_control
+  hostname      = "k8s-control"
+  node          = var.node_k8s
+  template      = local.debian_template_ref
+  storage       = var.storage_k8s
+  disk_size     = 16
+  cores         = 2
+  memory        = 4096
+  swap          = 512
+  ip_address    = var.ip_k8s_control
+  gateway       = var.network_gateway
+  dns_server    = var.network_dns
+  search_domain = var.network_domain
+  bridge        = var.network_bridge
+  ssh_public_key = var.ansible_public_key
+  unprivileged  = true
+  nesting       = true
+
+  tags = ["k8s", "control-plane", "k3s"]
+
+  description = "K3s control plane node."
+}
+
+# ── K8s Worker 01 ─────────────────────────────────────────────────────────────
+
+module "k8s_worker_01" {
+  source = "./modules/lxc"
+
+  vmid          = var.vmid_k8s_worker_01
+  hostname      = "k8s-worker-01"
+  node          = var.node_k8s
+  template      = local.debian_template_ref
+  storage       = var.storage_k8s
+  disk_size     = 16
+  cores         = 2
+  memory        = 4096
+  swap          = 512
+  ip_address    = var.ip_k8s_worker_01
+  gateway       = var.network_gateway
+  dns_server    = var.network_dns
+  search_domain = var.network_domain
+  bridge        = var.network_bridge
+  ssh_public_key = var.ansible_public_key
+  unprivileged  = true
+  nesting       = true
+
+  tags = ["k8s", "worker", "k3s"]
+
+  description = "K3s worker node 01."
+}
+
+# ── K8s Worker 02 ─────────────────────────────────────────────────────────────
+
+module "k8s_worker_02" {
+  source = "./modules/lxc"
+
+  vmid          = var.vmid_k8s_worker_02
+  hostname      = "k8s-worker-02"
+  node          = var.node_k8s
+  template      = local.debian_template_ref
+  storage       = var.storage_k8s
+  disk_size     = 16
+  cores         = 2
+  memory        = 4096
+  swap          = 512
+  ip_address    = var.ip_k8s_worker_02
+  gateway       = var.network_gateway
+  dns_server    = var.network_dns
+  search_domain = var.network_domain
+  bridge        = var.network_bridge
+  ssh_public_key = var.ansible_public_key
+  unprivileged  = true
+  nesting       = true
+
+  tags = ["k8s", "worker", "k3s"]
+
+  description = "K3s worker node 02."
+}
+
 # ── Generate Ansible inventory from Terraform outputs ─────────────────────────
 
 resource "local_file" "ansible_inventory" {
@@ -164,20 +238,20 @@ resource "local_file" "ansible_inventory" {
   content = yamlencode({
     all = {
       children = {
-#        vault_servers = {
-#          hosts = {
-#            "vault-01" = {
-#              ansible_host = split("/", var.ip_vault)[0]
-#              ansible_user = "ansible"
-#              ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
-#            }
-#          }
-#        }
+        vault_servers = {
+          hosts = {
+            "vault-01" = {
+              ansible_host                 = split("/", var.ip_vault)[0]
+              ansible_user                 = "ansible"
+              ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
+            }
+          }
+        }
         controllers = {
           hosts = {
             "controller-01" = {
-              ansible_host = split("/", var.ip_controller)[0]
-              ansible_user = "ansible"
+              ansible_host                 = split("/", var.ip_controller)[0]
+              ansible_user                 = "ansible"
               ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
             }
           }
@@ -185,16 +259,38 @@ resource "local_file" "ansible_inventory" {
         workers = {
           hosts = {
             "worker-01" = {
-              ansible_host  = split("/", var.ip_worker_infra)[0]
-              ansible_user  = "ansible"
+              ansible_host                 = split("/", var.ip_worker_infra)[0]
+              ansible_user                 = "ansible"
               ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
-              worker_role   = "infra"
+              worker_role                  = "infra"
             }
             "worker-02" = {
-              ansible_host  = split("/", var.ip_worker_app)[0]
-              ansible_user  = "ansible"
+              ansible_host                 = split("/", var.ip_worker_app)[0]
+              ansible_user                 = "ansible"
               ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
-              worker_role   = "app"
+              worker_role                  = "app"
+            }
+          }
+        }
+        k8s_nodes = {
+          hosts = {
+            "k8s-control" = {
+              ansible_host                 = split("/", var.ip_k8s_control)[0]
+              ansible_user                 = "ansible"
+              ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
+              k8s_role                     = "control"
+            }
+            "k8s-worker-01" = {
+              ansible_host                 = split("/", var.ip_k8s_worker_01)[0]
+              ansible_user                 = "ansible"
+              ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
+              k8s_role                     = "worker"
+            }
+            "k8s-worker-02" = {
+              ansible_host                 = split("/", var.ip_k8s_worker_02)[0]
+              ansible_user                 = "ansible"
+              ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
+              k8s_role                     = "worker"
             }
           }
         }
@@ -203,9 +299,12 @@ resource "local_file" "ansible_inventory" {
   })
 
   depends_on = [
-#    module.vault,
+    #    module.vault,
     module.controller,
     module.worker_infra,
-    module.worker_app
+    module.worker_app,
+    module.k8s_control,
+    module.k8s_worker_01,
+    module.k8s_worker_02,
   ]
 }

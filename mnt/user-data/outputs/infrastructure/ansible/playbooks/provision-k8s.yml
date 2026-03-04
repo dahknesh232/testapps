@@ -1,0 +1,16 @@
+---
+# =============================================================================
+# provision-k8s.yml
+# Provisions k3s cluster across k8s_nodes group.
+# Control plane runs first, workers join after token is available.
+# =============================================================================
+
+- name: Provision K3s control plane
+  hosts: k8s_nodes
+  become: true
+  gather_facts: true
+  serial: 1
+  order: inventory
+
+  roles:
+    - role: k3s

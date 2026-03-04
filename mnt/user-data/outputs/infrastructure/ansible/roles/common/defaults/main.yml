@@ -5,4 +5,4 @@
 # =============================================================================
 
 # Injected from group_vars/all/vars.yml or vault.yml
-ansible_runner_public_key: ""   # Required — must be set in group_vars
+ansible_runner_public_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMDbE4l5ydQ7J4nE1/1Z0M/1C0rMlu1iXVFAT0cHI6qc ansible-runner-01"   # Required — must be set in group_vars
