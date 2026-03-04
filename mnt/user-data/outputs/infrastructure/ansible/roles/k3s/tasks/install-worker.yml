@@ -62,18 +62,18 @@
     state: started
     enabled: true
 
-- name: Wait for worker node to appear in cluster
-  ansible.builtin.command:
-    cmd: >
-      k3s kubectl get node {{ inventory_hostname }}
-      --server https://{{ k3s_control_ip }}:6443
-  delegate_to: "{{ groups['k8s_nodes'] |
-                   map('extract', hostvars) |
-                   selectattr('k8s_role', 'equalto', 'control') |
-                   map(attribute='inventory_hostname') |
-                   first }}"
-  register: node_ready
-  retries: 20
-  delay: 10
-  until: node_ready.rc == 0
-  changed_when: false
+#- name: Wait for worker node to appear in cluster
+#  ansible.builtin.command:
+#    cmd: >
+#      k3s kubectl get node {{ inventory_hostname }}
+#      --server https://{{ k3s_control_ip }}:6443
+#  delegate_to: "{{ groups['k8s_nodes'] |
+#                   map('extract', hostvars) |
+#                   selectattr('k8s_role', 'equalto', 'control') |
+#                   map(attribute='inventory_hostname') |
+#                   first }}"
+#  register: node_ready
+#  retries: 20
+#  delay: 10
+#  until: node_ready.rc == 0
+#  changed_when: false

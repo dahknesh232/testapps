@@ -50,15 +50,15 @@
     path: /var/lib/rancher/k3s/server/node-token
     timeout: 120
 
-- name: Wait for API server to become healthy
-  ansible.builtin.uri:
-    url: "https://{{ ansible_host }}:6443/readyz"
-    validate_certs: false
-    status_code: 200
-  register: api_ready
-  retries: 30
-  delay: 10
-  until: api_ready.status == 200
+#- name: Wait for API server to become healthy
+#  ansible.builtin.uri:
+#    url: "https://{{ ansible_host }}:6443/readyz"
+#    validate_certs: false
+#    status_code: 200
+#  register: api_ready
+#  retries: 30
+#  delay: 10
+#  until: api_ready.status == 200
 
 - name: Read k3s agent token
   ansible.builtin.slurp:

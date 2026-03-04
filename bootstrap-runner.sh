@@ -189,6 +189,7 @@ install_base_packages() {
             jq \
             vim \
             openssh-server \
+            kubectl \
             sudo
     "
     log_success "Base packages installed."
@@ -410,9 +411,12 @@ create_project_structure() {
         mkdir -p /home/ansible/infrastructure/ansible/{inventory,playbooks,roles}
         mkdir -p /home/ansible/infrastructure/ansible/inventory/group_vars/{all,controllers,workers}
         mkdir -p /home/ansible/.vault
+        mkdir -p /home/ansible/..kube
         chmod 700 /home/ansible/.vault
+        chmod 700 /home/ansible/.kube
         chown -R ansible:ansible /home/ansible/infrastructure
         chown -R ansible:ansible /home/ansible/.vault
+        chown -R ansible:ansible /home/ansible/.kube
     "
     log_success "Project structure created at /home/ansible/infrastructure/"
 }
