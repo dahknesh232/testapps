@@ -1,456 +1,276 @@
 # CHANGELOG.md
 
-## **2023-10-03T22:35:44-04:00**
+## 2026-03-03T19:47:00-05:00
 
-#### -adding changelog (Architect)
+* Merge branch 'feature/nativek3s' into development (SLE Arch)
 
-##### -- commit 151949cb8deaddb22dd18c7a0e3d12f5b007fb52
+- commit 7c4b611f75d5d62adbaa24a9473d639d6a43900c
 
-## **2023-10-03T22:35:23-04:00**
+## 2026-03-03T19:46:46-05:00
 
-#### -updating version control (Architect)
+* finals for native k3s (SLE Arch)
 
-##### -- commit 037ea2de5f755f09df7f9c1a19cf0929243081de
+- commit 83aa4376a92b6a8c427759072f89082dcfaebd89
 
-## **2023-10-03T18:54:33-04:00**
+## 2026-03-02T01:32:58-05:00
 
-#### -taking out auto ChangeLog as it removes (Architect)
+* add provison to site.yml (SLE Arch)
 
-##### -- commit c2eec5f1b55c24ad8cf66aa2327cd6ca743fc508
+- commit 58abc201cabf54887395a9682b6ffdbe6a3a2907
 
-## **2023-10-03T22:53:33+00:00**
+## 2026-03-02T00:56:09-05:00
 
-#### -Bot Updated Changelog.md (GitHub Actions Bot)
+* v1.2.1 (SLE Arch)
 
-##### -- commit 4a637dca3ac56591da41fdd272aab5a0206625e8
+- commit 2566d400f45aafe95abf33d1333e7af1a74d6c27
 
-## **2023-10-03T18:53:15-04:00**
+## 2026-03-02T00:37:31-05:00
 
-#### -changelog updates (Architect)
+* ufw (SLE Arch)
 
-##### -- commit 9d607d650639a6b6373e4b1bd6e2ad25a461df77
+- commit 99edeacd82fc0648dae66ddc4dc659155f44674e
 
-## **2023-10-03T22:51:49+00:00**
+## 2026-03-02T00:33:13-05:00
 
-#### -Bot Updated Changelog.md (GitHub Actions Bot)
+* ports (SLE Arch)
 
-##### -- commit e3d20ce05805a54be8c444dd1fb7e92ddcb2f512
+- commit e40e75f13bd18aaabe722910707a9718696e4a3b
 
-## **2023-10-03T18:51:29-04:00**
+## 2026-03-02T00:06:51-05:00
 
-#### -changes (Architect)
+* updated install-worker.yml (SLE Arch)
 
-##### -- commit 7f900e46a1c21a524e414f3e44ce615ed9466786
+- commit 85cc137bbed675d102d90a921998c4c98899ea84
 
-## **2023-10-03T22:50:15+00:00**
+## 2026-03-01T23:41:03-05:00
 
-#### -Bot Updated Changelog.md (GitHub Actions Bot)
+* updated k8s (SLE Arch)
 
-##### -- commit 933fc4477e1e9ce5bcb886ffa8bced1d26348025
+- commit 1bb1c8f7d0ba3f44e8142223e6b85ee554f24bdf
 
-## **2023-10-03T18:49:58-04:00**
+## 2026-03-01T23:38:02-05:00
 
-#### -Changelog changes (Architect)
+* updated hosts (SLE Arch)
 
-##### -- commit 71bf39fb4c07547c7d2828609ef1a94a098cb133
+- commit 77d2198547ff98df424baa34434d149d2aa67998
 
-## **2023-10-03T22:48:07+00:00**
+## 2026-03-01T23:34:04-05:00
 
-#### -Bot Updated Changelog.md (GitHub Actions Bot)
+* added k8s deps (SLE Arch)
 
-##### -- commit 5cc3975e550487955d10d7262ca2e5a4ff3a9452
+- commit c6a61927f8109d56323cc2f8ca60903ebb125503
 
-## **2023-10-03T18:47:50-04:00**
+## 2026-03-01T23:10:13-05:00
 
-#### -again (Architect)
+* adding k3s roles and modules (SLE Arch)
 
-##### -- commit 44b0444393120c56943482831257c39f0d6578b0
+- commit d220ed9b6824c43f77d9dfef9cdedd61feba9998
 
-## **2023-10-03T18:45:56-04:00**
+## 2026-03-01T23:04:04-05:00
 
-#### -changes (Architect)
+* v1.1.3 - not working (SLE Arch)
 
-##### -- commit 3922e2a3e036d31c6a8d229b9f93019f2bd2a5ca
+- commit 20c3d243b6e6b8f22fbe0c7f691066648cc925fe
 
-## **2023-10-03T18:44:38-04:00**
+## 2026-03-01T21:55:15-05:00
 
-#### -specific CHANGELOG (Architect)
+* Merge branch 'feature/v1.1.1' into development (SLE Arch)
 
-##### -- commit debabfe55649c655c2fa0d378c03cdf706f15974
+- commit 522a99455d025e5c1ed607a0d78563389b48e80f
 
-## **2023-10-03T18:43:38-04:00**
+## 2026-03-01T20:56:47-05:00
 
-#### -manual Chnagelog update (Architect)
+* v1.1.2 - steps (SLE Arch)
 
-##### -- commit d2e5e9c77a88993c01044c5d7e4c533183de1272
+- commit d0c495f4171f683357024662cfada653c281fd32
 
-## **2023-10-03T18:41:45-04:00**
+## 2026-03-01T20:23:55-05:00
 
-#### -changed naming conventions (Architect)
+* updates to tf plans (SLE Arch)
 
-##### -- commit a6c2f2080c170205788d62fb1221c89b2a32c015
+- commit 9acddeb48577f8ebfd4388ab7b6e87428c9eae11
 
-## **2023-10-03T18:04:39-04:00**
+## 2026-03-01T20:11:27-05:00
 
-#### -changing format of Changelog (Architect)
+* Merge branch 'feature/v1.1.0' into development (SLE Arch)
 
-##### -- commit 05db03cc05c9b514cd6f9d6ee5df872fad6065ed
+- commit 0af7e61220660bf3648c1fee4aa95151ffe81eeb
 
-## **2023-10-03T18:01:02-04:00**
+## 2026-03-01T20:11:19-05:00
 
-#### -manual CHANGELOG updates (Architect)
+* no hasicorp vault (SLE Arch)
 
-##### -- commit 0c57fec99c315f050a49dede9fd8f03ecb1e8bbe
+- commit de57a308504e29945b6b8f193a0b01a86e170824
 
-## **2023-10-03T21:59:10+00:00**
+## 2026-03-01T19:33:56-05:00
 
-#### -Bot Updated Changelog.md (GitHub Actions Bot)
+* updated gitignore (SLE Arch)
 
-##### -- commit f54d7fc70eb17ec98915f15da326f428099675e3
+- commit a98ea1f14b323f7ac0f24cf5ca47f30fbb2eefa4
 
-## **2023-10-03T17:58:56-04:00**
+## 2026-03-01T18:20:41-05:00
 
-#### -Update docker-hub.yml (dahknesh232)
+* updated configs (SLE Arch)
 
-##### -- commit 8974f0f4accf74003996b7816f431a393474c096
+- commit 41518da237ead4e5c0a9f1cac09f81cc7423f55c
 
-## **2023-10-03T17:56:39-04:00**
+## 2026-03-01T17:48:10-05:00
 
-#### -added +w (Architect)
+* updated kind-dev and kind-stg configs (SLE Arch)
 
-##### -- commit b6349f6f8802e4d08334087726d6a129610493a6
+- commit 8d6d26b1539bf004ba46822e182213e664a1ecdd
 
-## **2023-10-03T17:43:50-04:00**
+## 2026-03-01T17:41:38-05:00
 
-#### -made exec in workflow? (Architect)
+* updated vars to include w1 project directory (SLE Arch)
 
-##### -- commit 31dfb776fd45ef446189d98d056eeb67f5840a5f
+- commit 8ed8fb279ba835686cf6860a6e80bf2a4f6dfde4
 
-## **2023-10-03T17:41:49-04:00**
+## 2026-03-01T17:37:17-05:00
 
-#### -fixing it again? (Architect)
+* updates (SLE Arch)
 
-##### -- commit 9159352eb05c8a2992ba602cdd4542c6b0b717d6
+- commit 6732199eb5a52433f09d90f4bb95e26086683dbd
 
-## **2023-10-03T17:39:51-04:00**
+## 2026-03-01T17:30:42-05:00
 
-#### -fixing workflow (Architect)
+* updates (SLE Arch)
 
-##### -- commit e9ecac587276981ce55e816b856ab5c8b3fc49f8
+- commit 43d984317953fa59553b4d5fa8a869890a8693c0
 
-## **2023-10-03T17:29:20-04:00**
+## 2026-03-01T16:20:02-05:00
 
-#### -testing Changelog additon to workflow (Architect)
+* v1.0.0 (SLE Arch)
 
-##### -- commit 5ff4c482d7c40563801e29206c4a30fa30c5c9d4
+- commit f7e59fb3219f0ba3971cca6ed46f771f4593a84c
 
-## **2023-10-03T17:19:29-04:00**
+## 2026-02-28T13:28:27-05:00
 
-#### -removed testing script - as didn't work (Architect)
+* Merge branch 'feature/refactor' into development (SLE Arch)
 
-##### -- commit 39e552b994b3b65bee60c2b7853a0595c2509fe0
+- commit 4f9c1869e32c1e5e59dcb4a48feffb9593f370c2
 
-## **2023-10-03T16:21:48-04:00**
+## 2026-02-28T13:28:16-05:00
 
-#### -testing some new actions development (Architect)
+* update bootstrap runner (SLE Arch)
 
-##### -- commit 09b58996b3993d44650292f5ec48dd4af95947e4
+- commit 3d1ea08ca0bd06b40c6ca3c1d9441e9bac092924
 
-## **2023-10-03T15:45:45-04:00**
+## 2026-02-28T13:23:56-05:00
 
-#### -updated changelog (Architect)
+* full correct provisoning (SLE Arch)
 
-##### -- commit 19eba57ff6107ae279041823205eb417b9bde58d
+- commit 93c3b2e181c3aee4d70dbdaac45c980962810ccc
 
-## **2023-10-03T15:45:28-04:00**
+## 2026-02-28T13:22:03-05:00
 
-#### -removed extra build push workflow (Architect)
+* added ufw (SLE Arch)
 
-##### -- commit 85a2912bbacb45a07289a4953f5a73c39894d00b
+- commit bc8ec027d02163607227f220cc951aec87238317
 
-## **2023-10-03T15:43:52-04:00**
+## 2026-02-28T13:13:41-05:00
 
-#### -Fixed build push (Architect)
+* updates - working on controller (SLE Arch)
 
-##### -- commit 1d33db5ade67db93a88d4017d81409a0a14506bc
+- commit ac84dbcd2f1f290de5080de64656c2dd9b62dec9
 
-## **2023-10-03T15:36:57-04:00**
+## 2026-02-28T01:26:10-05:00
 
-#### -updated changelog (Architect)
+* v8 (SLE Arch)
 
-##### -- commit 5588afb9a262cbdeb40dde7123f5d41d6e499a51
+- commit 3edb3d62d84c3e3694f15c93ed876dd6b458b412
 
-## **2023-10-03T15:36:43-04:00**
+## 2026-02-28T00:54:13-05:00
 
-#### -upgraded workflow (Architect)
+* remove plans (SLE Arch)
 
-##### -- commit 6f07d3aea883d593ae7e63558408b6a8761fbf52
+- commit 907b31ba8aa2d5f0c4070dfb439374cb6380ff4d
 
-## **2023-10-03T15:28:53-04:00**
+## 2026-02-26T10:25:06-05:00
 
-#### -updated Changelog (Architect)
+* added plans (SLE Arch)
 
-##### -- commit 942f42f65a15b9a47fd86f5e3437f46940f626c6
+- commit bc18565eff37df22cb33ccb044269d5ad22a35d2
 
-## **2023-10-03T15:28:36-04:00**
+## 2026-02-25T21:58:49-05:00
 
-#### -made dev1-app + added build and push to workflow (Architect)
+* v8 (SLE Arch)
 
-##### -- commit d3322bc5df37e34e768bb32db7c8fb16eaeaf48c
+- commit 4187f36319edffa237b8e3fa1f1246fb0a40623e
 
-## **2023-10-03T15:27:40-04:00**
+## 2026-02-25T15:10:37-05:00
 
-#### -Update docker-image.yml (dahknesh232)
+* 	modified:   .gitignore (SLE Arch)
 
-##### -- commit cf1064a3534efb31e5eecd46b97e0b29ceb47b3c
+- commit 40c2af70a4b75750ca65f727622cb2d71d516e07
 
-## **2023-10-03T13:09:56-04:00**
+## 2026-02-25T15:09:51-05:00
 
-#### -Updated ChangeLOg (Architect)
+* next steps (SLE Arch)
 
-##### -- commit 85a8c7149f26e913a18e5794e228b5e323932c52
+- commit f2d5c07fa8a217fbba28680c5d5f3096a0823a47
 
-## **2023-10-03T13:09:17-04:00**
+## 2026-02-05T23:15:44-05:00
 
-#### -Update README.md (dahknesh232)
+* fixes for build action (SLE Arch)
 
-##### -- commit dace6c626de0c1c076d9d98b9dc5b93a8f41d0e2
+- commit a1b4ac9e622591669f50c50eefb77dd3b99e02ee
 
-## **2023-10-03T13:07:55-04:00**
+## 2026-02-05T23:00:51-05:00
 
-#### -updatd changelog (Architect)
+* updated project directory variable for .env (SLE Arch)
 
-##### -- commit 1598c9218a1bf921d597672c99cb2fe845a2347c
+- commit 2e084a70206b90e844ad6adaffc32cba612b5f1f
 
-## **2023-10-03T13:06:19-04:00**
+## 2026-02-05T22:46:01-05:00
 
-#### -Merge pull request #12 from SLELLC/dahknesh232-dockerhub-patch-3 (dahknesh232)
+* Merge pull request #78 from dahknesh232/dependabot/npm_and_yarn/nodejs_apps/dev-app/ejs-4.0.1 (dahknesh232)
 
-##### -- commit f454bdf4a6304b34ed3f096cbe7a28737b06493b
+- commit 58e843d6feda44155da097cec483ae5368bb769b
 
-## **2023-10-03T13:06:00-04:00**
+## 2026-02-05T22:45:39-05:00
 
-#### -Update docker-hub.yml (dahknesh232)
+* Merge branch 'development' into dependabot/npm_and_yarn/nodejs_apps/dev-app/ejs-4.0.1 (dahknesh232)
 
-##### -- commit 2478070b0fdff7dc642ee22ba12d609a3b1e713e
+- commit 81b420e9bfff108abc46dd8afb973c54d9fac855
 
-## **2023-10-03T13:03:33-04:00**
+## 2026-02-05T22:45:07-05:00
 
-#### -Merge pull request #11 from SLELLC/dahknesh232-dockerhub-patch-2 (dahknesh232)
+* Merge pull request #77 from dahknesh232/dependabot/npm_and_yarn/nodejs_apps/dev-app/body-parser-2.2.2 (dahknesh232)
 
-##### -- commit 553073fe457bce0c32a72d1b2bcdd90dc895d7bc
+- commit 502b9bc38115237a897dd4f9fbfc9cfb900ca36f
 
-## **2023-10-03T13:03:11-04:00**
+## 2026-02-06T03:45:01+00:00
 
-#### -Rename Docker-hub to docker-hub.yml (dahknesh232)
+* Bump ejs from 3.1.10 to 4.0.1 in /nodejs_apps/dev-app (dependabot[bot])
 
-##### -- commit 5e188e980b3bf87d7192f852a161431c61ec79ed
+- commit ac034e9ef93f7ee7972e4028300b090f630bd152
 
-## **2023-10-03T13:01:45-04:00**
+## 2026-02-05T22:44:54-05:00
 
-#### -Merge pull request #10 from SLELLC/dahknesh232-dockerhub-patch-1 (dahknesh232)
+* Merge pull request #76 from dahknesh232/dependabot/npm_and_yarn/nodejs_apps/dev-app/express-5.2.1 (dahknesh232)
 
-##### -- commit 0b9f35f236513d3faacedc7c9ca18a343e8b9853
+- commit 1c3a34bfce11bf77805e6817cf4676132d893367
 
-## **2023-10-03T13:01:01-04:00**
+## 2026-02-05T22:44:32-05:00
 
-#### -Create Build and Push (dahknesh232)
+* Merge pull request #74 from dahknesh232/dependabot/npm_and_yarn/nodejs_apps/dev-app/marked-17.0.1 (dahknesh232)
 
-##### -- commit e9f2782d624edf53723e0b566a3a4515886b0a52
+- commit 9bf9dd94946b4bda0fd7ecfbcb782bebbbd429bf
 
-## **2023-10-03T12:33:50-04:00**
+## 2026-02-05T22:44:26-05:00
 
-#### -Changelog Updates (Architect)
+* Merge branch 'development' into dependabot/npm_and_yarn/nodejs_apps/dev-app/marked-17.0.1 (dahknesh232)
 
-##### -- commit 32c41954abf5a006b107cb0cbe6ff7041492e228
+- commit f5f714e226b7d020bc56912e3620d1920e006f84
 
-## **2023-10-03T12:29:31-04:00**
+## 2026-02-05T22:43:42-05:00
 
-#### -Merge pull request #9 from SLELLC/dahknesh232-docker-image-patch-1 (dahknesh232)
+* Merge pull request #60 from dahknesh232/dependabot/npm_and_yarn/nodejs_apps/dev-app/markdown-it-14.1.0 (dahknesh232)
 
-##### -- commit 36bef52ca7d9a96e4778c0f2c43014eca95e23fd
+- commit 127f9ba300370f437e62e22ca0531694bd97676d
 
-## **2023-10-03T12:29:19-04:00**
+## 2026-01-08T01:15:30+00:00
 
-#### -Create docker-image.yml (dahknesh232)
-
-##### -- commit 51dea67246172ba5fa7b3dfb0471684ffd6286c1
-
-## **2023-10-03T09:21:39-04:00**
-
-#### -Added new CHANGELOG.md (Architect)
-
-##### -- commit eef939fb243ad0f0e368875257e0bea0fce46cb9
-
-## **2023-10-02T21:22:58-04:00**
-
-#### -Merge pull request #8 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/luxon2-6.1.9 (dahknesh232)
-
-##### -- commit a017c5efcdd35c80c4e378f1f7699eaa029bbb23
-
-## **2023-10-02T21:22:41-04:00**
-
-#### -Merge pull request #7 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/multimonth-6.1.9 (dahknesh232)
-
-##### -- commit 0fbc53e5e0041c402d08191736d9cd9e6964b6a2
-
-## **2023-10-02T22:27:57+00:00**
-
-#### -Bump @fullcalendar/luxon2 from 6.1.8 to 6.1.9 in /nodejs_apps/dev-app (dependabot[bot])
-
-##### -- commit 11d9a4617efa68f5de68fe0858e370953ce33661
-
-## **2023-10-02T22:27:38+00:00**
-
-#### -Bump @fullcalendar/multimonth in /nodejs_apps/dev-app (dependabot[bot])
-
-##### -- commit 81bf1806bdb000d94c4f1288818fe890faaae14a
-
-## **2023-10-02T18:05:51-04:00**
-
-#### -Merge pull request #2 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/bootstrap-6.1.9 (dahknesh232)
-
-##### -- commit 3a712220ee97abf290e7a98600e04762538d0867
-
-## **2023-10-02T22:05:25+00:00**
-
-#### -Bump @fullcalendar/bootstrap from 6.1.8 to 6.1.9 in /nodejs_apps/dev-app (dependabot[bot])
-
-##### -- commit cdee1e35a84c1560de94315a23daf977be9416f5
-
-## **2023-10-02T18:05:16-04:00**
-
-#### -Merge pull request #3 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/markdown-it-13.0.2 (dahknesh232)
-
-##### -- commit ddb72bbb5070a363634c5cd8f84b022851e9abb4
-
-## **2023-10-02T22:04:58+00:00**
-
-#### -Bump markdown-it from 13.0.1 to 13.0.2 in /nodejs_apps/dev-app (dependabot[bot])
-
-##### -- commit 85b3a5211df168dd64e16a473124c319de9ef93a
-
-## **2023-10-02T18:04:37-04:00**
-
-#### -Merge pull request #4 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/google-calendar-6.1.9 (dahknesh232)
-
-##### -- commit 9829741cc5e4eaff57365fd728d32bbca47e91eb
-
-## **2023-10-02T18:04:27-04:00**
-
-#### -Merge pull request #5 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/adaptive-6.1.9 (dahknesh232)
-
-##### -- commit 0e40a364031b3f0216b6cc21a543ed3e7aa8ffd7
-
-## **2023-10-02T18:04:16-04:00**
-
-#### -Merge pull request #6 from SLELLC/dependabot/npm_and_yarn/nodejs_apps/dev-app/fullcalendar/rrule-6.1.9 (dahknesh232)
-
-##### -- commit 0cbcf23ed1f0753f809f40276ed19d809defc92a
-
-## **2023-10-02T22:00:25+00:00**
-
-#### -Bump @fullcalendar/rrule from 6.1.8 to 6.1.9 in /nodejs_apps/dev-app (dependabot[bot])
-
-##### -- commit e8dc21e1af81f69f03bf4488da3a303eb7882851
-
-## **2023-10-02T22:00:10+00:00**
-
-#### -Bump @fullcalendar/adaptive from 6.1.8 to 6.1.9 in /nodejs_apps/dev-app (dependabot[bot])
-
-##### -- commit a5f65dc1d85137a993d063a2e6e92f99d1468e8c
-
-## **2023-10-02T21:59:51+00:00**
-
-#### -Bump @fullcalendar/google-calendar in /nodejs_apps/dev-app (dependabot[bot])
-
-##### -- commit d30ad4c24af89aa7a25af73ea82569f07eb1e217
-
-## **2023-10-02T17:58:39-04:00**
-
-#### -Update dependabot.yml (dahknesh232)
-
-##### -- commit 6edfd12bb327a55e5925830c108ac1db09bc4af6
-
-## **2023-10-02T17:57:53-04:00**
-
-#### -Create dependabot.yml (dahknesh232)
-
-##### -- commit 72f2e06943af18a9a04326c4e688da7feb27e092
-
-## **2023-10-02T17:54:55-04:00**
-
-#### -additions and changes to merge from ansible to testapps and remove ansible repository (Architect)
-
-##### -- commit 47c51db7164dfc55bb48b23bf9d080ac4ed1f4ba
-
-## **2023-10-02T09:37:34-04:00**
-
-#### -Updated READEME License Link -- fixed License formatting (Architect)
-
-##### -- commit 05c3732b85903016468a16dbfe99516a516c74e4
-
-## **2023-10-02T09:35:11-04:00**
-
-#### -Fixed README (Architect)
-
-##### -- commit ac994c43b4711bc8b2e3fa49a201e79374e4fd28
-
-## **2023-09-22T13:39:37-04:00**
-
-#### -added CHANGELOG.md (Architect)
-
-##### -- commit 789a619d079aba4a33aebd549fdfba100e3b99b0
-
-## **2023-09-13T20:47:11-04:00**
-
-#### -Merge pull request #1 from SLELLC/merged-dev (dahknesh232)
-
-##### -- commit 77412dff2c0b6f8c6998db5e0da7c163925b2788
-
-## **2023-09-14T00:45:20+00:00**
-
-#### -Merge remote-tracking branch 'rep2/development' into merged-dev (Lab Architect)
-
-##### -- commit f7c981caf22b6403c83bbf66a5d2b6619d0b3393
-
-## **2023-09-13T23:00:26+00:00**
-
-#### -updates from new changes (Lab Architect)
-
-##### -- commit a516697959aa589d33f92881c2b9898d2d571a87
-
-## **2023-08-30T22:34:51-04:00**
-
-#### -copied new Readme to Readme location for project population (Architect)
-
-##### -- commit 9ef9d4044ad22a19eae4597a49a714b889e9e3d9
-
-## **2023-08-30T22:33:11-04:00**
-
-#### -Added Changelog (Architect)
-
-##### -- commit b7d34eceb7b10ac881df8e3b5c4ee666f2928cbe
-
-## **2023-08-30T22:28:37-04:00**
-
-#### -Update README.md (dahknesh232)
-
-##### -- commit a4a9f02b435c10c85e63770a4280a4e1ed891f31
-
-## **2023-08-30T22:21:04-04:00**
-
-#### -Added git ignore and full project as it stands (Architect)
-
-##### -- commit c41ddbc0a854d368e25499b6566e4a261041143a
-
-## **2023-08-30T21:55:57-04:00**
-
-#### -Create README.md (dahknesh232)
-
-##### -- commit 9fc27ed0f3ec245dac999d35fbaa0321be7697fe
-
-## **2023-08-30T21:54:37-04:00**
-
-#### -Initial commit (dahknesh232)
+* Bump body-parser from 1.20.4 to 2.2.2 in /nodejs_apps/dev-app (dependabot[bot])
 
