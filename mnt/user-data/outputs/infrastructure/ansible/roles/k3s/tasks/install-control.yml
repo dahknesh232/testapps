@@ -72,12 +72,12 @@
 - name: Save kubeconfig to runner-01
   ansible.builtin.fetch:
     src: /etc/rancher/k3s/k3s.yaml
-    dest: /home/ansible/.kube/k3s-config.yaml
+    dest: /home/ansible/.kube/k3s-devel.yaml
     flat: true
 
 - name: Fix kubeconfig server address
   ansible.builtin.replace:
-    path: /home/ansible/.kube/k3s-config.yaml
+    path: /home/ansible/.kube/k3s-devel.yaml
     regexp: 'https://127\.0\.0\.1:6443'
     replace: "https://{{ ansible_host }}:6443"
   delegate_to: localhost
