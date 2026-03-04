@@ -39,12 +39,14 @@ output "next_steps" {
 
     1. Run '.necessary' on all new LXCs
     
-    2. run clearssh on runner-01
+    2. run 'clearssh' on runner-01
     
     3. Verify all LXCs are reachable:
        ansible all -i ../ansible/inventory/hosts.yml -m ping
 
-    4. Run the Ansible site playbook to configure all nodes:
+    4. Run '.k3snecc' on host for cluster
+
+    5. Run the Ansible site playbook to configure all nodes:
        cd ../ansible
        ansible-playbook playbooks/site.yml
     ════════════════════════════════════════════════════════
