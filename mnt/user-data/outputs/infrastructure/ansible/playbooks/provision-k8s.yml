@@ -2,10 +2,17 @@
 # =============================================================================
 # provision-k8s.yml
 # Provisions k3s cluster across k8s_nodes group.
-# Control plane runs first, workers join after token is available.
+#
+# Execution order (serial: 1, order: inventory):
+#   1. k8s-control  — installs k3s server, writes agent-token fact
+#   2. k8s-worker-01 — joins cluster using token from hostvars
+#   3. k8s-worker-02 — joins cluster using token from hostvars
+#
+# After all nodes are ready the control-plane task distributes the kubeconfig
+# to runner-01, controller-01, worker-01, and worker-02 as the "devel" context.
 # =============================================================================
 
-- name: Provision K3s control plane
+- name: Provision K3s cluster nodes
   hosts: k8s_nodes
   become: true
   gather_facts: true

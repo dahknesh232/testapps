@@ -1,21 +1,22 @@
 ---
 # =============================================================================
 # roles/k3s/tasks/main.yml
-# Installs k3s server on control plane, k3s agent on workers.
+# Installs k3s server on control plane, k3s agent on workers, then
+# distributes the kubeconfig as the "devel" context to all nodes.
 # Driven by host var: k8s_role = "control" | "worker"
 # =============================================================================
-- name: Install deps on control plane
+
+- name: Install deps on all k8s nodes
   ansible.builtin.include_tasks: install-k8sdeps.yml
-  when: k8s_role == "control"
 
 - name: Install k3s on control plane
   ansible.builtin.include_tasks: install-control.yml
   when: k8s_role == "control"
 
-- name: Install deps on worker(s)
-  ansible.builtin.include_tasks: install-k8sdeps.yml
-  when: k8s_role == "worker"
-
 - name: Install k3s agent on worker nodes
   ansible.builtin.include_tasks: install-worker.yml
   when: k8s_role == "worker"
+
+- name: Distribute kubeconfig as devel context
+  ansible.builtin.include_tasks: distribute-kubeconfig.yml
+  when: k8s_role == "control"

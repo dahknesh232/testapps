@@ -1,10 +1,39 @@
 ---
 # =============================================================================
 # roles/k3s/tasks/install-control.yml
-# Installs k3s server (control plane).
+# Installs k3s server (control plane) with LXC-compatible configuration.
+# Writes /etc/rancher/k3s/config.yaml before install to ensure kubelet
+# feature gates are applied on first boot.
 # =============================================================================
 
-- name: Install k3s server on control-plane
+- name: Ensure /etc/rancher/k3s directory exists
+  ansible.builtin.file:
+    path: /etc/rancher/k3s
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Write k3s server config
+  ansible.builtin.copy:
+    dest: /etc/rancher/k3s/config.yaml
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      # k3s server config — LXC-compatible
+      flannel-backend: "host-gw"
+      disable:
+        - traefik
+        - metrics-server
+      kubelet-arg:
+        - "feature-gates=KubeletInUserNamespace=true"
+      kube-apiserver-arg:
+        - "feature-gates=KubeletInUserNamespace=true"
+      kube-controller-manager-arg:
+        - "feature-gates=KubeletInUserNamespace=true"
+
+- name: Install k3s server on control plane
   ansible.builtin.shell:
     cmd: >
       curl -sfL https://get.k3s.io | sh -s - server
@@ -16,17 +45,27 @@
   environment:
     INSTALL_K3S_CHANNEL: stable
 
-- name: Wait for k3s to be ready on control-plane
+- name: Wait for k3s to be ready on control plane
   ansible.builtin.wait_for:
     path: /var/lib/rancher/k3s/server/node-token
-    timeout: 60
+    timeout: 120
 
-- name: Read k3s node token on control-plane
+- name: Wait for API server to become healthy
+  ansible.builtin.uri:
+    url: "https://{{ ansible_host }}:6443/readyz"
+    validate_certs: false
+    status_code: 200
+  register: api_ready
+  retries: 30
+  delay: 10
+  until: api_ready.status == 200
+
+- name: Read k3s agent token
   ansible.builtin.slurp:
-    src: /var/lib/rancher/k3s/server/node-token
+    src: /var/lib/rancher/k3s/server/agent-token
   register: k3s_token_raw
 
-- name: Set k3s token fact
+- name: Set k3s token fact (available to workers via hostvars)
   ansible.builtin.set_fact:
     k3s_node_token: "{{ k3s_token_raw.content | b64decode | trim }}"
 
@@ -44,7 +83,7 @@
   delegate_to: localhost
   become: false
 
-- name: Ensure k3s service is enabled on control-plane
+- name: Ensure k3s service is enabled
   ansible.builtin.systemd:
     name: k3s
     state: started
