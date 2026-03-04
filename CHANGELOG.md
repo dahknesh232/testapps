@@ -1,5 +1,35 @@
 # CHANGELOG.md
 
+## 2026-03-04T02:56:37-05:00
+
+* archiving (SLE Arch)
+
+- commit 0b570d890de7152f86e9a3ff7ee0444a246a6386
+
+## 2026-03-04T02:29:51-05:00
+
+* Merge branch 'feature/updatek3s' into development (SLE Arch)
+
+- commit efb524a5a7fe45690315f37953e588cb21242dc6
+
+## 2026-03-04T02:29:36-05:00
+
+* v1.3.1 -- works (SLE Arch)
+
+- commit 2577d9639619b1dd25595502e47202750405be48
+
+## 2026-03-04T01:25:20-05:00
+
+* updates to outputs.tf (SLE Arch)
+
+- commit 4321d67254b6f957fd45512f8d3284ca02255d78
+
+## 2026-03-04T01:19:52-05:00
+
+* update changelog - v1.3.0 (SLE Arch)
+
+- commit d0f7652f2f663c0b5f8bccfe7f440d97882a86f5
+
 ## 2026-03-04T01:19:11-05:00
 
 * removed vault from hosts - v1.3.0 (SLE Arch)
