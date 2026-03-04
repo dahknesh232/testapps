@@ -1,8 +1,8 @@
 ---
 # =============================================================================
 # roles/k3s/tasks/install-worker.yml
-# Joins worker nodes to the k3s cluster.
-# Requires: k3s_node_token and k3s_control_ip set via hostvars.
+# Joins worker nodes to the k3s cluster using the agent-token from the
+# control plane. Writes config.yaml before install for LXC compatibility.
 # =============================================================================
 
 - name: Set control plane facts from hostvars
@@ -24,6 +24,27 @@
          map(attribute='inventory_hostname') |
          first]['k3s_node_token'] }}
 
+- name: Ensure /etc/rancher/k3s directory exists
+  ansible.builtin.file:
+    path: /etc/rancher/k3s
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Write k3s agent config
+  ansible.builtin.copy:
+    dest: /etc/rancher/k3s/config.yaml
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      # k3s agent config — LXC-compatible
+      server: https://{{ k3s_control_ip }}:6443
+      token: {{ k3s_node_token }}
+      kubelet-arg:
+        - "feature-gates=KubeletInUserNamespace=true"
+
 - name: Install k3s agent on worker
   ansible.builtin.shell:
     cmd: >
@@ -35,8 +56,24 @@
   environment:
     INSTALL_K3S_CHANNEL: stable
 
-- name: Ensure k3s-agent service is enabled on worker
+- name: Ensure k3s-agent service is enabled
   ansible.builtin.systemd:
     name: k3s-agent
     state: started
     enabled: true
+
+#- name: Wait for worker node to appear in cluster
+#  ansible.builtin.command:
+#    cmd: >
+#      k3s kubectl get node {{ inventory_hostname }}
+#      --server https://{{ k3s_control_ip }}:6443
+#  delegate_to: "{{ groups['k8s_nodes'] |
+#                   map('extract', hostvars) |
+#                   selectattr('k8s_role', 'equalto', 'control') |
+#                   map(attribute='inventory_hostname') |
+#                   first }}"
+#  register: node_ready
+#  retries: 20
+#  delay: 10
+#  until: node_ready.rc == 0
+#  changed_when: false

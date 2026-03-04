@@ -45,3 +45,4 @@ id_ed25519
 mnt/user-data/outputs/infrastructure/ansible/vault.yml
 mnt/user-data/outputs/infrastructure/ansible/inventory/group_vars/all/vault.yml
 mnt/user-data/outputs/infrastructure/terraform/plan*
+.k3snecc

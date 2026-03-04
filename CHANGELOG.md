@@ -1,5 +1,23 @@
 # CHANGELOG.md
 
+## 2026-03-04T01:19:11-05:00
+
+* removed vault from hosts - v1.3.0 (SLE Arch)
+
+- commit 4d5b1672d7e4e7fc777042dfe9db32463182ed84
+
+## 2026-03-04T00:33:25-05:00
+
+* updates to flow (SLE Arch)
+
+- commit add9d300438d054ad65eba9357a0af55a12d4280
+
+## 2026-03-03T19:48:24-05:00
+
+* update changelog (SLE Arch)
+
+- commit 089c09f1d353b0db9aa0ed1497a4eecf120ed34b
+
 ## 2026-03-03T19:47:00-05:00
 
 * Merge branch 'feature/nativek3s' into development (SLE Arch)
